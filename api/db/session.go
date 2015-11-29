@@ -4,6 +4,6 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
-func getSession() *mgo.Session {
+func GetSession() *mgo.Session {
 	return connect().Copy()
 }
