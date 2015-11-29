@@ -3,4 +3,5 @@ node_modules
 config.py
 .DS_Store
 README.md
-dist
+dist/
+views/
