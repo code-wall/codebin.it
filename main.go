@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/alechewitt/code-wall/app/db"
 	"github.com/gorilla/mux"
 	"mime"
