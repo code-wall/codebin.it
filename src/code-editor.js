@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * Class wrap the CodeMirror library
  * and provides all the logic for saving
@@ -28,6 +30,11 @@ export default class CodeEditor {
         return this.codeMirror.getValue();
     }
 
+    setLanguage(language) {
+        this.options.language = language;
+        this.codeMirror.setOption("language", language);
+    }
+
     /**
      * Checks that the value has changed since the last save
      * and if so will make a post request to backend to save snippet
@@ -54,7 +61,7 @@ export default class CodeEditor {
                     })
                     .catch(function(err) {
                         reject("Error", err);
-                    })
+                    });
             });
         }
 
@@ -71,20 +78,20 @@ export default class CodeEditor {
         return new Promise(function(resolve, reject) {
             let xhttp = new XMLHttpRequest();
             xhttp.onload = function() {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                if (xhttp.readyState === 4 && xhttp.status === 200) {
                     resolve(JSON.stringify(xhttp.responseText));
                 }
             };
             xhttp.onerror = function(err) {
-                reject(err)
+                reject(err);
             };
             xhttp.open(type, url, true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
             let queryStr = Object.keys(params).reduce(function(a, k) {
-                a.push(k + '=' + encodeURIComponent(params[k]));
-                return a
-            }, []).join('&');
+                a.push(k + "=" + encodeURIComponent(params[k]));
+                return a;
+            }, []).join("&");
 
             xhttp.send(queryStr);
         });

@@ -1,3 +1,5 @@
+"use strict";
+
 import CodeEditor from "./code-editor.js";
 
 class Main {
@@ -7,15 +9,17 @@ class Main {
         // Dom objects
         this.saveButton = document.getElementById("saveButton");
         this.shareLinkIpt = document.getElementById("shareLinkIpt");
+        this.languageSelect = document.getElementById("languageSelect");
         this.textArea = document.getElementById("mainTextArea");
 
         // Event Listener
         this.saveButton.addEventListener("click", this.shareClicked.bind(this), false);
+        this.languageSelect.addEventListener("change", this.changeLanguage.bind(this), false);
     }
 
     init() {
         // Get URL path to determine if there is an id in it
-        let snippetId = window.location.pathname.slice(1);
+        //let snippetId = window.location.pathname.slice(1);
         // todo more work needed to determine if it is new or existing snippet
         this.codeEditor = new CodeEditor(this.textArea);
     }
@@ -31,6 +35,11 @@ class Main {
             .catch(function(err) {
                 console.error("Error: ", err);
             });
+    }
+
+    changeLanguage(event) {
+        let newLang = this.languageSelect.value;
+        this.codeEditor.setLanguage(newLang);
     }
 
     showShareLinkIpt(shown) {
