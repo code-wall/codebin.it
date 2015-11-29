@@ -1,0 +1,32 @@
+{
+  "parser": "babel-eslint",
+  "rules": {
+    "strict": 2,
+    "quotes": [2, "double"],
+    "no-var": 2,
+    "no-unused-vars": [2, {"vars": "all", "args": "none"}],
+    "no-multi-spaces": 0,
+    "key-spacing": [2, {"align": "colon"}],
+    "space-unary-ops": 0,
+    "no-underscore-dangle": 0,
+    "dot-notation": 0
+
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "globals":{
+    "angular": true,
+    "$": true,
+    "moment":true,
+
+    // Application Specific Globals
+    "USER_DETAILS": true,
+    "PASSWORD_SET_TOKEN": true,
+    "Logger": true,
+
+
+  }
+
+}
