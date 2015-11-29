@@ -1,3 +1,9 @@
+@controls-height          : 50px;
+@controls-padding         : 10px;
+@editor-bg-color          : #002B36;
+@editor-bg-color-darkened : #041B22;
+@editor-bg-color-lightened: #004b56;
+
 html, body {
     margin   : 0;
     height   : 100%;
@@ -6,7 +12,7 @@ html, body {
 
 /* ---- Editor  ------ */
 .editorContainer {
-    height : calc(100vh - 50px);
+    height : calc(~"100vh -" @controls-height);
 }
 
 .CodeMirror {
@@ -15,12 +21,12 @@ html, body {
 
 /* ---- Controls ------ */
 .controls {
-    height          : 30px;
-    background      : #041B22;
-    border-top      : 1px solid #004b56;
+    height          : @controls-height - (@controls-padding * 2);
+    background      : @editor-bg-color-darkened;
+    border-top      : 1px solid @editor-bg-color-lightened;
     display         : flex;
     justify-content : flex-start;
-    padding         : 10px;
+    padding         : @controls-padding;
 }
 
 .btn {
@@ -45,21 +51,21 @@ html, body {
     min-width        : 140px;
     font-size        : 10pt;
     border           : none;
-    background-color : #002B36;
+    background-color : @editor-bg-color;
     color            : white;
     border-radius    : 0;
     /*-webkit-appearance: none;*/
 }
 
 .shareLinkIpt {
-    width: 340px;
-    background-color: #002B36;
-    outline: none;
-    border: none;
-    color: white;
-    font-size: 10pt;
-    padding-left: 9px;
-    border-radius: 3px;
+    width            : 340px;
+    background-color : @editor-bg-color;
+    outline          : none;
+    border           : none;
+    color            : white;
+    font-size        : 10pt;
+    padding-left     : 9px;
+    border-radius    : 3px;
 
 }
 
