@@ -3,7 +3,17 @@ html, body {
     height: 100%;
 }
 
-/* Outer container of Editor */
+/* ---- Editor  ------ */
+.editorContainer {
+    height: calc(100vh - 60px);
+}
 .CodeMirror {
     height: 100%;
+}
+
+
+/* ---- Controls ------ */
+.controls{
+    height: 100%;
+    background: #1a1a1a;
 }

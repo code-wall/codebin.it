@@ -17,16 +17,8 @@
     "node": true
   },
   "globals":{
-    "angular": true,
-    "$": true,
-    "moment":true,
-
     // Application Specific Globals
-    "USER_DETAILS": true,
-    "PASSWORD_SET_TOKEN": true,
-    "Logger": true,
-
-
+    "CodeMirror": true,
   }
 
 }

@@ -1,3 +1,5 @@
+
+
 class Main {
     constructor() {
         let mainTextArea = document.getElementById("mainTextArea");
