@@ -1,47 +1,43 @@
-
+import CodeEditor from "./code-editor.js";
 
 class Main {
     constructor() {
+        this.codeEditor = null;
+
+        // Dom objects
         this.saveButton = document.getElementById("saveButton");
-        this.saveButton.addEventListener("click", this.saveClicked.bind(this), false);
+        this.shareLinkIpt = document.getElementById("shareLinkIpt");
+        this.textArea = document.getElementById("mainTextArea");
 
-        // Init the text area
-        let textArea = document.getElementById("mainTextArea");
-        let codeMirrorOpts = {
-            lineNumbers: true,
-            theme      : "solarized dark"
-        };
-        this.codeEditor = CodeMirror.fromTextArea(textArea, codeMirrorOpts);
+        // Event Listener
+        this.saveButton.addEventListener("click", this.shareClicked.bind(this), false);
     }
 
-    saveClicked(event) {
-        let snippet = this.codeEditor.getValue();
-        this.xmlPost("/save-snippet", {language: "javascript", snippet: snippet})
-            .then(function() {
-                console.log("Success");
-            }).catch(function(err) {
-                console.error("Error");
+    init() {
+        // Get URL path to determine if there is an id in it
+        let snippetId = window.location.pathname.slice(1);
+        // todo more work needed to determine if it is new or existing snippet
+        this.codeEditor = new CodeEditor(this.textArea);
+    }
+
+    shareClicked(event) {
+        let self = this;
+        this.codeEditor.saveAndGetLink()
+            .then(function(link) {
+                self.showShareLinkIpt(true);
+                self.shareLinkIpt.value = link;
+                self.shareLinkIpt.select();
             })
+            .catch(function(err) {
+                console.error("Error: ", err);
+            });
     }
 
-    xmlPost(url, params) {
-        return new Promise(function(resolve, reject) {
-            let xhttp = new XMLHttpRequest();
-            xhttp.onload = function() {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    resolve();
-                }
-            };
-            xhttp.onerror = function(err) {
-                reject(err)
-            };
-            xhttp.open("POST", url, true);
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            let queryStr = Object.keys(params).reduce(function(a,k){a.push(k+'='+encodeURIComponent(params[k]));return a},[]).join('&');
-            xhttp.send(queryStr);
-        });
-
+    showShareLinkIpt(shown) {
+        this.shareLinkIpt.style.display = shown ? "block" : "none";
     }
+
 }
 
 let main = new Main();
+main.init();
