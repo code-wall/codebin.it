@@ -2,6 +2,7 @@
 
 class Main {
     constructor() {
+        console.log("constructing");
         let mainTextArea = document.getElementById("mainTextArea");
         let codeMirrorOpts = {
             lineNumbers: true,
@@ -13,3 +14,4 @@ class Main {
 }
 
 let main = new Main();
+console.log("Hello");

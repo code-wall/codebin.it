@@ -20,6 +20,7 @@ const gulpif = require("gulp-if");
 const babel = require("gulp-babel");
 const sourcemaps = require("gulp-sourcemaps");
 var htmlMin = require('gulp-htmlmin');
+var minifyCss = require('gulp-minify-css');
 
 
 gulp.task("lint", function () {
@@ -47,7 +48,7 @@ var bundle = function (bundler, path) {
         .pipe(source("bundle.js"))
         .pipe(buffer())
         .pipe(gulpif(process.env.isProduction === "true", uglify({mangle: false})))
-        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(sourcemaps.init({loadMaps: false}))
         .pipe(sourcemaps.write("./"))
         .pipe(gulp.dest(path))
         .on("end", function () {
@@ -78,7 +79,7 @@ gulp.task("build-sources", [], function () {
 
     bundler
         .transform(babelify.configure({
-            sourceMapRelative: __dirname + "/public/src",
+            sourceMapRelative: __dirname + "/src",
             optional         : ["runtime"],
             compact          : false
         }))
@@ -102,15 +103,31 @@ gulp.task("build-html", [], function () {
         minifyCSS         : true
 
     };
-    gulp.src("./src/html/*.html")
+    gulp.src("./resources/html/*.html")
         .pipe(process.env.isProduction === "true" ? htmlMin(options) : gutil.noop())
         .pipe(gulp.dest('./views'));
 });
 
+gulp.task("build-css", [], function() {
+    gulp.src("./resources/css/*.css")
+        .pipe(minifyCss({compatibility: 'ie8'}))
+        .pipe(gulp.dest('./dist/css'));
+});
+
+
+gulp.task("copy-libs", function(){
+    gulp.src("./resources/lib/**")
+        .pipe(gulp.dest('./dist/lib'));
+} );
 
 gulp.task("watch-html", function(done){
     // We watch the html page for changes
-    gulp.watch(["./src/html/*"], ["build-html"]);
+    gulp.watch(["./resources/html/*"], ["build-html"]);
+    done();
+});
+
+gulp.task("watch-css", function(done) {
+    gulp.watch(["./resources/css/*"], ["build-css"]);
     done();
 });
 
@@ -119,8 +136,11 @@ gulp.task("develop", [], function (done) {
     return sequence(
         [
             "build-sources",
-            "build-html",
-            "watch-html"
+            //"build-html",
+            //"build-css",
+            //"copy-libs",
+            //"watch-css",
+            //"watch-html"
         ],
         done
     );
@@ -128,5 +148,5 @@ gulp.task("develop", [], function (done) {
 
 gulp.task("build-production", [], function () {
     process.env.isProduction = true;
-    sequence(["build-sources", "build-html"]);
+    sequence(["build-sources", "build-html", "build-css", "copy-libs"]);
 });

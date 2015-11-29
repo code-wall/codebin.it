@@ -23,7 +23,9 @@
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.3.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp-minify-css": "^1.2.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
