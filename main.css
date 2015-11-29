@@ -1,0 +1,9 @@
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+/* Outer container of Editor */
+.CodeMirror {
+    height: 100%;
+}

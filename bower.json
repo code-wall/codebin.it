@@ -1,0 +1,25 @@
+{
+  "name": "y",
+  "version": "y",
+  "homepage": "https://github.com/alechewitt/code-wall",
+  "authors": [
+    "Alec Hewitt",
+    "Dai Williams"
+  ],
+  "description": "code sharing",
+  "main": "src/main.js",
+  "moduleType": [
+    "es6"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "codemirror": "~5.9.0"
+  }
+}
