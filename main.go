@@ -5,7 +5,6 @@ import (
 	"mime"
 	"net/http"
 	"path/filepath"
-	"fmt"
 )
 
 func main() {
