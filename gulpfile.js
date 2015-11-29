@@ -21,6 +21,7 @@ const babel = require("gulp-babel");
 const sourcemaps = require("gulp-sourcemaps");
 var htmlMin = require('gulp-htmlmin');
 var minifyCss = require('gulp-minify-css');
+var less = require('gulp-less');
 
 
 gulp.task("lint", function () {
@@ -109,8 +110,12 @@ gulp.task("build-html", [], function () {
 });
 
 gulp.task("build-css", [], function() {
-    gulp.src("./resources/css/*.css")
-        .pipe(minifyCss({compatibility: 'ie8'}))
+    //gulp.src("./resources/css/*.css")
+    //    .pipe(minifyCss({compatibility: 'ie8'}))
+    //    .pipe(gulp.dest('./dist/css'));
+    gulp.src('./resources/styles/main.less')
+        .pipe(less())
+        .pipe(minifyCss())
         .pipe(gulp.dest('./dist/css'));
 });
 
@@ -126,8 +131,8 @@ gulp.task("watch-html", function(done){
     done();
 });
 
-gulp.task("watch-css", function(done) {
-    gulp.watch(["./resources/css/*"], ["build-css"]);
+gulp.task("watch-less", function(done) {
+    gulp.watch(["./resources/styles/*"], ["build-css"]);
     done();
 });
 
@@ -139,7 +144,7 @@ gulp.task("develop", [], function (done) {
             "build-html",
             "build-css",
             "copy-libs",
-            "watch-css",
+            "watch-less",
             "watch-html"
         ],
         done
