@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gorilla/mux"
 	"mime"
 	"net/http"
 	"path/filepath"
+	"fmt"
 )
 
 func main() {
@@ -16,17 +16,14 @@ func main() {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Requesting index")
 	w.Header().Set("Content-Type", "text/html")
 	http.ServeFile(w, r, "./views/index.html")
 }
 
 func fileServer(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Fileserver request")
 	vars := mux.Vars(r)
 	file := vars["filename"]
 	folder := vars["folder"]
-	fmt.Println("Folder: ", folder)
 	fileType := filepath.Ext(file)
 	w.Header().Set("Content-Type", mime.TypeByExtension(fileType))
 	http.ServeFile(w, r, "./dist/"+folder+"/"+file)

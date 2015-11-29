@@ -136,11 +136,11 @@ gulp.task("develop", [], function (done) {
     return sequence(
         [
             "build-sources",
-            //"build-html",
-            //"build-css",
-            //"copy-libs",
-            //"watch-css",
-            //"watch-html"
+            "build-html",
+            "build-css",
+            "copy-libs",
+            "watch-css",
+            "watch-html"
         ],
         done
     );
