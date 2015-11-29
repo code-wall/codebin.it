@@ -3,5 +3,6 @@ node_modules
 config.py
 .DS_Store
 README.md
-dist
 bower_components
+dist/
+views/

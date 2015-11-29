@@ -86,11 +86,11 @@ gulp.task("build-sources", [], function () {
 
     if (watch) {
         bundler.on("update", function () {
-            return bundle(bundler, "./dist");
+            return bundle(bundler, "./dist/js");
         });
     }
 
-    return bundle(bundler, "./dist");
+    return bundle(bundler, "./dist/js");
 });
 
 gulp.task("build-html", [], function () {
@@ -102,15 +102,15 @@ gulp.task("build-html", [], function () {
         minifyCSS         : true
 
     };
-    gulp.src("./index.html")
+    gulp.src("./src/html/*.html")
         .pipe(process.env.isProduction === "true" ? htmlMin(options) : gutil.noop())
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest('./views'));
 });
 
 
 gulp.task("watch-html", function(done){
-    // We watch the index page for changes
-    gulp.watch(["./index.html"], ["build-html"]);
+    // We watch the html page for changes
+    gulp.watch(["./src/html/*"], ["build-html"]);
     done();
 });
 
@@ -130,7 +130,3 @@ gulp.task("build-production", [], function () {
     process.env.isProduction = true;
     sequence(["build-sources", "build-html"]);
 });
-
-
-
-
