@@ -2,16 +2,12 @@ package db
 
 import "time"
 
-func AddSomething() {
+func AddSnippet(snippet string, language string) error {
 	s := getSession()
 	defer s.Close()
 
 	c := s.DB("").C("snippets")
 
-	err := c.Insert(NewSnippet("hello", "hello again", time.Now()))
-
-	if err != nil {
-		panic("ahahahah")
-	}
-
+	err := c.Insert(NewSnippet(snippet, language, time.Now()))
+	return err
 }
