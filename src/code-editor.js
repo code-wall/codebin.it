@@ -13,7 +13,7 @@ export default class CodeEditor {
      */
     constructor(textArea) {
         this.options = {
-            language   : "javascript",
+            mode       : "javascript",
             lineNumbers: true,
             theme      : "solarized dark"
         };
