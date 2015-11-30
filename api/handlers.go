@@ -10,6 +10,7 @@ type Response struct {
 	Status  string        `json:"status"`
 	Data    *SnippetModel `json:"response"`
 	Message string        `json:"message"`
+	code    int
 }
 
 // GetSnippet - Handler gets a single code snippet from service by its id
@@ -39,15 +40,17 @@ func buildResponse(m *SnippetModel, successMessage string, err error) *Response 
 		response.Status = "error"
 		response.Message = "Request failed with error: " + err.Error()
 		response.Data = m
+		response.code = http.StatusNotFound
 	} else {
 		response.Status = "ok"
 		response.Message = successMessage
 		response.Data = m
+		response.code = http.StatusOK
 	}
 	return &response
 }
 
-func writeJsonResponse(w http.ResponseWriter, response interface{}) {
+func writeJsonResponse(w http.ResponseWriter, response *Response) {
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -55,5 +58,6 @@ func writeJsonResponse(w http.ResponseWriter, response interface{}) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(response.code)
 	w.Write(jsonResponse)
 }
