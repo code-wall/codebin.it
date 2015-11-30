@@ -1,5 +1,8 @@
 "use strict";
 
+import * as config from "./config";
+
+
 /**
  * Class wrap the CodeMirror library
  * and provides all the logic for saving
@@ -13,7 +16,7 @@ export default class CodeEditor {
      */
     constructor(textArea) {
         this.options = {
-            mode       : "javascript",
+            mode       : config.DEFAULT_LANG,
             lineNumbers: true,
             theme      : "solarized dark"
         };
@@ -31,7 +34,7 @@ export default class CodeEditor {
     }
 
     setLanguage(language) {
-        this.options.language = language;
+        this.options.mode = language;
         this.codeMirror.setOption("mode", language);
         let lang = this.codeMirror.getOption("mode");
     }
@@ -56,8 +59,11 @@ export default class CodeEditor {
                     "POST",
                     {language: language, snippet: snippet})
                     .then(function(resp) {
-                        let snippetId = resp.response.id;
-                        let shareLink = window.location.protocol + "//" + window.location.host + "?s=" + snippetId;
+                        let snippetId = resp.id;
+                        let shareLink = window.location.protocol + "//"
+                                        + window.location.host
+                                        + "?" + config.SNIPPET_QUERY_PARAM + "="
+                                        + snippetId;
                         resolve(shareLink);
                     })
                     .catch(function(err) {
@@ -70,7 +76,7 @@ export default class CodeEditor {
     }
 
     /**
-     * Static method that wrap XMLHttpRequest in a promise
+     * Static method that wraps XMLHttpRequest in a promise
      * @param {string} url - url to make the request to
      * @param {'POST'|'GET'} type
      * @param {object} params - optional params to pass
@@ -81,8 +87,13 @@ export default class CodeEditor {
             let xhttp = new XMLHttpRequest();
             xhttp.onload = function() {
                 if (xhttp.readyState === 4 && xhttp.status === 200) {
-                    //console.log("Response text: ", xhttp.responseText);
-                    resolve(JSON.parse(xhttp.responseText));
+                    let response = JSON.parse(xhttp.responseText);
+                    if (response.status == config.RESPONSE_SUCCESS_STATUS) {
+                        resolve(response.response);
+                    } else {
+                        // Reject entire response. Calling method can deal with error
+                        reject(response);
+                    }
                 }
             };
             xhttp.onerror = function(err) {

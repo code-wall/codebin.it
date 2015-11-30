@@ -1,8 +1,10 @@
 "use strict";
 
-import CodeEditor from "./code-editor.js";
+import CodeEditor from "./code-editor";
+import * as config from "./config";
 
 class Main {
+
     constructor() {
         this.codeEditor = null;
 
@@ -18,10 +20,24 @@ class Main {
     }
 
     init() {
-        // Get URL path to determine if there is an id in it
-        //let snippetId = window.location.pathname.slice(1);
-        // todo more work needed to determine if it is new or existing snippet
-        this.codeEditor = new CodeEditor(this.textArea);
+        // Check to seed if there is a query param for the snippet
+        let snippetID = this.getQueryParam(config.SNIPPET_QUERY_PARAM);
+        if (snippetID != "") {
+            // We have an ID of a snippet
+            let self = this;
+            CodeEditor.xmlReq("/snippet/" + snippetID, "GET")
+                .then(function(resp) {
+                    self.textArea.value = resp.snippet;
+                    self.languageSelect.value = resp.language;
+                    self.codeEditor = new CodeEditor(self.textArea);
+                    self.codeEditor.setLanguage(resp.language);
+                }).catch(function(err) {
+                    console.error("Error: ", err);
+                });
+        } else {
+            this.codeEditor = new CodeEditor(this.textArea);
+        }
+
     }
 
     shareClicked(event) {
@@ -35,6 +51,13 @@ class Main {
             .catch(function(err) {
                 console.error("Error: ", err);
             });
+    }
+
+    getQueryParam(param) {
+        param = param.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        let regex = new RegExp("[\\?&]" + param + "=([^&#]*)");
+        let results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
     changeLanguage(event) {
