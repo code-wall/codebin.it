@@ -44,7 +44,7 @@ export default class CodeEditor {
      */
     saveAndGetLink() {
         let snippet = this.codeMirror.getValue();
-        let language = this.language;
+        let language = this.options.mode;
         if (this.lastValue === snippet) {
             return Promise.resolve();
         }
@@ -56,11 +56,12 @@ export default class CodeEditor {
                     "POST",
                     {language: language, snippet: snippet})
                     .then(function(resp) {
-                        // todo:
-                        //let snippetId = resp.snipped_id
-                        resolve("testing");
+                        let snippetId = resp.response.id;
+                        let shareLink = window.location.protocol + "//" + window.location.host + "?s=" + snippetId;
+                        resolve(shareLink);
                     })
                     .catch(function(err) {
+                        console.error("No post response");
                         reject("Error", err);
                     });
             });
@@ -80,7 +81,8 @@ export default class CodeEditor {
             let xhttp = new XMLHttpRequest();
             xhttp.onload = function() {
                 if (xhttp.readyState === 4 && xhttp.status === 200) {
-                    resolve(JSON.stringify(xhttp.responseText));
+                    //console.log("Response text: ", xhttp.responseText);
+                    resolve(JSON.parse(xhttp.responseText));
                 }
             };
             xhttp.onerror = function(err) {
