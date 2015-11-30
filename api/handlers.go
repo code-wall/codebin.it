@@ -34,12 +34,10 @@ func SaveSnippet(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func buildResponse(m *SnippetModel, successMessage string, err error) *Response {
-	var response = Response{}
+func buildResponse(m *SnippetModel, successMessage string, err error) (response Response) {
 	if err != nil {
 		response.Status = "error"
 		response.Message = "Request failed with error: " + err.Error()
-		response.Data = m
 		response.code = http.StatusNotFound
 	} else {
 		response.Status = "ok"
@@ -47,10 +45,10 @@ func buildResponse(m *SnippetModel, successMessage string, err error) *Response 
 		response.Data = m
 		response.code = http.StatusOK
 	}
-	return &response
+	return
 }
 
-func writeJsonResponse(w http.ResponseWriter, response *Response) {
+func writeJsonResponse(w http.ResponseWriter, response Response) {
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

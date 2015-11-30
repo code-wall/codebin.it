@@ -5,31 +5,27 @@ import (
 	"time"
 )
 
-func CreateSnippet(snippet string, language string) (*SnippetModel, error) {
+func CreateSnippet(snippet string, language string) (sm *SnippetModel, err error) {
 	s := db.GetSession()
 	defer s.Close()
 
 	c := s.DB("").C("snippets")
 	sc := db.NewSnippet(snippet, language, time.Now())
-	err := c.Insert(sc)
-	if err != nil {
-		return nil, err
-	}
-	model := tranformSnippet(sc)
-	return model, err
+
+	err = c.Insert(sc)
+	sm = tranformSnippet(sc)
+	return
 }
 
-func GetSnippetById(id string) (*SnippetModel, error) {
+func GetSnippetById(id string) (sm *SnippetModel, err error) {
 	s := db.GetSession()
 	defer s.Close()
 	c := s.DB("").C("snippets")
 	result := db.SnippetCollection{}
-	err := c.FindId(id).One(&result)
-	if err != nil {
-		return nil, err
-	}
-	model := tranformSnippet(&result)
-	return model, nil
+
+	err = c.FindId(id).One(&result)
+	sm = tranformSnippet(&result)
+	return
 }
 
 func tranformSnippet(c *db.SnippetCollection) *SnippetModel {
