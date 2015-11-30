@@ -32,7 +32,8 @@ export default class CodeEditor {
 
     setLanguage(language) {
         this.options.language = language;
-        this.codeMirror.setOption("language", language);
+        this.codeMirror.setOption("mode", language);
+        let lang = this.codeMirror.getOption("mode");
     }
 
     /**
