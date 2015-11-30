@@ -11,7 +11,7 @@ func CreateSnippet(snippet string, language string) (*SnippetModel, error) {
 
 	c := s.DB("").C("snippets")
 	sc := db.NewSnippet(snippet, language, time.Now())
-	err := c.Insert(snippet)
+	err := c.Insert(sc)
 	if err != nil {
 		return nil, err
 	}
