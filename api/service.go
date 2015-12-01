@@ -3,23 +3,25 @@ package api
 import "github.com/alechewitt/code-wall/database"
 
 type RepositoryService struct {
-	db database.Repository
+	repository database.Repository
 }
 
-func CreateService(db database.Repository) RepositoryService {
-	return RepositoryService{db}
+func NewService(repo database.Repository) *RepositoryService {
+	r := RepositoryService{repository: repo}
+	return &r
 }
 
 func (rs *RepositoryService) CreateSnippet(s *SnippetModel) (sm *SnippetModel, err error) {
-	err = rs.db.Insert(s)
+	id, err := rs.repository.Insert(s)
 	if err == nil {
+		s.Id = id
 		sm = tranformSnippet(s)
 	}
 	return
 }
 
 func (rs *RepositoryService) GetSnippetById(id string) (sm *SnippetModel, err error) {
-	result, err := rs.db.FindById(id)
+	result, err := rs.repository.FindById(id)
 	if err == nil {
 		sm = tranformSnippet(result)
 	}

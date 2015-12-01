@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"github.com/alechewitt/code-wall/mongo"
 	"github.com/gorilla/mux"
 	"net/http"
 )
@@ -14,12 +13,10 @@ type Response struct {
 	code    int
 }
 
-var service = CreateService(new(mongo.MongoDatabase))
-
 // GetSnippet - Handler gets a single code snippet from service by its id
 func GetSnippet(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	m, err := service.GetSnippetById(vars["id"])
+	m, err := getService().GetSnippetById(vars["id"])
 	response := buildResponse(m, "Request Successful", err)
 	writeJsonResponse(w, response)
 }
@@ -31,7 +28,7 @@ func SaveSnippet(w http.ResponseWriter, r *http.Request) {
 		snippet := r.PostFormValue("snippet")
 
 		newSnippet := NewSnippet(language, snippet)
-		m, err := service.CreateSnippet(newSnippet)
+		m, err := getService().CreateSnippet(newSnippet)
 		response := buildResponse(m, "Snippet successfully added", err)
 		writeJsonResponse(w, response)
 	} else {

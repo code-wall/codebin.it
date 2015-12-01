@@ -6,14 +6,21 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+func Default(connectionString string) *MongoDatabase {
+	m := new(MongoDatabase)
+	m.connectString = connectionString
+	return m
+}
+
 type MongoDatabase struct {
-	session *mgo.Session
+	session       *mgo.Session
+	connectString string
 }
 
 func (md *MongoDatabase) connect() *mgo.Session {
 	if md.session == nil {
 		var err error
-		md.session, err = mgo.Dial(getConnectionString())
+		md.session, err = mgo.Dial(md.connectString)
 		if err != nil {
 			panic(err)
 		}
@@ -32,12 +39,15 @@ func (md *MongoDatabase) FindById(id string) (sc database.Snippet, err error) {
 	return
 }
 
-func (md *MongoDatabase) Insert(data database.Snippet) (err error) {
+func (md *MongoDatabase) Insert(data database.Snippet) (id string, err error) {
 	s := md.connect().Copy()
 	defer s.Close()
 	c := s.DB("").C("snippets")
 	var result SnippetResult = newResult(data)
 	err = c.Insert(result)
+	if err == nil {
+		id = result.Id
+	}
 	return
 }
 
