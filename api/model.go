@@ -1,8 +1,6 @@
 package api
 
-import (
-	"time"
-)
+import "time"
 
 type SnippetModel struct {
 	Id       string    `json:"id"`

@@ -1,8 +1,6 @@
 package mongo
 
-import (
-	"time"
-)
+import "time"
 
 type SnippetResult struct {
 	Id       string    `bson:"_id"`

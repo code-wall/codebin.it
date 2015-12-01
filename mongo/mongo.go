@@ -26,9 +26,9 @@ func (md *MongoDatabase) FindById(id string) (sc database.Snippet, err error) {
 	s := md.connect().Copy()
 	defer s.Close()
 	c := s.DB("").C("snippets")
-	result := new(SnippetResult)
+	var result SnippetResult = SnippetResult{}
 	err = c.FindId(id).One(&result)
-	sc = result
+	sc = &result
 	return
 }
 
