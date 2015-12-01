@@ -1,33 +1,31 @@
-package app
+package api
 
-import (
-	"github.com/alechewitt/code-wall/api/db"
-	"time"
-)
+import "github.com/alechewitt/code-wall/database"
 
-func CreateSnippet(snippet string, language string) (sm *SnippetModel, err error) {
-	s := db.GetSession()
-	defer s.Close()
+type RepositoryService struct {
+	db database.Repository
+}
 
-	c := s.DB("").C("snippets")
-	sc := db.NewSnippet(snippet, language, time.Now())
+func CreateService(db database.Repository) RepositoryService {
+	return RepositoryService{db}
+}
 
-	err = c.Insert(sc)
-	sm = tranformSnippet(sc)
+func (rs *RepositoryService) CreateSnippet(s *SnippetModel) (sm *SnippetModel, err error) {
+	err = rs.db.Insert(s)
+	if err == nil {
+		sm = tranformSnippet(s)
+	}
 	return
 }
 
-func GetSnippetById(id string) (sm *SnippetModel, err error) {
-	s := db.GetSession()
-	defer s.Close()
-	c := s.DB("").C("snippets")
-	result := db.SnippetCollection{}
-
-	err = c.FindId(id).One(&result)
-	sm = tranformSnippet(&result)
+func (rs *RepositoryService) GetSnippetById(id string) (sm *SnippetModel, err error) {
+	result, err := rs.db.FindById(id)
+	if err == nil {
+		sm = tranformSnippet(result)
+	}
 	return
 }
 
-func tranformSnippet(c *db.SnippetCollection) *SnippetModel {
-	return &SnippetModel{c.Id, c.Snippet, c.Language, c.Created}
+func tranformSnippet(c database.Snippet) *SnippetModel {
+	return &SnippetModel{c.GetId(), c.GetSnippet(), c.GetLanguage(), c.GetDateCreated()}
 }

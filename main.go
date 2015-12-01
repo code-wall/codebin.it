@@ -13,8 +13,8 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", indexHandler)
 	r.HandleFunc("/dist/{folder}/{filename}", fileServer)
-	r.HandleFunc("/save-snippet", app.SaveSnippet)
-	r.HandleFunc("/snippet/{id}", app.GetSnippet)
+	r.HandleFunc("/save-snippet", api.SaveSnippet)
+	r.HandleFunc("/snippet/{id}", api.GetSnippet)
 	http.ListenAndServe(":"+getPort(), r)
 }
 
