@@ -27,7 +27,7 @@ func SaveSnippet(w http.ResponseWriter, r *http.Request) {
 		language := r.PostFormValue("language")
 		snippet := r.PostFormValue("snippet")
 
-		newSnippet := NewSnippet(language, snippet)
+		newSnippet := NewSnippet(snippet, language)
 		m, err := getService().CreateSnippet(newSnippet)
 		response := buildResponse(m, "Snippet successfully added", err)
 		writeJsonResponse(w, response)
