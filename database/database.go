@@ -1,8 +1,6 @@
 package database
 
-import (
-	"time"
-)
+import "time"
 
 type Repository interface {
 	FindById(id string) (Snippet, error)
