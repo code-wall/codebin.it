@@ -21,9 +21,17 @@ export default class CodeEditor {
             lineNumbers: true,
             theme      : "solarized dark"
         };
+        this.events = new Map();
 
+        let self = this;
         this.codeMirror = CodeMirror.fromTextArea(textArea, this.options);
+        this.codeMirror.on("focus", this.codeMirrorFocused.bind(this));
+
+        // the Last value that was saved
         this.lastValue = "";
+
+        // Whether content is to be persisted after first focus
+        this.persistContent = false;
     }
 
     /**
@@ -40,9 +48,52 @@ export default class CodeEditor {
         let lang = this.codeMirror.getOption("mode");
     }
 
-    setContent(content) {
+    setContent(content, persist=true) {
+        this.persistContent = persist;
         this.options.value = content;
         this.codeMirror.setOption("value", content);
+    }
+
+    /**
+     * Gets whether we should persist the the current data in the editor
+     * @returns {*}
+     */
+    shouldPersist() {
+        return this.persistContent;
+    }
+
+    /**
+     * Callback for when our code mirror is
+     * focussed
+     */
+    codeMirrorFocused() {
+        this.emit("editor-focus");
+    }
+
+    /**
+     * Register an event Handler
+     * @param event
+     * @param cb
+     * @returns {*}
+     */
+    on(event, cb) {
+       if (this.events.has(event)) {
+           this.events.set(event, this.events.get(event).push(cb));
+       } else {
+           this.events.set(event, [cb]);
+       }
+    }
+
+    /**
+     * Emit an event, calls all the subscriber functions
+     * @param event
+     */
+    emit(event) {
+        if (this.events.has(event) ) {
+            for (let cb of this.events.get(event)) {
+                cb();
+            }
+        }
     }
 
     /**

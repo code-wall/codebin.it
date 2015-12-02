@@ -9,6 +9,8 @@ class Main {
 
     constructor() {
         this.codeEditor = null;
+        // Whether user has begun editing
+        this.edited = false;
 
         // Dom objects
         this.saveButton = document.getElementById("saveButton");
@@ -30,7 +32,7 @@ class Main {
         // Check to seed if there is a query param for the snippet
         let snippetID = Utils.getQueryParam(config.SNIPPET_QUERY_PARAM);
         if (snippetID === "") {
-            this.codeEditor.setContent(config.DEFAULT_CONTENT)
+            this.codeEditor.setContent(config.DEFAULT_CONTENT, false)
         } else {
             // We have an ID of a snippet
             let self = this;
@@ -41,10 +43,18 @@ class Main {
                     self.codeEditor.setLanguage(resp.language);
                 }).catch(function(err) {
                     console.error("Error: ", err);
-                    self.codeEditor.setContent(config.SNIPPET_NOT_FOUND);
+                    self.codeEditor.setContent(config.SNIPPET_NOT_FOUND, false);
                 });
         }
+        // Ad event handler for editor being focussed
+        this.codeEditor.on('editor-focus', this.editorFocused.bind(this));
+    }
 
+    editorFocused() {
+        //console.log(this.codeEditor.shouldPersist());
+        if (!this.codeEditor.shouldPersist()) {
+            this.codeEditor.setContent("");
+        }
     }
 
     shareClicked(event) {
@@ -59,13 +69,6 @@ class Main {
                 console.error("Error: ", err);
             });
     }
-
-    //getQueryParam(param) {
-    //    param = param.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    //    let regex = new RegExp("[\\?&]" + param + "=([^&#]*)");
-    //    let results = regex.exec(location.search);
-    //    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    //}
 
     changeLanguage(event) {
         let newLang = this.languageSelect.value;
