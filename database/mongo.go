@@ -39,14 +39,14 @@ func (md *mongoDatabase) Insert(data Snippet) (id string, err error) {
 	var result mongoResult = newResult(data)
 	err = c.Insert(result)
 	if err == nil {
-		id = result.Id
+		id = result.ID
 	}
 	return
 }
 
 func newResult(data Snippet) mongoResult {
 	return mongoResult{
-		Id:       bson.NewObjectId().Hex(),
+		ID:       bson.NewObjectId().Hex(),
 		Snippet:  data.GetSnippet(),
 		Language: data.GetLanguage(),
 		Created:  data.GetDateCreated(),

@@ -29,7 +29,7 @@ func GetSnippet(w http.ResponseWriter, r *http.Request) {
 
 	m, err := getService().GetSnippetById(id)
 	response := buildResponse(m, "Request Successful", err)
-	writeJsonResponse(w, response)
+	writeJSONResponse(w, response)
 }
 
 // SaveSnippet - HTTP Handler saves a single code snippet to the database
@@ -44,7 +44,7 @@ func SaveSnippet(w http.ResponseWriter, r *http.Request) {
 			newSnippet := NewSnippet(snippet, language)
 			m, err := getService().CreateSnippet(newSnippet)
 			response := buildResponse(m, "Snippet successfully added", err)
-			writeJsonResponse(w, response)
+			writeJSONResponse(w, response)
 		}
 
 	} else {
@@ -66,7 +66,7 @@ func buildResponse(m *SnippetModel, successMessage string, err error) (response 
 	return
 }
 
-func writeJsonResponse(w http.ResponseWriter, response Response) {
+func writeJSONResponse(w http.ResponseWriter, response Response) {
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

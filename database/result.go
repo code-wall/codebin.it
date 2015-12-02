@@ -3,24 +3,32 @@ package database
 import "time"
 
 type mongoResult struct {
-	Id       string    `bson:"_id"`
+	ID      string    `bson:"_id"`
 	Snippet  string    `bson:"snippet"`
 	Language string    `bson:"language"`
 	Created  time.Time `bson:"created"`
 }
 
-func (sr *mongoResult) GetId() string {
-	return sr.Id
+// GetID - returns the string id
+// conforms to database package Snippet interface
+func (mr *mongoResult) GetID() string {
+	return mr.ID
 }
 
-func (sr *mongoResult) GetSnippet() string {
-	return sr.Snippet
+// GetSnippet - returns the string code snippet
+// conforms to database package Snippet interface
+func (mr *mongoResult) GetSnippet() string {
+	return mr.Snippet
 }
 
-func (sr *mongoResult) GetLanguage() string {
-	return sr.Language
+// GetLanguage - returns the string code language
+// conforms to database package Snippet interface
+func (mr *mongoResult) GetLanguage() string {
+	return mr.Language
 }
 
-func (sr *mongoResult) GetDateCreated() time.Time {
-	return sr.Created
+// GetDateCreated - returns the string timestamp when the snippet was created
+// conforms to database package Snippet interface
+func (mr *mongoResult) GetDateCreated() time.Time {
+	return mr.Created
 }
