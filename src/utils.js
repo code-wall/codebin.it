@@ -7,10 +7,15 @@ export default class Utils {
 
     }
 
+    /**
+     * Gets the current value of a query param if it exists in the current URL
+     * @param param
+     * @returns {string} - The param or and empty string
+     */
     static getQueryParam(param) {
         param = param.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         let regex = new RegExp("[\\?&]" + param + "=([^&#]*)");
-        let results = regex.exec(location.search);
+        let results = regex.exec(window.location.search);
         return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
