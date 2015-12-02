@@ -1,23 +1,16 @@
-package mongo
+package database
 
 import (
-	"github.com/alechewitt/code-wall/database"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
-func Default(connectionString string) *MongoDatabase {
-	m := new(MongoDatabase)
-	m.connectString = connectionString
-	return m
-}
-
-type MongoDatabase struct {
+type mongoDatabase struct {
 	session       *mgo.Session
 	connectString string
 }
 
-func (md *MongoDatabase) connect() *mgo.Session {
+func (md *mongoDatabase) connect() *mgo.Session {
 	if md.session == nil {
 		var err error
 		md.session, err = mgo.Dial(md.connectString)
@@ -29,31 +22,31 @@ func (md *MongoDatabase) connect() *mgo.Session {
 	return md.session
 }
 
-func (md *MongoDatabase) FindById(id string) (sc database.Snippet, err error) {
+func (md *mongoDatabase) FindById(id string) (sc Snippet, err error) {
 	s := md.connect().Copy()
 	defer s.Close()
 	c := s.DB("").C("snippets")
-	var result SnippetResult = SnippetResult{}
+	var result mongoResult = mongoResult{}
 	err = c.FindId(id).One(&result)
 	sc = &result
 	return
 }
 
-func (md *MongoDatabase) Insert(data database.Snippet) (id string, err error) {
+func (md *mongoDatabase) Insert(data Snippet) (id string, err error) {
 	s := md.connect().Copy()
 	defer s.Close()
 	c := s.DB("").C("snippets")
-	var result SnippetResult = newResult(data)
+	var result mongoResult = newResult(data)
 	err = c.Insert(result)
 	if err == nil {
-		id = result.Id
+		id = result.ID
 	}
 	return
 }
 
-func newResult(data database.Snippet) SnippetResult {
-	return SnippetResult{
-		Id:       bson.NewObjectId().Hex(),
+func newResult(data Snippet) mongoResult {
+	return mongoResult{
+		ID:       bson.NewObjectId().Hex(),
 		Snippet:  data.GetSnippet(),
 		Language: data.GetLanguage(),
 		Created:  data.GetDateCreated(),
