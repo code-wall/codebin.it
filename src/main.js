@@ -1,7 +1,9 @@
 "use strict";
 
 import CodeEditor from "./code-editor";
+import Utils from "./utils";
 import * as config from "./config";
+
 
 class Main {
 
@@ -14,28 +16,33 @@ class Main {
         this.languageSelect = document.getElementById("languageSelect");
         this.textArea = document.getElementById("mainTextArea");
 
+        // Set initial language
+        this.languageSelect.value = config.DEFAULT_LANG;
+
         // Event Listener
         this.saveButton.addEventListener("click", this.shareClicked.bind(this), false);
         this.languageSelect.addEventListener("change", this.changeLanguage.bind(this), false);
     }
 
     init() {
+        this.codeEditor = new CodeEditor(this.textArea);
+
         // Check to seed if there is a query param for the snippet
-        let snippetID = this.getQueryParam(config.SNIPPET_QUERY_PARAM);
-        if (snippetID != "") {
+        let snippetID = Utils.getQueryParam(config.SNIPPET_QUERY_PARAM);
+        if (snippetID === "") {
+            this.codeEditor.setContent(config.DEFAULT_CONTENT)
+        } else {
             // We have an ID of a snippet
             let self = this;
-            CodeEditor.xmlReq("/snippet/" + snippetID, "GET")
+            Utils.xmlReq("/snippet/" + snippetID, "GET")
                 .then(function(resp) {
-                    self.textArea.value = resp.snippet;
                     self.languageSelect.value = resp.language;
-                    self.codeEditor = new CodeEditor(self.textArea);
+                    self.codeEditor.setContent(resp.snippet);
                     self.codeEditor.setLanguage(resp.language);
                 }).catch(function(err) {
                     console.error("Error: ", err);
+                    self.codeEditor.setContent(config.SNIPPET_NOT_FOUND);
                 });
-        } else {
-            this.codeEditor = new CodeEditor(this.textArea);
         }
 
     }
@@ -53,12 +60,12 @@ class Main {
             });
     }
 
-    getQueryParam(param) {
-        param = param.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        let regex = new RegExp("[\\?&]" + param + "=([^&#]*)");
-        let results = regex.exec(location.search);
-        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
+    //getQueryParam(param) {
+    //    param = param.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    //    let regex = new RegExp("[\\?&]" + param + "=([^&#]*)");
+    //    let results = regex.exec(location.search);
+    //    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    //}
 
     changeLanguage(event) {
         let newLang = this.languageSelect.value;
