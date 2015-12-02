@@ -5,12 +5,13 @@ import Utils from "./utils";
 import * as config from "./config";
 
 
-class Main {
+/**
+ * Class deals with all events from the DOM
+ */
+class MainDomHandler  {
 
     constructor() {
         this.codeEditor = null;
-        // Whether user has begun editing
-        this.edited = false;
 
         // Dom objects
         this.saveButton = document.getElementById("saveButton");
@@ -81,5 +82,5 @@ class Main {
 
 }
 
-let main = new Main();
+let main = new MainDomHandler();
 main.init();
