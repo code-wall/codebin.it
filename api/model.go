@@ -2,6 +2,8 @@ package api
 
 import "time"
 
+// SnippetModel - Model to describe a snippet
+// conforming to the database.Snippet interface
 type SnippetModel struct {
 	Id       string    `json:"id"`
 	Snippet  string    `json:"snippet"`
