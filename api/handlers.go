@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// Response - data object returned on client request
 type Response struct {
 	Status  string        `json:"status"`
 	Data    *SnippetModel `json:"response"`
@@ -13,24 +14,39 @@ type Response struct {
 	code    int
 }
 
-// GetSnippet - Handler gets a single code snippet from service by its id
+const (
+	statusError = "error"
+	statusOK = "ok"
+
+	languageKey = "language"
+	snippetKey = "snippet"
+)
+
+// GetSnippet - HTTP Handler gets a single code snippet from service by its id
 func GetSnippet(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	m, err := getService().GetSnippetById(vars["id"])
+	id := vars["id"];
+
+	m, err := getService().GetSnippetById(id)
 	response := buildResponse(m, "Request Successful", err)
 	writeJsonResponse(w, response)
 }
 
-// SaveSnippet - Handler saves a single code snippet to the database
+// SaveSnippet - HTTP Handler saves a single code snippet to the database
 func SaveSnippet(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		language := r.PostFormValue("language")
-		snippet := r.PostFormValue("snippet")
+		language := r.PostFormValue(languageKey)
+		snippet := r.PostFormValue(snippetKey)
 
-		newSnippet := NewSnippet(snippet, language)
-		m, err := getService().CreateSnippet(newSnippet)
-		response := buildResponse(m, "Snippet successfully added", err)
-		writeJsonResponse(w, response)
+		if language == "" || snippet == "" {
+			http.Error(w, "Missing data, language and snippet fields are required", http.StatusBadRequest)
+		} else {
+			newSnippet := NewSnippet(snippet, language)
+			m, err := getService().CreateSnippet(newSnippet)
+			response := buildResponse(m, "Snippet successfully added", err)
+			writeJsonResponse(w, response)
+		}
+
 	} else {
 		http.Error(w, "Endpoint only accepts post", http.StatusBadRequest)
 	}
@@ -38,11 +54,11 @@ func SaveSnippet(w http.ResponseWriter, r *http.Request) {
 
 func buildResponse(m *SnippetModel, successMessage string, err error) (response Response) {
 	if err != nil {
-		response.Status = "error"
+		response.Status = statusError
 		response.Message = "Request failed with error: " + err.Error()
 		response.code = http.StatusNotFound
 	} else {
-		response.Status = "ok"
+		response.Status = statusOK
 		response.Message = successMessage
 		response.Data = m
 		response.code = http.StatusOK
