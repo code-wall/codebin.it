@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/alechewitt/code-wall/mongo"
+	"github.com/alechewitt/code-wall/database"
 	"os"
 )
 
@@ -11,7 +11,7 @@ var service *RepositoryService
 
 func getService() *RepositoryService {
 	if service == nil {
-		service = NewService(mongo.Default(getConnectionString()))
+		service = NewService(database.Default(getConnectionString()))
 	}
 	return service
 }

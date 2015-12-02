@@ -13,3 +13,9 @@ type Snippet interface {
 	GetLanguage() string
 	GetDateCreated() time.Time
 }
+
+func Default(connectionString string) Repository {
+	m := new(mongoDatabase)
+	m.connectString = connectionString
+	return m
+}

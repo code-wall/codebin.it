@@ -1,26 +1,26 @@
-package mongo
+package database
 
 import "time"
 
-type SnippetResult struct {
+type mongoResult struct {
 	Id       string    `bson:"_id"`
 	Snippet  string    `bson:"snippet"`
 	Language string    `bson:"language"`
 	Created  time.Time `bson:"created"`
 }
 
-func (sr *SnippetResult) GetId() string {
+func (sr *mongoResult) GetId() string {
 	return sr.Id
 }
 
-func (sr *SnippetResult) GetSnippet() string {
+func (sr *mongoResult) GetSnippet() string {
 	return sr.Snippet
 }
 
-func (sr *SnippetResult) GetLanguage() string {
+func (sr *mongoResult) GetLanguage() string {
 	return sr.Language
 }
 
-func (sr *SnippetResult) GetDateCreated() time.Time {
+func (sr *mongoResult) GetDateCreated() time.Time {
 	return sr.Created
 }
