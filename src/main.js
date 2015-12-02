@@ -52,7 +52,6 @@ class MainDomHandler  {
     }
 
     editorFocused() {
-        //console.log(this.codeEditor.shouldPersist());
         if (!this.codeEditor.shouldPersist()) {
             this.codeEditor.setContent("");
         }
