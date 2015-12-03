@@ -5,3 +5,5 @@ config.py
 bower_components
 dist/
 views/
+*.log
+*.logs
