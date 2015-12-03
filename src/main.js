@@ -19,9 +19,6 @@ class MainDomHandler  {
         this.languageSelect = document.getElementById("languageSelect");
         this.textArea = document.getElementById("mainTextArea");
 
-        // Set initial language
-        this.languageSelect.value = config.DEFAULT_LANG;
-
         // Event Listener
         this.saveButton.addEventListener("click", this.shareClicked.bind(this), false);
         this.languageSelect.addEventListener("change", this.changeLanguage.bind(this), false);
@@ -29,6 +26,9 @@ class MainDomHandler  {
 
     init() {
         this.codeEditor = new CodeEditor(this.textArea);
+
+        this.setSupportedLangs();
+        this.languageSelect.value = config.DEFAULT_LANG;
 
         // Check to seed if there is a query param for the snippet
         let snippetID = Utils.getQueryParam(config.SNIPPET_QUERY_PARAM);
@@ -54,6 +54,15 @@ class MainDomHandler  {
     editorFocused() {
         if (!this.codeEditor.shouldPersist()) {
             this.codeEditor.setContent("");
+        }
+    }
+
+    setSupportedLangs() {
+        for (let [lang, src] of config.SUPPORTED_LANGS.entries()) {
+            let option = document.createElement("option");
+            option.value = lang;
+            option.innerHTML = lang;
+            this.languageSelect.appendChild(option);
         }
     }
 

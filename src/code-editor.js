@@ -43,9 +43,30 @@ export default class CodeEditor {
     }
 
     setLanguage(language) {
-        this.options.mode = language;
-        this.codeMirror.setOption("mode", language);
-        let lang = this.codeMirror.getOption("mode");
+        if (CodeMirror.modes.hasOwnProperty(language)) {
+            this.options.mode = language;
+            this.codeMirror.setOption("mode", language);
+        } else {
+            let langObj = config.SUPPORTED_LANGS.get(language);
+            let self = this;
+            let dependecyPromises = [];
+            for (let dependency of langObj.dependencies) {
+                if (!CodeMirror.modes.hasOwnProperty(dependency)) {
+                    let dependencySrc = config.SUPPORTED_LANGS.get(dependency).src;
+                    dependecyPromises.push(Utils.appendScript(dependencySrc));
+                }
+
+            }
+            Promise.all(dependecyPromises)
+                .then(function() {
+                    return Utils.appendScript(langObj.src);
+                })
+                .then(function() {
+                    self.options.mode = language;
+                    self.codeMirror.setOption("mode", language);
+                });
+        }
+
     }
 
     setContent(content, persist=true) {
