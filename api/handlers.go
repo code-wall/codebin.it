@@ -16,18 +16,18 @@ type Response struct {
 
 const (
 	statusError = "error"
-	statusOK = "ok"
+	statusOK    = "ok"
 
 	languageKey = "language"
-	snippetKey = "snippet"
+	snippetKey  = "snippet"
 )
 
 // GetSnippet - HTTP Handler gets a single code snippet from service by its id
 func GetSnippet(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	id := vars["id"];
+	id := vars["id"]
 
-	m, err := getService().GetSnippetById(id)
+	m, err := getService().GetSnippetByID(id)
 	response := buildResponse(m, "Request Successful", err)
 	writeJSONResponse(w, response)
 }

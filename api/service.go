@@ -23,8 +23,8 @@ func (rs *RepositoryService) CreateSnippet(s *SnippetModel) (sm *SnippetModel, e
 	return
 }
 
-func (rs *RepositoryService) GetSnippetById(id string) (sm *SnippetModel, err error) {
-	result, err := rs.repository.FindById(id)
+func (rs *RepositoryService) GetSnippetByID(id string) (sm *SnippetModel, err error) {
+	result, err := rs.repository.FindByID(id)
 	if err == nil {
 		sm = tranformSnippet(result)
 	}

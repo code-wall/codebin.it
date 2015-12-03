@@ -22,11 +22,11 @@ func (md *mongoDatabase) connect() *mgo.Session {
 	return md.session
 }
 
-func (md *mongoDatabase) FindById(id string) (sc Snippet, err error) {
+func (md *mongoDatabase) FindByID(id string) (sc Snippet, err error) {
 	s := md.connect().Copy()
 	defer s.Close()
 	c := s.DB("").C("snippets")
-	var result mongoResult = mongoResult{}
+	result := mongoResult{}
 	err = c.FindId(id).One(&result)
 	sc = &result
 	return
@@ -36,8 +36,8 @@ func (md *mongoDatabase) Insert(data Snippet) (id string, err error) {
 	s := md.connect().Copy()
 	defer s.Close()
 	c := s.DB("").C("snippets")
-	var result mongoResult = newResult(data)
-	err = c.Insert(result)
+	result := newResult(data)
+	err = c.Insert(&result)
 	if err == nil {
 		id = result.ID
 	}

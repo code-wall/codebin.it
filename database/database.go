@@ -4,7 +4,7 @@ import "time"
 
 // Repository - interface
 type Repository interface {
-	FindById(id string) (Snippet, error)
+	FindByID(id string) (Snippet, error)
 	Insert(data Snippet) (string, error)
 }
 

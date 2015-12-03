@@ -3,7 +3,7 @@ package database
 import "time"
 
 type mongoResult struct {
-	ID      string    `bson:"_id"`
+	ID       string    `bson:"_id"`
 	Snippet  string    `bson:"snippet"`
 	Language string    `bson:"language"`
 	Created  time.Time `bson:"created"`
