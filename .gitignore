@@ -2,7 +2,6 @@
 node_modules
 config.py
 .DS_Store
-README.md
 bower_components
 dist/
 views/
