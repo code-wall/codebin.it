@@ -9,11 +9,14 @@ type RepositoryService struct {
 	repository database.Repository
 }
 
+// NewService - Create a new RepositoryService
+// with an implementation of the database.Repository
 func NewService(repo database.Repository) *RepositoryService {
 	r := RepositoryService{repository: repo}
 	return &r
 }
 
+// CreateSnippet - Adds a new snippet to the repository
 func (rs *RepositoryService) CreateSnippet(s *SnippetModel) (sm *SnippetModel, err error) {
 	id, err := rs.repository.Insert(s)
 	if err == nil {
@@ -23,6 +26,7 @@ func (rs *RepositoryService) CreateSnippet(s *SnippetModel) (sm *SnippetModel, e
 	return
 }
 
+// GetSnippetByID - Retrieves a snippet from the repository by ID
 func (rs *RepositoryService) GetSnippetByID(id string) (sm *SnippetModel, err error) {
 	result, err := rs.repository.FindByID(id)
 	if err == nil {
