@@ -29,6 +29,7 @@ class MainDomHandler  {
 
         this.setSupportedLangs();
         this.languageSelect.value = config.DEFAULT_LANG;
+        this.codeEditor.setLanguage(config.DEFAULT_LANG);
 
         // Check to seed if there is a query param for the snippet
         let snippetID = Utils.getQueryParam(config.SNIPPET_QUERY_PARAM);
@@ -58,10 +59,10 @@ class MainDomHandler  {
     }
 
     setSupportedLangs() {
-        for (let [lang, src] of config.SUPPORTED_LANGS.entries()) {
+        for (let lang of this.codeEditor.getLanguages()) {
             let option = document.createElement("option");
-            option.value = lang;
-            option.innerHTML = lang;
+            option.value = lang.name;
+            option.innerHTML = lang.name;
             this.languageSelect.appendChild(option);
         }
     }

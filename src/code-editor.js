@@ -16,8 +16,8 @@ export default class CodeEditor {
      * @param {DOMElement} textArea
      */
     constructor(textArea) {
+        CodeMirror.modeURL = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/mode/%N/%N.min.js";
         this.options = {
-            mode       : config.DEFAULT_LANG,
             lineNumbers: true,
             theme      : "solarized dark"
         };
@@ -32,6 +32,7 @@ export default class CodeEditor {
 
         // Whether content is to be persisted after first focus
         this.persistContent = false;
+        window.MIRROR = this.codeMirror;
     }
 
     /**
@@ -42,31 +43,15 @@ export default class CodeEditor {
         return this.codeMirror.getValue();
     }
 
+    getLanguages() {
+        return CodeMirror.modeInfo;
+    }
+
     setLanguage(language) {
-        if (CodeMirror.modes.hasOwnProperty(language)) {
-            this.options.mode = language;
-            this.codeMirror.setOption("mode", language);
-        } else {
-            let langObj = config.SUPPORTED_LANGS.get(language);
-            let self = this;
-            let dependecyPromises = [];
-            for (let dependency of langObj.dependencies) {
-                if (!CodeMirror.modes.hasOwnProperty(dependency)) {
-                    let dependencySrc = config.SUPPORTED_LANGS.get(dependency).src;
-                    dependecyPromises.push(Utils.appendScript(dependencySrc));
-                }
-
-            }
-            Promise.all(dependecyPromises)
-                .then(function() {
-                    return Utils.appendScript(langObj.src);
-                })
-                .then(function() {
-                    self.options.mode = language;
-                    self.codeMirror.setOption("mode", language);
-                });
-        }
-
+        let langInfo = CodeMirror.findModeByName(language);
+        this.codeMirror.setOption("mode", langInfo.mime);
+        CodeMirror.autoLoadMode(this.codeMirror, langInfo.mode);
+        this.options.language = language;
     }
 
     setContent(content, persist=true) {
@@ -125,7 +110,7 @@ export default class CodeEditor {
      */
     saveAndGetLink() {
         let snippet = this.codeMirror.getValue();
-        let language = this.options.mode;
+        let language = this.options.language;
         if (this.lastValue === snippet) {
             return Promise.resolve();
         }
