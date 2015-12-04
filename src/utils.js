@@ -60,21 +60,4 @@ export default class Utils {
             xhttp.send(queryStr);
         });
     }
-
-    static appendScript(srcUrl) {
-        return new Promise(function(resolve, reject) {
-            let script = document.createElement('script');
-            script.src = srcUrl;
-
-            script.addEventListener('load', function() {
-                resolve(script);
-            }, false);
-
-            script.addEventListener('error', function() {
-                reject(script);
-            }, false);
-
-            document.body.appendChild(script);
-        });
-    }
 }
