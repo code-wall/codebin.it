@@ -17,19 +17,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/theme/solarized.min.css">
     <link rel="stylesheet" href="/dist/css/main.css">
-    <script type="text/javascript" src="/dist/lib/codemirror.js"></script>
+    <!--<script type="text/javascript" src="/dist/lib/codemirror.js"></script>-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/codemirror.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/addon/mode/loadmode.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/mode/meta.min.js"></script>
 
 
 </head>
 <body>
 <div class="editorContainer">
-    <textarea id="mainTextArea">// Enter your code here</textarea>
+    <textarea id="mainTextArea"></textarea>
 </div>
 <div class="controls">
     <select id="languageSelect">
-        <option value="javascript" selected>javascript</option>
-        <option value="python">python</option>
-        <option value="go">go</option>
+
     </select>
     <button id="saveButton" class="btn">Share</button>
     <input class="shareLinkIpt" id="shareLinkIpt" readonly type="text" value="https://code.tennis/1238909809823lkjlkjlksjdflkj">

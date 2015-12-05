@@ -1,9 +1,14 @@
 "use strict";
 
 import CodeEditor from "./code-editor";
+import Utils from "./utils";
 import * as config from "./config";
 
-class Main {
+
+/**
+ * Class deals with all events from the DOM
+ */
+class MainDomHandler  {
 
     constructor() {
         this.codeEditor = null;
@@ -20,44 +25,61 @@ class Main {
     }
 
     init() {
+        this.codeEditor = new CodeEditor(this.textArea);
+
+        this.setSupportedLangs();
+        this.languageSelect.value = config.DEFAULT_LANG;
+        this.codeEditor.setLanguage(config.DEFAULT_LANG);
+
         // Check to seed if there is a query param for the snippet
-        let snippetID = this.getQueryParam(config.SNIPPET_QUERY_PARAM);
-        if (snippetID != "") {
+        let snippetID = Utils.getQueryParam(config.SNIPPET_QUERY_PARAM);
+        if (snippetID === "") {
+            this.codeEditor.setContent(config.DEFAULT_CONTENT, false)
+        } else {
             // We have an ID of a snippet
             let self = this;
-            CodeEditor.xmlReq("/snippet/" + snippetID, "GET")
+            Utils.xmlReq("/snippet/" + snippetID, "GET")
                 .then(function(resp) {
-                    self.textArea.value = resp.snippet;
                     self.languageSelect.value = resp.language;
-                    self.codeEditor = new CodeEditor(self.textArea);
+                    self.codeEditor.setContent(resp.snippet);
                     self.codeEditor.setLanguage(resp.language);
                 }).catch(function(err) {
                     console.error("Error: ", err);
+                    self.codeEditor.setContent(config.SNIPPET_NOT_FOUND, false);
                 });
-        } else {
-            this.codeEditor = new CodeEditor(this.textArea);
         }
+        // Ad event handler for editor being focussed
+        this.codeEditor.on('editor-focus', this.editorFocused.bind(this));
+    }
 
+    editorFocused() {
+        if (!this.codeEditor.shouldPersist()) {
+            this.codeEditor.setContent("");
+        }
+    }
+
+    setSupportedLangs() {
+        for (let lang of this.codeEditor.getLanguages()) {
+            let option = document.createElement("option");
+            option.value = lang.name;
+            option.innerHTML = lang.name;
+            this.languageSelect.appendChild(option);
+        }
     }
 
     shareClicked(event) {
         let self = this;
         this.codeEditor.saveAndGetLink()
             .then(function(link) {
+              if (link != null) {
                 self.showShareLinkIpt(true);
                 self.shareLinkIpt.value = link;
                 self.shareLinkIpt.select();
+              }
             })
             .catch(function(err) {
                 console.error("Error: ", err);
             });
-    }
-
-    getQueryParam(param) {
-        param = param.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        let regex = new RegExp("[\\?&]" + param + "=([^&#]*)");
-        let results = regex.exec(location.search);
-        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
     changeLanguage(event) {
@@ -71,5 +93,5 @@ class Main {
 
 }
 
-let main = new Main();
+let main = new MainDomHandler();
 main.init();

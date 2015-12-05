@@ -1,6 +1,7 @@
 "use strict";
 
 import * as config from "./config";
+import Utils from "./utils";
 
 
 /**
@@ -15,14 +16,22 @@ export default class CodeEditor {
      * @param {DOMElement} textArea
      */
     constructor(textArea) {
+        CodeMirror.modeURL = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/mode/%N/%N.min.js";
         this.options = {
-            mode       : config.DEFAULT_LANG,
             lineNumbers: true,
             theme      : "solarized dark"
         };
+        this.events = new Map();
 
         this.codeMirror = CodeMirror.fromTextArea(textArea, this.options);
+        this.codeMirror.on("focus", this.codeMirrorFocused.bind(this));
+
+        // the Last value that was saved
         this.lastValue = "";
+
+        // Whether content is to be persisted after first focus
+        this.persistContent = false;
+        window.MIRROR = this.codeMirror;
     }
 
     /**
@@ -33,10 +42,63 @@ export default class CodeEditor {
         return this.codeMirror.getValue();
     }
 
+    getLanguages() {
+        return CodeMirror.modeInfo;
+    }
+
     setLanguage(language) {
-        this.options.mode = language;
-        this.codeMirror.setOption("mode", language);
-        let lang = this.codeMirror.getOption("mode");
+        let langInfo = CodeMirror.findModeByName(language);
+        this.codeMirror.setOption("mode", langInfo.mime);
+        CodeMirror.autoLoadMode(this.codeMirror, langInfo.mode);
+        this.options.language = language;
+    }
+
+    setContent(content, persist=true) {
+        this.persistContent = persist;
+        this.options.value = content;
+        this.codeMirror.setOption("value", content);
+    }
+
+    /**
+     * Gets whether we should persist the the current data in the editor
+     * @returns {*}
+     */
+    shouldPersist() {
+        return this.persistContent;
+    }
+
+    /**
+     * Callback for when our code mirror is
+     * focussed
+     */
+    codeMirrorFocused() {
+        this.emit("editor-focus");
+    }
+
+    /**
+     * Register an event Handler
+     * @param event
+     * @param cb
+     * @returns {*}
+     */
+    on(event, cb) {
+       if (this.events.has(event)) {
+           this.events.set(event, this.events.get(event).push(cb));
+       } else {
+           this.events.set(event, [cb]);
+       }
+    }
+
+    /**
+     * Emit an event, calls all the subscriber functions
+     * @param event
+     */
+    emit(event) {
+        if (this.events.has(event) ) {
+            for (let cb of this.events.get(event)) {
+                cb();
+            }
+        }
     }
 
     /**
@@ -47,14 +109,14 @@ export default class CodeEditor {
      */
     saveAndGetLink() {
         let snippet = this.codeMirror.getValue();
-        let language = this.options.mode;
+        let language = this.options.language;
         if (this.lastValue === snippet) {
             return Promise.resolve();
         }
         else {
             this.lastValue = snippet;
             return new Promise(function(resolve, reject) {
-                CodeEditor.xmlReq(
+                Utils.xmlReq(
                     "/save-snippet",
                     "POST",
                     {language: language, snippet: snippet})
@@ -75,39 +137,4 @@ export default class CodeEditor {
 
     }
 
-    /**
-     * Static method that wraps XMLHttpRequest in a promise
-     * @param {string} url - url to make the request to
-     * @param {'POST'|'GET'} type
-     * @param {object} params - optional params to pass
-     * @returns {Promise}
-     */
-    static xmlReq(url, type, params={}) {
-        return new Promise(function(resolve, reject) {
-            let xhttp = new XMLHttpRequest();
-            xhttp.onload = function() {
-                if (xhttp.readyState === 4 && xhttp.status === 200) {
-                    let response = JSON.parse(xhttp.responseText);
-                    if (response.status == config.RESPONSE_SUCCESS_STATUS) {
-                        resolve(response.response);
-                    } else {
-                        // Reject entire response. Calling method can deal with error
-                        reject(response);
-                    }
-                }
-            };
-            xhttp.onerror = function(err) {
-                reject(err);
-            };
-            xhttp.open(type, url, true);
-            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-            let queryStr = Object.keys(params).reduce(function(a, k) {
-                a.push(k + "=" + encodeURIComponent(params[k]));
-                return a;
-            }, []).join("&");
-
-            xhttp.send(queryStr);
-        });
-    }
 }
