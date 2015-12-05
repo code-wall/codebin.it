@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "About me website",
   "main": "gulpfile.js",
+  "script" : {
+    "postinstall": "gulp build-production"
+  },
   "dependencies": {
     "babel": "^5.0.0",
     "babel-eslint": "^4.0.0",
