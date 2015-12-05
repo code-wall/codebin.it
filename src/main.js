@@ -71,9 +71,11 @@ class MainDomHandler  {
         let self = this;
         this.codeEditor.saveAndGetLink()
             .then(function(link) {
+              if (link != null) {
                 self.showShareLinkIpt(true);
                 self.shareLinkIpt.value = link;
                 self.shareLinkIpt.select();
+              }
             })
             .catch(function(err) {
                 console.error("Error: ", err);

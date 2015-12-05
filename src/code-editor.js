@@ -23,7 +23,6 @@ export default class CodeEditor {
         };
         this.events = new Map();
 
-        let self = this;
         this.codeMirror = CodeMirror.fromTextArea(textArea, this.options);
         this.codeMirror.on("focus", this.codeMirrorFocused.bind(this));
 
