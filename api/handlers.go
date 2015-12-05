@@ -2,7 +2,7 @@ package api
 
 import (
 	"encoding/json"
-	"github.com/gorilla/mux"
+	"github.com/alechewitt/code-wall/Godeps/_workspace/src/github.com/gorilla/mux"
 	"net/http"
 )
 
@@ -26,7 +26,6 @@ const (
 func GetSnippet(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
-
 	m, err := getService().GetSnippetByID(id)
 	response := buildResponse(m, "Request Successful", err)
 	writeJSONResponse(w, response)

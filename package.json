@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "About me website",
   "main": "gulpfile.js",
+  "scripts" : {
+    "postinstall": "gulp build-production"
+  },
   "dependencies": {
     "babel": "^5.0.0",
     "babel-eslint": "^4.0.0",
@@ -22,13 +25,8 @@
     "run-sequence": "^1.1.2",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.3.0"
-  },
-  "devDependencies": {
+    "watchify": "^3.3.0",
     "gulp-minify-css": "^1.2.1"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "alechewitt",
   "license": "ISC"
