@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "About me website",
   "main": "gulpfile.js",
-  "script" : {
+  "scripts" : {
     "postinstall": "gulp build-production"
   },
   "dependencies": {
