@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/alechewitt/code-wall/Godeps/_workspace/src/github.com/gorilla/mux"
-	"github.com/alechewitt/code-wall/api"
+	"github.com/code-wall/codebin/Godeps/_workspace/src/github.com/gorilla/mux"
+	"github.com/code-wall/codebin/api"
 	"net/http"
 	"os"
 )

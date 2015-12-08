@@ -2,7 +2,7 @@ package api
 
 import (
 	"encoding/json"
-	"github.com/alechewitt/code-wall/Godeps/_workspace/src/github.com/gorilla/mux"
+	"github.com/code-wall/codebin/Godeps/_workspace/src/github.com/gorilla/mux"
 	"net/http"
 )
 

@@ -2,9 +2,9 @@ package txn_test
 
 import (
 	"flag"
-	"github.com/alechewitt/code-wall/Godeps/_workspace/src/gopkg.in/mgo.v2"
-	"github.com/alechewitt/code-wall/Godeps/_workspace/src/gopkg.in/mgo.v2/bson"
-	"github.com/alechewitt/code-wall/Godeps/_workspace/src/gopkg.in/mgo.v2/txn"
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
+	"gopkg.in/mgo.v2/txn"
 	. "gopkg.in/check.v1"
 	"math/rand"
 	"time"
