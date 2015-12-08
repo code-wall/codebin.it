@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/alechewitt/code-wall/database"
+	"github.com/code-wall/codebin/database"
 	"os"
 )
 

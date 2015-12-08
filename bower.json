@@ -1,7 +1,7 @@
 {
-  "name": "y",
-  "version": "y",
-  "homepage": "https://github.com/alechewitt/code-wall",
+  "name": "codebin",
+  "version": "0.0.1",
+  "homepage": "https://github.com/code-wall/codebin",
   "authors": [
     "Alec Hewitt",
     "Dai Williams"

@@ -31,9 +31,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/alechewitt/code-wall/Godeps/_workspace/src/gopkg.in/mgo.v2"
-	"github.com/alechewitt/code-wall/Godeps/_workspace/src/gopkg.in/mgo.v2/bson"
 	. "gopkg.in/check.v1"
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 func (s *S) TestGridFSCreate(c *C) {
