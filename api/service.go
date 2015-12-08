@@ -1,6 +1,6 @@
 package api
 
-import "github.com/alechewitt/code-wall/database"
+import "github.com/code-wall/codebin/database"
 
 // RepositoryService - used to interface with a
 // repository to query and save new snippets. Service requires a

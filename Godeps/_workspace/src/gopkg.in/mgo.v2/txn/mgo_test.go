@@ -2,7 +2,7 @@ package txn_test
 
 import (
 	"bytes"
-	"github.com/alechewitt/code-wall/Godeps/_workspace/src/gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2"
 	. "gopkg.in/check.v1"
 	"os/exec"
 	"time"
