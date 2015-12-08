@@ -88,7 +88,7 @@ class MainDomHandler  {
     }
 
     showShareLinkIpt(shown) {
-        this.shareLinkIpt.style.display = shown ? "block" : "none";
+        this.shareLinkIpt.style.display = shown ? "inline-block" : "none";
     }
 
 }
