@@ -18,7 +18,7 @@ func main() {
 		[]byte("a-32-byte-key-replace-me"),
 		csrf.RequestHeader("Request-Token"),
 		csrf.FieldName("request_token"),
-		csrf.Secure(false), // This should be true in production over https
+		csrf.Secure(true), // This should be true in production over https
 	)
 
 	r.HandleFunc("/", indexHandler)
