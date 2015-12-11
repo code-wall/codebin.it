@@ -19,14 +19,21 @@ html, body {
     height : 100%;
 }
 
-/* ---- Controls ------ */
-.controls {
+/* ---- Bottom Menu ----- */
+.border-bottom {
     height          : @controls-height - (@controls-padding * 2);
+    padding         : @controls-padding;
     background      : @editor-bg-color-darkened;
     border-top      : 1px solid @editor-bg-color-lightened;
-    display         : flex;
-    justify-content : flex-start;
-    padding         : @controls-padding;
+}
+
+.logo {
+    height: 100%;
+    float: right;
+}
+/* ---- Controls ------ */
+.controls {
+    display: inline-block;
 }
 
 .btn {
@@ -54,6 +61,7 @@ html, body {
     background-color : @editor-bg-color;
     color            : white;
     border-radius    : 0;
+    height           : 25px;
 }
 
 .shareLinkIpt {
@@ -66,6 +74,7 @@ html, body {
     font-size        : 10pt;
     padding-left     : 9px;
     border-radius    : 3px;
+    height           : 25px;
 
 }
 

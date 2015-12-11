@@ -125,6 +125,11 @@ gulp.task("copy-libs", function(){
         .pipe(gulp.dest('./dist/lib'));
 } );
 
+gulp.task("copy-images", function(){
+    gulp.src("./resources/images/**")
+        .pipe(gulp.dest('./dist/images'));
+} );
+
 gulp.task("watch-html", function(done){
     // We watch the html page for changes
     gulp.watch(["./resources/html/*"], ["build-html"]);
@@ -144,6 +149,7 @@ gulp.task("develop", [], function (done) {
             "build-html",
             "build-css",
             "copy-libs",
+            "copy-images",
             "watch-less",
             "watch-html"
         ],

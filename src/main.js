@@ -22,6 +22,7 @@ class MainDomHandler  {
         // Event Listener
         this.saveButton.addEventListener("click", this.shareClicked.bind(this), false);
         this.languageSelect.addEventListener("change", this.changeLanguage.bind(this), false);
+        this.shareLinkIpt.addEventListener("click", this.clickShareLinkIpt.bind(this), false);
     }
 
     init() {
@@ -75,6 +76,7 @@ class MainDomHandler  {
                 self.showShareLinkIpt(true);
                 self.shareLinkIpt.value = link;
                 self.shareLinkIpt.select();
+                self.copyToUsersClipboard();
               }
             })
             .catch(function(err) {
@@ -88,7 +90,28 @@ class MainDomHandler  {
     }
 
     showShareLinkIpt(shown) {
-        this.shareLinkIpt.style.display = shown ? "block" : "none";
+        this.shareLinkIpt.style.display = shown ? "inline-block" : "none";
+    }
+
+    clickShareLinkIpt(event) {
+        this.shareLinkIpt.select();
+        // Try to Copy to users clipboard
+        this.copyToUsersClipboard();
+    }
+
+    /**
+     * Copy whatever is currently selected in the browser
+     * to the users clipboard
+     * @todo: Inform user it has been copied to their clipboard
+     */
+    copyToUsersClipboard() {
+        try {
+            var successful = document.execCommand('copy');
+            var msg = successful ? 'successful' : 'unsuccessful';
+            console.log('Copying text command was ' + msg);
+        } catch (err) {
+            console.log('Oops, unable to copy');
+        }
     }
 
 }
