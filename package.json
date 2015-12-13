@@ -4,6 +4,7 @@
   "description": "Code Sharing",
   "main": "gulpfile.js",
   "scripts" : {
+    "start" : "go build . && ./codebin",
     "postinstall": "gulp build-production"
   },
   "dependencies": {
