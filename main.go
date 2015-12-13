@@ -15,7 +15,6 @@ var temps = template.Must(t.ParseFiles("./views/index.html"))
 func main() {
 	r := mux.NewRouter()
 
-	// Todo: move to suitable place
 	CSRF := csrf.Protect(
 		[]byte(conf.CSRFKey),
 		csrf.RequestHeader("Request-Token"),
