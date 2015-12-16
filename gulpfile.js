@@ -159,5 +159,5 @@ gulp.task("develop", [], function (done) {
 
 gulp.task("build-production", [], function () {
     process.env.isProduction = true;
-    sequence(["build-sources", "build-html", "build-css", "copy-libs"]);
+    sequence(["build-sources", "build-html", "build-css", "copy-libs", "copy-images"]);
 });
