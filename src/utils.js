@@ -51,7 +51,8 @@ export default class Utils {
             };
             xhttp.open(type, url, true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
+            let token = document.getElementById('token').value;
+            params['request_token'] = token;
             let queryStr = Object.keys(params).reduce(function(a, k) {
                 a.push(k + "=" + encodeURIComponent(params[k]));
                 return a;

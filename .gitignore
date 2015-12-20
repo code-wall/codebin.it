@@ -1,9 +1,14 @@
+# IDE & System
 .idea
-node_modules
-config.py
 .DS_Store
-bower_components
+
+# Build
 dist/
 views/
+codebin
+
+# Node
 *.log
 *.logs
+node_modules
+bower_components
