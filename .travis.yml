@@ -1,3 +1,8 @@
+# *** Travis is currently only used to deploy the ***
+# *** test version of the app at test.codebin.it ***
+#
+# *** production version is deployed automatically from master commits ***
+
 language: node_js
 node_js: stable
 
