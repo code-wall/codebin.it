@@ -3,4 +3,10 @@ node_js: stable
 
 branches:
   except:
-   - master
+  - master
+
+deploy:
+  provider: heroku
+  app: codebin-test
+  api_key:
+    secure: qJxBhVonLo+9bEVwcPeM0QV7SAos/WfGS+HmpAg5OSIYcrL4Db0/Gj9kJe0ZejkghC1RCGJ/TPUWMpdaRuEYjBVry5CW7x9bp6xAayICMmv2aBoOsabtRTSAMy4h+2P/76Bz2NZPrR8MUtJWrP6g0y/YPWTeDsAo2YHDC6gqCn5wM2NuAv+L/+MKPB5OsXk5mBFYqqdI+C8+E+IxbmmAAxRlIdyjfiLjKkFn51q9x1UtfAMEN2IAV/+U4efYczb9QOmrhQ8MNKUd3bvLENNhvBhHx3sulFvwr3gySw+d/RUFsNyEysTAR/4UR7nl4YoFQ4N8zrOagoYIn0eczlyvPzu1ZX0yhFW3vIXC7kYxV1NWk3UDWNwE1fhFEh8wbs5mbS3WbGjWSVCozy5m28jHLM6oXN/A5nHczdCUDsG7itrt8ZimWfwrTWxtbfyZi6qjq9NND8NcTmuPgsxMmT07AtVMYUynMKmuTNpiBKPP2Stkjh8jRqYpk3U7x7rS/sNK2LrHOxBTsYvEMZRu0V/I30GqFYfABBFboLLui33txqxVPeN/r4jrOc9arNqGK4+WlPHwt1XvxDZyBMMLWQn7jjJGgd+ZfElWzZ3aIiw0t8aE3KoMrH2dGI/6OPr3dsi5SB5T6YuFAKzNyrBLafMjcXieeI1f3LKJRH4WU2oCYkw=
