@@ -1,1 +1,1 @@
-web $APP_NAME
+web codebin
