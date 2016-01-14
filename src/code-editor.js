@@ -115,20 +115,17 @@ export default class CodeEditor {
         }
         else {
             this.lastValue = snippet;
-            return new Promise(function(resolve, reject) {
+            return new Promise((resolve, reject) => {
                 Utils.xmlReq(
                     "/save",
                     "POST",
                     {language: language, snippet: snippet})
-                    .then(function(resp) {
+                    .then((resp) => {
                         let snippetId = resp.id;
-                        let shareLink = window.location.protocol + "//"
-                                        + window.location.host
-                                        + "?" + config.SNIPPET_QUERY_PARAM + "="
-                                        + snippetId;
-                        resolve(shareLink);
+                        let queryParam = "?" + config.SNIPPET_QUERY_PARAM + "=" + snippetId;
+                        resolve(queryParam);
                     })
-                    .catch(function(err) {
+                    .catch((err) => {
                         console.error("No post response");
                         reject("Error", err);
                     });
