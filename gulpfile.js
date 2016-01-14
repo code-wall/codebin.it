@@ -161,3 +161,5 @@ gulp.task("build-production", [], function () {
     process.env.isProduction = true;
     sequence(["build-sources", "build-html", "build-css", "copy-libs", "copy-images"]);
 });
+
+gulp.task("default", ["develop"]);

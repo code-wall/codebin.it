@@ -117,7 +117,7 @@ export default class CodeEditor {
             this.lastValue = snippet;
             return new Promise(function(resolve, reject) {
                 Utils.xmlReq(
-                    "/save-snippet",
+                    "/save",
                     "POST",
                     {language: language, snippet: snippet})
                     .then(function(resp) {
