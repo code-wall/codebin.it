@@ -2,7 +2,6 @@
   "name": "codebin",
   "version": "0.0.1",
   "description": "Code Sharing",
-  "main": "gulpfile.js",
   "scripts" : {
     "start" : "go build . && ./codebin",
     "postinstall": "gulp build-production"
