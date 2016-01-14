@@ -28,6 +28,10 @@ class MainDomHandler  {
     init() {
         this.codeEditor = new CodeEditor(this.textArea);
 
+        // Set display to block of body
+        document.body.style.visibility = "visible";
+        document.getElementsByTagName("html")[0].style.visibility = "visible";
+
         this.setSupportedLangs();
         this.languageSelect.value = config.DEFAULT_LANG;
         this.codeEditor.setLanguage(config.DEFAULT_LANG);
