@@ -120,15 +120,12 @@ export default class CodeEditor {
                     "/save-snippet",
                     "POST",
                     {language: language, snippet: snippet})
-                    .then(function(resp) {
+                    .then((resp) => {
                         let snippetId = resp.id;
-                        let shareLink = window.location.protocol + "//"
-                                        + window.location.host
-                                        + "?" + config.SNIPPET_QUERY_PARAM + "="
-                                        + snippetId;
-                        resolve(shareLink);
+                        let queryParam = "?" + config.SNIPPET_QUERY_PARAM + "=" + snippetId;
+                        resolve(queryParam);
                     })
-                    .catch(function(err) {
+                    .catch((err) => {
                         console.error("No post response");
                         reject("Error", err);
                     });

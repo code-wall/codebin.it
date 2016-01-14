@@ -71,13 +71,14 @@ class MainDomHandler  {
     shareClicked(event) {
         let self = this;
         this.codeEditor.saveAndGetLink()
-            .then(function(link) {
-              if (link != null) {
-                self.showShareLinkIpt(true);
-                self.shareLinkIpt.value = link;
-                self.shareLinkIpt.select();
-                self.copyToUsersClipboard();
-              }
+            .then(function(linkQueryParam) {
+                if (linkQueryParam != null) {
+                    self.showShareLinkIpt(true);
+                    self.shareLinkIpt.value = window.location.protocol + "//" + window.location.host + linkQueryParam;
+                    self.shareLinkIpt.select();
+                    self.copyToUsersClipboard();
+                    self.setUrlPath("/" + linkQueryParam);
+                }
             })
             .catch(function(err) {
                 console.error("Error: ", err);
@@ -112,6 +113,10 @@ class MainDomHandler  {
         } catch (err) {
             console.log('Oops, unable to copy');
         }
+    }
+
+    setUrlPath(path) {
+        window.history.pushState("", "", path);
     }
 
 }
