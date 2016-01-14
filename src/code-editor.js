@@ -57,6 +57,7 @@ export default class CodeEditor {
         this.persistContent = persist;
         this.options.value = content;
         this.codeMirror.setOption("value", content);
+        this.lastValue = content;
     }
 
     /**

@@ -39,7 +39,7 @@ class MainDomHandler  {
         // Check to seed if there is a query param for the snippet
         let snippetID = Utils.getQueryParam(config.SNIPPET_QUERY_PARAM);
         if (snippetID === "") {
-            this.codeEditor.setContent(config.DEFAULT_CONTENT, false)
+            this.codeEditor.setContent(config.DEFAULT_CONTENT, false);
         } else {
             // We have an ID of a snippet
             let self = this;
