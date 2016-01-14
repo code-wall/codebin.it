@@ -40,11 +40,11 @@ class MainDomHandler  {
             // We have an ID of a snippet
             let self = this;
             Utils.xmlReq("/snippet/" + snippetID, "GET")
-                .then(function(resp) {
+                .then((resp) => {
                     self.languageSelect.value = resp.language;
                     self.codeEditor.setContent(resp.snippet);
                     self.codeEditor.setLanguage(resp.language);
-                }).catch(function(err) {
+                }).catch((err) => {
                     console.error("Error: ", err);
                     self.codeEditor.setContent(config.SNIPPET_NOT_FOUND, false);
                 });
@@ -71,7 +71,7 @@ class MainDomHandler  {
     shareClicked(event) {
         let self = this;
         this.codeEditor.saveAndGetLink()
-            .then(function(linkQueryParam) {
+            .then((linkQueryParam) => {
                 if (linkQueryParam != null) {
                     self.showShareLinkIpt(true);
                     self.shareLinkIpt.value = window.location.protocol + "//" + window.location.host + linkQueryParam;

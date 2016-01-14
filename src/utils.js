@@ -27,7 +27,7 @@ export default class Utils {
      * @returns {Promise}
      */
     static xmlReq(url, type, params={}) {
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             let xhttp = new XMLHttpRequest();
             xhttp.onload = function() {
                 if (xhttp.readyState === 4 && xhttp.status === 200) {
@@ -53,7 +53,7 @@ export default class Utils {
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             let token = document.getElementById('token').value;
             params['request_token'] = token;
-            let queryStr = Object.keys(params).reduce(function(a, k) {
+            let queryStr = Object.keys(params).reduce((a, k) => {
                 a.push(k + "=" + encodeURIComponent(params[k]));
                 return a;
             }, []).join("&");
