@@ -4,7 +4,7 @@ import (
 	"github.com/code-wall/codebin/Godeps/_workspace/src/github.com/gorilla/csrf"
 	"github.com/code-wall/codebin/Godeps/_workspace/src/github.com/gorilla/mux"
 	"github.com/code-wall/codebin/api"
-	"html/template"
+	"text/template"
 	"net/http"
 )
 
