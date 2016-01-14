@@ -28,6 +28,7 @@ func GetSnippet(w http.ResponseWriter, r *http.Request) {
 	id := vars["id"]
 	m, err := getService().GetSnippetByID(id)
 	response := buildResponse(m, "Request Successful", err)
+	w.Header().Set("Cache-Control", "max-age=31536000")
 	writeJSONResponse(w, response)
 }
 
