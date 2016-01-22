@@ -15,21 +15,28 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
     <title>CodeBin.it</title>
     <meta name="description" content="Code snippet sharing">
     <link rel="shortcut icon" href="/dist/images/favicon.png">
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/theme/solarized.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/codemirror.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/theme/solarized.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
     <link rel="stylesheet" href="/dist/css/main.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/codemirror.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/addon/mode/loadmode.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/mode/meta.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/codemirror.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/addon/mode/loadmode.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/mode/meta.min.js"></script>
 
 
 </head>
@@ -37,16 +44,22 @@
 <main>
     <div class="editorContainer">
         <textarea id="mainTextArea"></textarea>
-        <!-- TODO: sort out language select drop down
-        Save and display modal with link -->
-        <select id="languageSelect"></select>
     </div>
+
+    <!-- Select Language Button FAB -->
+    <div class="fixed-action-btn" style="bottom: 30px; left: 24px;">
+        <a id="languageButton" class="btn-floating btn-large blue">
+            <i class="large material-icons">code</i>
+        </a>
+        <div id="languageLabel" class="chip"></div>
+    </div>
+
+    <!-- Save Button FAB -->
     <div class="fixed-action-btn" style="bottom: 30px; right: 24px;">
         <a id="saveButton" class="btn-floating btn-large red">
             <i class="large material-icons">save</i>
         </a>
     </div>
-    <input id="token" type="hidden" value="{{.token}}">
 
     <!-- Share Link Modal -->
     <div id="shareLinkModal" class="modal bottom-sheet">
@@ -55,6 +68,18 @@
             <input class="shareLinkIpt" id="shareLinkIpt" readonly/>
         </div>
     </div>
+
+    <!-- Select Language Side NavBar -->
+    <nav>
+        <ul class="right hide-on-med-and-down grey darken-4">
+        </ul>
+        <ul id="languageList" class="left side-nav grey darken-4">
+        </ul>
+        <a data-activates="languageList" class="languageOptions"><i class="mdi-navigation-menu"></i></a>
+    </nav>
+
+    <input id="token" type="hidden" value="{{.token}}">
+
 </main>
 
 </body>

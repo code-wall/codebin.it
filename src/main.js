@@ -15,26 +15,34 @@ class MainDomHandler  {
 
         // Dom objects
         this.saveButton = document.getElementById("saveButton");
+        this.langButton = document.getElementById("languageButton");
+
+        this.langLabel = document.getElementById("languageLabel");
+
         this.shareLinkIpt = document.getElementById("shareLinkIpt");
         this.languageSelect = document.getElementById("languageSelect");
+
+        this.languageList = document.getElementById("languageList");
         this.textArea = document.getElementById("mainTextArea");
 
         // Event Listener
         this.saveButton.addEventListener("click", this.shareClicked.bind(this), false);
-        this.languageSelect.addEventListener("change", this.changeLanguage.bind(this), false);
+        this.langButton.addEventListener("click", this.openLanguageSelectDrawer, false);
+
         this.shareLinkIpt.addEventListener("click", this.clickShareLinkIpt.bind(this), false);
     }
 
     init() {
         this.codeEditor = new CodeEditor(this.textArea);
-
+        // Initialise the language options side nav
+        $(".languageOptions").sideNav();
         // Set display to block of body
         document.body.style.visibility = "visible";
         document.getElementsByTagName("html")[0].style.visibility = "visible";
 
         this.setSupportedLangs();
-        this.languageSelect.value = config.DEFAULT_LANG;
         this.codeEditor.setLanguage(config.DEFAULT_LANG);
+        this.langLabel.innerHTML = config.DEFAULT_LANG;
 
         // Check to seed if there is a query param for the snippet
         let snippetID = Utils.getQueryParam(config.SNIPPET_QUERY_PARAM);
@@ -45,7 +53,7 @@ class MainDomHandler  {
             let self = this;
             Utils.xmlReq("/snippet/" + snippetID, "GET")
                 .then((resp) => {
-                    self.languageSelect.value = resp.language;
+                    self.langLabel.innerHTML = resp.language;
                     self.codeEditor.setContent(resp.snippet);
                     self.codeEditor.setLanguage(resp.language);
                 }).catch((err) => {
@@ -63,13 +71,23 @@ class MainDomHandler  {
         }
     }
 
+    openLanguageSelectDrawer() {
+       $(".languageOptions").sideNav('show');
+    }
+
     setSupportedLangs() {
         for (let lang of this.codeEditor.getLanguages()) {
-            let option = document.createElement("option");
-            option.value = lang.name;
+            let option = document.createElement("li");
             option.innerHTML = lang.name;
-            this.languageSelect.appendChild(option);
+            option.onclick = function() {this.setLanguage(lang.name)}.bind(this);
+            this.languageList.appendChild(option);
         }
+    }
+
+    setLanguage(lang) {
+        this.codeEditor.setLanguage(lang);
+        this.langLabel.innerHTML = lang;
+        $(".languageOptions").sideNav('hide');
     }
 
     shareClicked(event) {
@@ -87,11 +105,6 @@ class MainDomHandler  {
             .catch(function(err) {
                 console.error("Error: ", err);
             });
-    }
-
-    changeLanguage(event) {
-        let newLang = this.languageSelect.value;
-        this.codeEditor.setLanguage(newLang);
     }
 
     showShareLinkIpt(shown) {
