@@ -100,6 +100,8 @@ class MainDomHandler  {
                     self.shareLinkIpt.select();
                     self.copyToUsersClipboard();
                     self.setUrlPath("/" + linkQueryParam);
+                } else {
+                    Materialize.toast('You need to write some new code before saving', 3000);
                 }
             })
             .catch(function(err) {
