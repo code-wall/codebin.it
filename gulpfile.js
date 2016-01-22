@@ -105,7 +105,6 @@ gulp.task("build-html", [], function () {
 
     };
     gulp.src("./resources/html/*.html")
-        .pipe(process.env.isProduction === "true" ? htmlMin(options) : gutil.noop())
         .pipe(gulp.dest('./views'));
 });
 
