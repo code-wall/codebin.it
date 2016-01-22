@@ -19,36 +19,39 @@
     <title>CodeBin.it</title>
     <meta name="description" content="Code snippet sharing">
     <link rel="shortcut icon" href="/dist/images/favicon.png">
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/theme/solarized.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
     <link rel="stylesheet" href="/dist/css/main.css">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/codemirror.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/addon/mode/loadmode.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/mode/meta.min.js"></script>
 
+
 </head>
 <body>
-<div class="editorContainer">
-    <textarea id="mainTextArea"></textarea>
-</div>
-<div class="border-bottom">
-    <div class="controls">
-        <select id="languageSelect">
-        </select>
-
-        <button id="saveButton" class="btn">Share</button>
-        <input class="shareLinkIpt" id="shareLinkIpt" readonly type="text">
-        <input id="token" type="hidden" value="{{.token}}">
+<main>
+    <div class="editorContainer">
+        <textarea id="mainTextArea"></textarea>
+        <!-- TODO: sort out language select drop down
+        Save and display modal with link -->
+        <input class="shareLinkIpt" id="shareLinkIpt" readonly type="hidden">
+        <select id="languageSelect"></select>
     </div>
+    <div id="saveButton" class="fixed-action-btn" style="bottom: 30px; right: 24px;">
+        <a class="btn-floating btn-large red">
+            <i class="large material-icons">save</i>
+        </a>
+    </div>
+    <input id="token" type="hidden" value="{{.token}}">
+</main>
 
-    <img src="/dist/images/dark-logo-small.png" class="logo">
-
-</div>
+</body>
 
 <script type="text/javascript" src="/dist/js/bundle.js"></script>
 
-</body>
 </html>
