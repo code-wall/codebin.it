@@ -77,7 +77,7 @@ class MainDomHandler  {
         this.codeEditor.saveAndGetLink()
             .then((linkQueryParam) => {
                 if (linkQueryParam != null) {
-                    self.showShareLinkIpt(true);
+                    $('#shareLinkModal').openModal();
                     self.shareLinkIpt.value = window.location.protocol + "//" + window.location.host + linkQueryParam;
                     self.shareLinkIpt.select();
                     self.copyToUsersClipboard();
