@@ -109,10 +109,6 @@ class MainDomHandler  {
             });
     }
 
-    showShareLinkIpt(shown) {
-        this.shareLinkIpt.style.display = shown ? "inline-block" : "none";
-    }
-
     clickShareLinkIpt(event) {
         this.shareLinkIpt.select();
         // Try to Copy to users clipboard
