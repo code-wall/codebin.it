@@ -50,15 +50,14 @@ class MainDomHandler  {
             this.codeEditor.setContent(config.DEFAULT_CONTENT, false);
         } else {
             // We have an ID of a snippet
-            let self = this;
             Utils.xmlReq("/snippet/" + snippetID, "GET")
-                .then((resp) => {
-                    self.langLabel.innerHTML = resp.language;
-                    self.codeEditor.setContent(resp.snippet);
-                    self.codeEditor.setLanguage(resp.language);
-                }).catch((err) => {
+                .then(resp => {
+                    this.langLabel.innerHTML = resp.language;
+                    this.codeEditor.setContent(resp.snippet);
+                    this.codeEditor.setLanguage(resp.language);
+                }).catch(err => {
                     console.error("Error: ", err);
-                    self.codeEditor.setContent(config.SNIPPET_NOT_FOUND, false);
+                    this.codeEditor.setContent(config.SNIPPET_NOT_FOUND, false);
                 });
         }
         // Ad event handler for editor being focussed
@@ -91,15 +90,14 @@ class MainDomHandler  {
     }
 
     shareClicked(event) {
-        let self = this;
         this.codeEditor.saveAndGetLink()
-            .then((linkQueryParam) => {
+            .then(linkQueryParam => {
                 if (linkQueryParam != null) {
                     $('#shareLinkModal').openModal();
-                    self.shareLinkIpt.value = window.location.protocol + "//" + window.location.host + linkQueryParam;
-                    self.shareLinkIpt.select();
-                    self.copyToUsersClipboard();
-                    self.setUrlPath("/" + linkQueryParam);
+                    this.shareLinkIpt.value = window.location.protocol + "//" + window.location.host + linkQueryParam;
+                    this.shareLinkIpt.select();
+                    this.copyToUsersClipboard();
+                    this.setUrlPath("/" + linkQueryParam);
                 } else {
                     Materialize.toast('You need to write some new code before saving', 3000);
                 }
