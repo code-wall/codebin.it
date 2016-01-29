@@ -1,5 +1,5 @@
 @controls-height          : 50px;
-@controls-padding         : 10px;
+@controls-padding         : 6px;
 @editor-bg-color          : #002B36;
 @editor-bg-color-darkened : #041B22;
 @editor-bg-color-lightened: #004b56;
@@ -13,9 +13,31 @@ html, body {
 
 /* ---- Editor  ------ */
 .editorContainer {
-    height : calc(~"100vh");
+    height : calc(~"100vh -" @controls-height);
 }
 
 .CodeMirror {
     height : 100%;
 }
+
+/* ---- Bottom Menu ----- */
+.border-bottom {
+    height          : @controls-height;
+    padding         : @controls-padding;
+    background      : @editor-bg-color-darkened;
+    border-top      : 1px solid @editor-bg-color-lightened;
+}
+
+.logo {
+    float      : right;
+    margin-top : 3px;
+}
+
+#saveButton {
+    margin-left: 10px;
+}
+
+.pointerCursor:hover { cursor: pointer;}
+.btnOrange           { background-color: #E64002;}
+.btnOrange:hover     { background-color: rgb(156, 42, 0);}
+.hoverGreyDark:hover { background-color: #989898; }
