@@ -45,10 +45,22 @@
     </div>
 
 
+    <!-- Select Language Button FAB -->
+    <div class="fixed-action-btn" style="bottom: 30px; left: 24px;">
+        <a id="languageButton" class="btn-floating btn-large blue">
+            <i class="large material-icons">code</i>
+        </a>
+        <div id="languageLabel" class="chip"></div>
+    </div>
+
+    <!-- Select Language Button FAB -->
+    <div class="fixed-action-btn" style="top: 20px; right: 24px;">
+        <img src="/dist/images/dark-logo-small.png" class="logo">
+    </div>
+
     <!-- Save Button FAB -->
-    <div class="fixed-action-btn" style="bottom: 70px; right: 30px;">
-        <a id="saveButton" class="btn-floating btn-large red tooltipped" data-position="left" data-delay="50"
-           data-tooltip="Save me">
+    <div class="fixed-action-btn" style="bottom: 30px; right: 24px;">
+        <a id="saveButton" class="btn-floating btn-large red tooltipped" data-position="left" data-delay="50" data-tooltip="Save me">
             <i class="large material-icons">save</i>
         </a>
     </div>
@@ -56,25 +68,9 @@
     <!-- Share Link Modal -->
     <div id="shareLinkModal" class="modal bottom-sheet">
         <div class="modal-content">
-            <h5>Snippet Saved</h5>
-            <h6>Share Link:</h6>
+            <h4>Snippet Saved</h4>
             <input class="shareLinkIpt" id="shareLinkIpt" readonly/>
-
-            <!-- Todo: when we create seperate links for embedding add this code: -->
-            <!--<h6>Embed Link:</h6>-->
-            <!--<input class="shareLinkIpt" id="shareLinkIpt" readonly value="http://codebin.it/embed/testlskdjflks"/>-->
         </div>
-    </div>
-
-    <!-- Bottom Navbar-->
-    <div class="border-bottom">
-
-        <!-- Select Language Button FAB -->
-        <a id="languageButton" class="chip pointerCursor hoverGreyDark">
-            <span id="languageLabel"></span>
-        </a>
-
-        <img src="/dist/images/dark-logo-small.png" class="logo">
     </div>
 
     <!-- Select Language Side NavBar -->
@@ -85,7 +81,6 @@
         </ul>
         <a data-activates="languageList" class="languageOptions"><i class="mdi-navigation-menu"></i></a>
     </nav>
-
 
     <input id="token" type="hidden" value="{{.token}}">
 
