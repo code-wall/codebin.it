@@ -27,6 +27,8 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/theme/solarized.min.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/dist/css/main.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
@@ -44,6 +46,21 @@
         <textarea id="mainTextArea"></textarea>
     </div>
 
+    <div class="border-bottom">
+        <div class="logo">
+            <img src="/dist/images/dark-logo-small.png">
+        </div>
+        <ul class="menu-items">
+            <li id="languageButton">
+                <i class="fa fa-code"></i> <span id="languageLabel">Javascript</span>
+            </li>
+            <li id="saveButton">
+                <i class="fa fa-floppy-o"></i> Save
+            </li>
+        </ul>
+    </div>
+
+
     <!-- Share Link Modal -->
     <div id="shareLinkModal" class="modal bottom-sheet">
         <div class="modal-content">
@@ -57,22 +74,7 @@
         </div>
     </div>
 
-    <!-- Bottom Navbar-->
-    <div class="border-bottom">
 
-        <!-- Select Language Button FAB -->
-        <a id="languageButton" class="chip pointerCursor hoverGreyDark">
-            <span id="languageLabel"></span>
-        </a>
-
-        <!-- Save Button FAB -->
-        <a id="saveButton" class="btn-floating btn-small tooltipped btnOrange" data-position="right" data-delay="50"
-           data-tooltip="Save me">
-            <i class="large material-icons">save</i>
-        </a>
-
-        <img src="/dist/images/dark-logo-small.png" class="logo">
-    </div>
 
     <!-- Select Language Side NavBar -->
     <nav>
