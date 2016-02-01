@@ -27,6 +27,8 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/theme/solarized.min.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/dist/css/main.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
@@ -44,33 +46,42 @@
         <textarea id="mainTextArea"></textarea>
     </div>
 
-    <!-- Logo -->
-    <div class="fixed-action-btn" style="top: 20px; right: 24px;">
-        <img src="/dist/images/dark-logo-small.png" class="logo">
+    <div class="border-bottom">
+        <div class="logo">
+            <picture>
+                <source
+                        media="(min-width: 465px)"
+                        srcset="/dist/images/dark-logo-small.png">
+                <img
+                        src="/dist/images/dark-logo-letter-small.png"
+                        alt="a cute kitten">
+            </picture>
+        </div>
+        <ul class="menu-items">
+            <li id="languageButton">
+                <i class="fa fa-code"></i> <span id="languageLabel">Javascript</span>
+            </li>
+            <li id="saveButton">
+                <i class="fa fa-floppy-o"></i> Save
+            </li>
+        </ul>
     </div>
 
-    <!-- Select Language Button FAB -->
-    <div class="fixed-action-btn" style="bottom: 30px; left: 24px;">
-        <a id="languageButton" class="chip pointerCursor hoverGreyDark">
-            <span id="languageLabel"></span>
-        </a>
-    </div>
-
-    <!-- Save Button FAB -->
-    <div class="fixed-action-btn" style="bottom: 30px; right: 24px;">
-        <a id="saveButton" class="btn-floating btn-large red tooltipped" data-position="left"
-           data-delay="50" data-tooltip="Save me">
-            <i class="large material-icons">save</i>
-        </a>
-    </div>
 
     <!-- Share Link Modal -->
     <div id="shareLinkModal" class="modal bottom-sheet">
         <div class="modal-content">
-            <h4>Snippet Saved</h4>
+            <h5>Snippet Saved</h5>
+            <h6>Share Link:</h6>
             <input class="shareLinkIpt" id="shareLinkIpt" readonly/>
+
+            <!-- Todo: when we create seperate links for embedding add this code: -->
+            <!--<h6>Embed Link:</h6>-->
+            <!--<input class="shareLinkIpt" id="shareLinkIpt" readonly value="http://codebin.it/embed/testlskdjflks"/>-->
         </div>
     </div>
+
+
 
     <!-- Select Language Side NavBar -->
     <nav>
@@ -80,6 +91,7 @@
         </ul>
         <a data-activates="languageList" class="languageOptions"><i class="mdi-navigation-menu"></i></a>
     </nav>
+
 
     <input id="token" type="hidden" value="{{.token}}">
 

@@ -1,8 +1,9 @@
 @controls-height          : 50px;
-@controls-padding         : 10px;
+@controls-padding         : 0px;
 @editor-bg-color          : #002B36;
 @editor-bg-color-darkened : #041B22;
 @editor-bg-color-lightened: #004b56;
+@hover-border-width       : 3px;
 
 html, body {
     margin     : 0;
@@ -13,14 +14,50 @@ html, body {
 
 /* ---- Editor  ------ */
 .editorContainer {
-    height : calc(~"100vh");
+    height : calc(~"100vh -" @controls-height);
 }
 
 .CodeMirror {
     height : 100%;
 }
 
-.pointerCursor:hover { cursor: pointer;}
-.btnOrange           { background-color: #E64002;}
-.btnOrange:hover     { background-color: rgb(156, 42, 0);}
-.hoverGreyDark:hover { background-color: #989898; }
+/* ---- Bottom Menu ----- */
+.border-bottom {
+    height          : @controls-height;
+    //padding         : @controls-padding;
+    background      : @editor-bg-color-darkened;
+    border-top      : 1px solid @editor-bg-color-lightened;
+    color           : white;
+    margin-top      : 0px;
+}
+
+.menu-items {
+    margin-top : 0px;
+    float      : left;
+    height     : 100%;
+}
+.menu-items li {
+    color       : #d5d5d5;
+    float       : left;
+    margin-left : 15px;
+    font-size   : 12pt;
+    height      : calc(@controls-height - @hover-border-width);
+    padding-top : 12px;
+}
+
+.menu-items li:hover {
+    cursor             : pointer;
+    -webkit-box-shadow : 0px 3px 0px #E64002 inset;
+    -moz-box-shadow    : 0px 3px 0px #E64002 inset;
+    box-shadow         : 0px 3px 0px #E64002 inset;
+}
+
+#saveButton {
+    margin-left: 25px;
+}
+
+.logo {
+    float        : left;
+    padding-left : 10px;
+    padding-top  : 10px
+}
