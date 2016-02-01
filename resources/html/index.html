@@ -15,38 +15,87 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
     <title>CodeBin.it</title>
-    <meta name="description" content="Merge two images into a pattern">
+    <meta name="description" content="Code snippet sharing">
     <link rel="shortcut icon" href="/dist/images/favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/theme/solarized.min.css">
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/codemirror.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/theme/solarized.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/dist/css/main.css">
-    <!--<script type="text/javascript" src="/dist/lib/codemirror.js"></script>-->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/codemirror.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/addon/mode/loadmode.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/mode/meta.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/codemirror.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/addon/mode/loadmode.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/mode/meta.min.js"></script>
 </head>
 <body>
-<div class="editorContainer">
-    <textarea id="mainTextArea"></textarea>
-</div>
-<div class="border-bottom">
-    <div class="controls">
-        <select id="languageSelect">
-        </select>
-
-        <button id="saveButton" class="btn">Share</button>
-        <input class="shareLinkIpt" id="shareLinkIpt" readonly type="text">
-        <input id="token" type="hidden" value="{{.token}}">
+<main>
+    <div class="editorContainer">
+        <textarea id="mainTextArea"></textarea>
     </div>
 
-    <img src="/dist/images/dark-logo-small.png" class="logo">
+    <div class="border-bottom">
+        <div class="logo">
+            <picture>
+                <source
+                        media="(min-width: 465px)"
+                        srcset="/dist/images/dark-logo-small.png">
+                <img
+                        src="/dist/images/dark-logo-letter-small.png"
+                        alt="a cute kitten">
+            </picture>
+        </div>
+        <ul class="menu-items">
+            <li id="languageButton">
+                <i class="fa fa-code"></i> <span id="languageLabel">Javascript</span>
+            </li>
+            <li id="saveButton">
+                <i class="fa fa-floppy-o"></i> Save
+            </li>
+        </ul>
+    </div>
 
-</div>
 
+    <!-- Share Link Modal -->
+    <div id="shareLinkModal" class="modal bottom-sheet">
+        <div class="modal-content">
+            <h5>Snippet Saved</h5>
+            <h6>Share Link:</h6>
+            <input class="shareLinkIpt" id="shareLinkIpt" readonly/>
+
+            <!-- Todo: when we create seperate links for embedding add this code: -->
+            <!--<h6>Embed Link:</h6>-->
+            <!--<input class="shareLinkIpt" id="shareLinkIpt" readonly value="http://codebin.it/embed/testlskdjflks"/>-->
+        </div>
+    </div>
+
+
+
+    <!-- Select Language Side NavBar -->
+    <nav>
+        <ul class="right hide-on-med-and-down grey darken-4">
+        </ul>
+        <ul id="languageList" class="left side-nav grey darken-4">
+        </ul>
+        <a data-activates="languageList" class="languageOptions"><i class="mdi-navigation-menu"></i></a>
+    </nav>
+
+
+    <input id="token" type="hidden" value="{{.token}}">
+
+</main>
 <script type="text/javascript" src="/dist/js/bundle.js"></script>
-
 </body>
 </html>
