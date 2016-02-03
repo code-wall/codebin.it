@@ -45,6 +45,7 @@ export const RESPONSE_ERROR_STATUS = "error";
  */
 export const KEYBOARD_LETTERS = Object.freeze({
 
-  S: 83
+  S: 83,
+  L: 76
 
 });

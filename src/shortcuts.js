@@ -17,4 +17,13 @@ export default class Shortcuts {
     });
   }
 
+  static languageSelect(handlerFunc) {
+    $(document).on('keydown', e => {
+      if (e.keyCode == KEYBOARD_LETTERS.L && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        handlerFunc();
+      }
+    });
+  }
+
 }
