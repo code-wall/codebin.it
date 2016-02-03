@@ -4,16 +4,20 @@ import (
 	"github.com/code-wall/codebin/Godeps/_workspace/src/github.com/gorilla/csrf"
 	"github.com/code-wall/codebin/Godeps/_workspace/src/github.com/gorilla/mux"
 	"github.com/code-wall/codebin/api"
-	"text/template"
 	"net/http"
+	"text/template"
 )
 
 var conf = GetConfig()
-var t = template.New("index")
-var temps = template.Must(t.ParseFiles("./views/index.html"))
+var temps *template.Template
 
 func main() {
 	r := mux.NewRouter()
+
+	// Set template and the delimeters
+	t := template.New("index")
+	t.Delims("<<<", ">>>")
+	temps = template.Must(t.ParseFiles("./views/index.html"))
 
 	CSRF := csrf.Protect(
 		[]byte(conf.CSRFKey),

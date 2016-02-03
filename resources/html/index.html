@@ -93,7 +93,11 @@
     </nav>
 
 
-    <input id="token" type="hidden" value="{{.token}}">
+    <input id="token" type="hidden" value="<<<.token>>>">
+
+    <script id="languageListTemplate" type="text/x-handlebars-template">
+        {{#list languages}} {{/list}}
+    </script>
 
 </main>
 <script type="text/javascript" src="/dist/js/bundle.js"></script>
