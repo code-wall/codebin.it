@@ -2,7 +2,7 @@
 
 /**
  * TODO -  this is a temp solution until work is done to
- * break ui out int components
+ * break ui out into components
  */
 export default class Shortcuts {
 
@@ -16,8 +16,3 @@ export default class Shortcuts {
   }
 
 }
-
-
-
-
-
