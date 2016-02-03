@@ -3,6 +3,7 @@
 import CodeEditor from "./code-editor";
 import Utils from "./utils";
 import * as config from "./config";
+import Shortcuts from "./shortcuts";
 
 
 /**
@@ -20,7 +21,6 @@ class MainDomHandler  {
         this.langLabel = document.getElementById("languageLabel");
 
         this.shareLinkIpt = document.getElementById("shareLinkIpt");
-        this.languageSelect = document.getElementById("languageSelect");
 
         this.languageList = document.getElementById("languageList");
         this.textArea = document.getElementById("mainTextArea");
@@ -39,6 +39,9 @@ class MainDomHandler  {
         // Set display to block of body
         document.body.style.visibility = "visible";
         document.getElementsByTagName("html")[0].style.visibility = "visible";
+
+        // Set save short cut
+        Shortcuts.save(this.shareClicked.bind(this));
 
         this.setSupportedLangs();
         this.codeEditor.setLanguage(config.DEFAULT_LANG);
