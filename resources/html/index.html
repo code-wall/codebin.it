@@ -102,7 +102,7 @@
     <input id="token" type="hidden" value="<<<.token>>>">
 
     <script id="languageListTemplate" type="text/x-handlebars-template">
-        {{#each languages}}<li onclick="MAIN.setLanguage('{{this.name}}')">{{this.name}}</li>{{/each}}
+        {{#each languages}}<li class="cursorHover-pointer" onclick="MAIN.setLanguage('{{this.name}}')">{{this.name}}</li>{{/each}}
     </script>
 
 </main>
