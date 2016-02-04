@@ -6,58 +6,79 @@
 @hover-border-width       : 3px;
 
 html, body {
-    margin     : 0;
-    height     : 100%;
-    overflow   : hidden;
-    visibility : hidden;
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  visibility: hidden;
 }
 
 /* ---- Editor  ------ */
 .editorContainer {
-    height : calc(~"100vh -" @controls-height);
+  height: calc(~"100vh -" @controls-height);
 }
 
 .CodeMirror {
-    height : 100%;
+  height: 100%;
 }
 
 /* ---- Bottom Menu ----- */
 .border-bottom {
-    height          : @controls-height;
-    //padding         : @controls-padding;
-    background      : @editor-bg-color-darkened;
-    border-top      : 1px solid @editor-bg-color-lightened;
-    color           : white;
-    margin-top      : 0px;
+  height: @controls-height;
+  //padding         : @controls-padding;
+  background: @editor-bg-color-darkened;
+  border-top: 1px solid @editor-bg-color-lightened;
+  color: white;
+  margin-top: 0px;
 }
 
 .menu-items {
-    margin-top : 0px;
-    float      : left;
-    height     : 100%;
+  margin-top: 0px;
+  float: left;
+  height: 100%;
 }
+
 .menu-items li {
-    color       : #d5d5d5;
-    float       : left;
-    margin-left : 15px;
-    font-size   : 12pt;
-    height      : calc(@controls-height - @hover-border-width);
-    padding-top : 12px;
+  color: #d5d5d5;
+  float: left;
+  margin-left: 15px;
+  font-size: 12pt;
+  height: calc(@controls-height - @hover-border-width);
+  padding-top: 12px;
+}
+
+.help-control {
+  padding-top: 12px;
+  margin-right: 15px;
+  float: right;
+  height: calc(@controls-height - @hover-border-width);
 }
 
 .menu-items li:hover {
-    cursor             : pointer;
-    -webkit-box-shadow : 0px 3px 0px #E64002 inset;
-    -moz-box-shadow    : 0px 3px 0px #E64002 inset;
-    box-shadow         : 0px 3px 0px #E64002 inset;
+  cursor: pointer;
+  -webkit-box-shadow: 0px 3px 0px #E64002 inset;
+  -moz-box-shadow: 0px 3px 0px #E64002 inset;
+  box-shadow: 0px 3px 0px #E64002 inset;
 }
 
 #saveButton {
-    margin-left: 25px;
+  margin-left: 25px;
 }
 
 .logo {
-    float        : left;
-    padding-left : 10px;
-    padding-top  : 10px
+  float: left;
+  padding-left: 10px;
+  padding-top: 10px
+}
+
+.keyboard {
+  background: #fff;
+  font-weight: 700;
+  padding: 2px .35rem;
+  font-size: .8rem;
+  margin: 0 2px;
+  border-radius: .25rem;
+  color: #3d3c40;
+  border-bottom: 2px solid #9e9ea6;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .5);
+  text-shadow: none
 }

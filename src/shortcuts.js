@@ -1,6 +1,6 @@
 "use strict";
 
-import {KEYBOARD_LETTERS} from "./config";
+import {KEYBOARD_KEY} from "./config";
 
 /**
  * TODO -  this is a temp solution until work is done to
@@ -9,11 +9,15 @@ import {KEYBOARD_LETTERS} from "./config";
 export default class Shortcuts {
 
   static save(handlerFunc) {
-    this.handleCmdLetterKeyDown(KEYBOARD_LETTERS.S, handlerFunc);
+    this.handleCmdLetterKeyDown(KEYBOARD_KEY.S, handlerFunc);
   }
 
   static languageSelect(handlerFunc) {
-    this.handleCmdLetterKeyDown(KEYBOARD_LETTERS.L, handlerFunc);
+    this.handleCmdLetterKeyDown(KEYBOARD_KEY.L, handlerFunc);
+  }
+
+  static displayShortcuts(handlerFunc) {
+    this.handleCmdLetterKeyDown(KEYBOARD_KEY.QUESTION_MARK, handlerFunc);
   }
 
   static handleCmdLetterKeyDown(letterKey, handlerFunc) {

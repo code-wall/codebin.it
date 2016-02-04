@@ -43,6 +43,7 @@ class MainDomHandler  {
         // Set save short cut
         Shortcuts.save(this.shareClicked.bind(this));
         Shortcuts.languageSelect(this.openLanguageSelectDrawer);
+        Shortcuts.displayShortcuts(this.displayShortcutOptions);
 
         this.setSupportedLangs();
         this.codeEditor.setLanguage(config.DEFAULT_LANG);
@@ -72,6 +73,10 @@ class MainDomHandler  {
         if (!this.codeEditor.shouldPersist()) {
             this.codeEditor.setContent("");
         }
+    }
+
+    displayShortcutOptions() {
+      Materialize.toast('Not implemented', 1000);
     }
 
     openLanguageSelectDrawer() {

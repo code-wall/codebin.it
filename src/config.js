@@ -43,9 +43,10 @@ export const RESPONSE_ERROR_STATUS = "error";
  * Immutable keyboard letter code mappings
  * @type {object}
  */
-export const KEYBOARD_LETTERS = Object.freeze({
+export const KEYBOARD_KEY = Object.freeze({
 
   S: 83,
-  L: 76
+  L: 76,
+  QUESTION_MARK: 191
 
 });
