@@ -9,21 +9,19 @@ import {KEYBOARD_LETTERS} from "./config";
 export default class Shortcuts {
 
   static save(handlerFunc) {
-    $(document).on('keydown', e => {
-      if (e.keyCode == KEYBOARD_LETTERS.S && (e.ctrlKey || e.metaKey)) {
-        e.preventDefault();
-        handlerFunc();
-      }
-    });
+    this.handleCmdLetterKeyDown(KEYBOARD_LETTERS.S, handlerFunc);
   }
 
   static languageSelect(handlerFunc) {
+    this.handleCmdLetterKeyDown(KEYBOARD_LETTERS.L, handlerFunc);
+  }
+
+  static handleCmdLetterKeyDown(letterKey, handlerFunc) {
     $(document).on('keydown', e => {
-      if (e.keyCode == KEYBOARD_LETTERS.L && (e.ctrlKey || e.metaKey)) {
+      if (e.keyCode == letterKey && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
         handlerFunc();
       }
     });
   }
-
 }
