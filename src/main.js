@@ -32,8 +32,8 @@ class MainDomHandler  {
 
         // Event Listener
         this.saveButton.addEventListener("click", this.shareClicked.bind(this), false);
-        this.langButton.addEventListener("click", this.openLanguageSelectDrawer, false);
-        this.languageFilter.addEventListener("keyup", this.keypressLanguageFilter.bind(this), false)
+        this.langButton.addEventListener("click", this.openLanguageSelectDrawer.bind(this), false);
+        this.languageFilter.addEventListener("keyup", this.keypressLanguageFilter.bind(this), false);
         this.shareLinkIpt.addEventListener("click", this.clickShareLinkIpt.bind(this), false);
     }
 
@@ -76,7 +76,8 @@ class MainDomHandler  {
     }
 
     openLanguageSelectDrawer() {
-       $(".languageOptions").sideNav('show');
+        $(".languageOptions").sideNav('show');
+        this.languageFilter.focus();
     }
 
     setSupportedLangs(search=null) {
