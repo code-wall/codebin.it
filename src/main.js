@@ -76,6 +76,9 @@ class MainDomHandler  {
     }
 
     openLanguageSelectDrawer() {
+        this.languageFilter.value = "";
+        // Reset so they are all there
+        this.setSupportedLangs();
         $(".languageOptions").sideNav('show');
         this.languageFilter.focus();
     }
