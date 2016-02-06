@@ -51,6 +51,9 @@ html, body {
   margin-right: 15px;
   float: right;
   height: calc(@controls-height - @hover-border-width);
+  @media all and (max-width: 465px) {
+    display: none;
+  }
 }
 
 .menu-items li:hover {
