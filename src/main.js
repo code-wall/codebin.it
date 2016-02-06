@@ -4,6 +4,7 @@ import CodeEditor from "./code-editor";
 import Utils from "./utils";
 import * as config from "./config";
 import Shortcuts from "./shortcuts";
+import HelpModal from "./ui/modals/help-modal";
 
 
 /**
@@ -30,6 +31,8 @@ class MainDomHandler  {
         this.langButton.addEventListener("click", this.openLanguageSelectDrawer, false);
 
         this.shareLinkIpt.addEventListener("click", this.clickShareLinkIpt.bind(this), false);
+
+        this.helpModal = new HelpModal();
     }
 
     init() {
@@ -43,7 +46,6 @@ class MainDomHandler  {
         // Set save short cut
         Shortcuts.save(this.shareClicked.bind(this));
         Shortcuts.languageSelect(this.openLanguageSelectDrawer);
-        Shortcuts.displayShortcuts(this.displayShortcutOptions);
 
         this.setSupportedLangs();
         this.codeEditor.setLanguage(config.DEFAULT_LANG);
@@ -73,10 +75,6 @@ class MainDomHandler  {
         if (!this.codeEditor.shouldPersist()) {
             this.codeEditor.setContent("");
         }
-    }
-
-    displayShortcutOptions() {
-      Materialize.toast('Not implemented', 1000);
     }
 
     openLanguageSelectDrawer() {
