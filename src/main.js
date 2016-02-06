@@ -5,6 +5,7 @@ import Utils from "./utils";
 import * as config from "./config";
 import Shortcuts from "./shortcuts";
 import HelpModal from "./ui/modals/help-modal";
+import ShareModal from "./ui/modals/share-modal";
 
 
 /**
@@ -33,6 +34,7 @@ class MainDomHandler  {
         this.shareLinkIpt.addEventListener("click", this.clickShareLinkIpt.bind(this), false);
 
         this.helpModal = new HelpModal();
+        this.shareModal = new ShareModal();
     }
 
     init() {
@@ -100,7 +102,7 @@ class MainDomHandler  {
         this.codeEditor.saveAndGetLink()
             .then(linkQueryParam => {
                 if (linkQueryParam != null) {
-                    $('#shareLinkModal').openModal();
+                    this.shareModal.show();
                     this.shareLinkIpt.value = window.location.protocol + "//" + window.location.host + linkQueryParam;
                     this.shareLinkIpt.select();
                     this.copyToUsersClipboard();

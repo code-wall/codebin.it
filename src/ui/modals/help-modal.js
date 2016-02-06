@@ -4,8 +4,7 @@ import Modal from "./base-modal";
 import Shortcuts from "../../shortcuts";
 
 /**
- * TODO -  this is a temp solution until work is done to
- * break ui out into components
+ * Modal to show shortcuts/help
  */
 export default class HelpModal extends Modal {
 
