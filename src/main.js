@@ -3,6 +3,9 @@
 import CodeEditor from "./code-editor";
 import Utils from "./utils";
 import * as config from "./config";
+import Shortcuts from "./shortcuts";
+import HelpModal from "./ui/modals/help-modal";
+import ShareModal from "./ui/modals/share-modal";
 
 
 /**
@@ -20,7 +23,6 @@ class MainDomHandler  {
         this.langLabel = document.getElementById("languageLabel");
 
         this.shareLinkIpt = document.getElementById("shareLinkIpt");
-        this.languageSelect = document.getElementById("languageSelect");
 
         this.languageList = document.getElementById("languageList");
         this.textArea = document.getElementById("mainTextArea");
@@ -30,6 +32,9 @@ class MainDomHandler  {
         this.langButton.addEventListener("click", this.openLanguageSelectDrawer, false);
 
         this.shareLinkIpt.addEventListener("click", this.clickShareLinkIpt.bind(this), false);
+
+        this.helpModal = new HelpModal();
+        this.shareModal = new ShareModal();
     }
 
     init() {
@@ -39,6 +44,10 @@ class MainDomHandler  {
         // Set display to block of body
         document.body.style.visibility = "visible";
         document.getElementsByTagName("html")[0].style.visibility = "visible";
+
+        // Set save short cut
+        Shortcuts.save(this.shareClicked.bind(this));
+        Shortcuts.languageSelect(this.openLanguageSelectDrawer);
 
         this.setSupportedLangs();
         this.codeEditor.setLanguage(config.DEFAULT_LANG);
@@ -93,7 +102,7 @@ class MainDomHandler  {
         this.codeEditor.saveAndGetLink()
             .then(linkQueryParam => {
                 if (linkQueryParam != null) {
-                    $('#shareLinkModal').openModal();
+                    this.shareModal.show();
                     this.shareLinkIpt.value = window.location.protocol + "//" + window.location.host + linkQueryParam;
                     this.shareLinkIpt.select();
                     this.copyToUsersClipboard();

@@ -36,3 +36,17 @@ export const RESPONSE_SUCCESS_STATUS = "ok";
  * @type {string}
  */
 export const RESPONSE_ERROR_STATUS = "error";
+
+/** SHORTCUT KEYS **/
+
+/**
+ * Immutable keyboard letter code mappings
+ * @type {object}
+ */
+export const KEYBOARD_KEY = Object.freeze({
+
+  S: 83,
+  L: 76,
+  QUESTION_MARK: 191
+
+});
