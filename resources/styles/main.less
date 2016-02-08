@@ -23,12 +23,12 @@ html, body {
 
 /* ---- Bottom Menu ----- */
 .border-bottom {
-    height          : @controls-height;
+    height     : @controls-height;
     //padding         : @controls-padding;
-    background      : @editor-bg-color-darkened;
-    border-top      : 1px solid @editor-bg-color-lightened;
-    color           : white;
-    margin-top      : 0px;
+    background : @editor-bg-color-darkened;
+    border-top : 1px solid @editor-bg-color-lightened;
+    color      : white;
+    margin-top : 0px;
 }
 
 .menu-items {
@@ -36,6 +36,7 @@ html, body {
     float      : left;
     height     : 100%;
 }
+
 .menu-items li {
     color       : #d5d5d5;
     float       : left;
@@ -43,6 +44,16 @@ html, body {
     font-size   : 12pt;
     height      : calc(@controls-height - @hover-border-width);
     padding-top : 12px;
+}
+
+.help-control {
+    padding-top  : 12px;
+    margin-right : 15px;
+    float        : right;
+    height       : calc(@controls-height - @hover-border-width);
+    @media all and (max-width : 465px) {
+        display : none;
+    }
 }
 
 .menu-items li:hover {
@@ -53,7 +64,7 @@ html, body {
 }
 
 #saveButton {
-    margin-left: 25px;
+    margin-left : 25px;
 }
 
 .logo {
@@ -62,11 +73,28 @@ html, body {
     padding-top  : 10px
 }
 
+.keyboard {
+    background    : #fff;
+    font-weight   : 700;
+    padding       : 2px .35rem;
+    font-size     : .8rem;
+    margin        : 0 2px;
+    border-radius : .25rem;
+    color         : #3d3c40;
+    border-bottom : 2px solid #9e9ea6;
+    box-shadow    : 0 1px 2px rgba(0, 0, 0, .5);
+    text-shadow   : none
+}
+
 /* ==== Utilities ===== */
-.paddingR-15 { padding-right: 15px; }
-.paddingL-15 { padding-left: 15px; }
+.paddingR-15 {
+    padding-right : 15px;
+}
 
-.cursorHover-pointer:hover { cursor: pointer; }
+.paddingL-15 {
+    padding-left : 15px;
+}
 
-
-
+.cursorHover-pointer:hover {
+    cursor : pointer;
+}

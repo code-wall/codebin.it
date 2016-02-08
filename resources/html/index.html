@@ -52,11 +52,11 @@
         <div class="logo">
             <picture>
                 <source
-                    media="(min-width: 465px)"
-                    srcset="/dist/images/dark-logo-small.png">
+                        media="(min-width: 465px)"
+                        srcset="/dist/images/dark-logo-small.png">
                 <img
-                    src="/dist/images/dark-logo-letter-small.png"
-                    alt="a cute kitten">
+                        src="/dist/images/dark-logo-letter-small.png"
+                        alt="CB">
             </picture>
         </div>
         <ul class="menu-items">
@@ -67,8 +67,23 @@
                 <i class="fa fa-floppy-o"></i> Save
             </li>
         </ul>
+        <div class="help-control">
+            <span class="keyboard">cmd</span> + <span class="keyboard">?</span>
+        </div>
     </div>
 
+
+    <!-- Help Modal Trigger -->
+    <a class="waves-effect waves-light btn modal-trigger" href="#help-modal">Modal</a>
+
+    <!-- Help Modal Structure -->
+    <div id="help-modal" class="modal">
+        <div class="modal-content">
+            <h4>Keyboard Shortcuts</h4>
+            <p>Select language: <span class="keyboard">cmd</span> + <span class="keyboard">L</span></p>
+            <p>Save snippet and share: <span class="keyboard">cmd</span> + <span class="keyboard">S</span></p>
+        </div>
+    </div>
 
     <!-- Share Link Modal -->
     <div id="shareLinkModal" class="modal bottom-sheet">
