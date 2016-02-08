@@ -52,7 +52,7 @@ class MainDomHandler  {
 
         // Set save short cut
         Shortcuts.save(this.shareClicked.bind(this));
-        Shortcuts.languageSelect(this.openLanguageSelectDrawer);
+        Shortcuts.languageSelect(this.openLanguageSelectDrawer.bind(this));
 
         this.setSupportedLangs();
         this.codeEditor.setLanguage(config.DEFAULT_LANG);
