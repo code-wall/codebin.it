@@ -4188,7 +4188,7 @@ func (c *Collection) writeCommand(socket *mongoSocket, safeOp *queryOp, op inter
 	debugf("Write command result: %#v (err=%v)", result, err)
 	lerr = &LastError{
 		UpdatedExisting: result.N > 0 && len(result.Upserted) == 0,
-		N:               result.N,
+		N: result.N,
 	}
 	if len(result.Upserted) > 0 {
 		lerr.UpsertedId = result.Upserted[0].Id
