@@ -1,9 +1,6 @@
 {
 	"ImportPath": "github.com/code-wall/codebin",
 	"GoVersion": "go1.6",
-	"Packages": [
-		"./..."
-	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/gorilla/context",
