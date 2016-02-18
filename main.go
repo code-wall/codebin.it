@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/code-wall/codebin/Godeps/_workspace/src/github.com/gorilla/csrf"
-	"github.com/code-wall/codebin/Godeps/_workspace/src/github.com/gorilla/mux"
 	"github.com/code-wall/codebin/api"
-	"text/template"
+	"github.com/gorilla/csrf"
+	"github.com/gorilla/mux"
 	"net/http"
+	"text/template"
 )
 
 var conf = GetConfig()
