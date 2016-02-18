@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/code-wall/codebin/Godeps/_workspace/src/github.com/gorilla/context"
-	"github.com/code-wall/codebin/Godeps/_workspace/src/github.com/gorilla/securecookie"
+	"github.com/gorilla/context"
+	"github.com/gorilla/securecookie"
 )
 
 // CSRF token length in bytes.

@@ -4,8 +4,8 @@ import (
 	"crypto/sha1"
 	"testing"
 
-	"github.com/code-wall/codebin/Godeps/_workspace/src/gopkg.in/mgo.v2/internal/scram"
 	. "gopkg.in/check.v1"
+	"gopkg.in/mgo.v2/internal/scram"
 	"strings"
 )
 
