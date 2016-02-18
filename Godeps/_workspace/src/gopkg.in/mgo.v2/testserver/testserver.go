@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"time"
 
-	"gopkg.in/mgo.v2"
+	"github.com/code-wall/codebin/Godeps/_workspace/src/gopkg.in/mgo.v2"
 	"gopkg.in/tomb.v2"
 )
 

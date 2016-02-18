@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/gorilla/securecookie"
+	"github.com/code-wall/codebin/Godeps/_workspace/src/github.com/gorilla/securecookie"
 )
 
 // Check store implementations

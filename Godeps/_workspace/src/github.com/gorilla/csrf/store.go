@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gorilla/securecookie"
+	"github.com/code-wall/codebin/Godeps/_workspace/src/github.com/gorilla/securecookie"
 )
 
 // store represents the session storage used for CSRF tokens.

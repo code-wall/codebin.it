@@ -33,7 +33,7 @@ import (
 	"sync"
 	"time"
 
-	"gopkg.in/mgo.v2/bson"
+	"github.com/code-wall/codebin/Godeps/_workspace/src/gopkg.in/mgo.v2/bson"
 )
 
 // ---------------------------------------------------------------------------

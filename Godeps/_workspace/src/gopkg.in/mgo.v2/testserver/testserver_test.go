@@ -7,8 +7,8 @@ import (
 
 	. "gopkg.in/check.v1"
 
-	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/testserver"
+	"github.com/code-wall/codebin/Godeps/_workspace/src/gopkg.in/mgo.v2"
+	"github.com/code-wall/codebin/Godeps/_workspace/src/gopkg.in/mgo.v2/testserver"
 )
 
 type M map[string]interface{}
