@@ -33,6 +33,11 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	data := map[string]interface{}{
 		"token": csrf.Token(r),
 	}
+	w.Header().Set("X-Frame-Options", "SAMEORIGIN")
+	w.Header().Set("X-Xss-Protection", "1; mode=block")
+	w.Header().Set("X-Content-Type-Options", "nosniff")
+	w.Header().Set("Content-Security-Policy", "script-src 'self' cdnjs.cloudflare.com")
+
 	temps.ExecuteTemplate(w, "index.html", data)
 }
 
