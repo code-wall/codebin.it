@@ -42,74 +42,7 @@
 </head>
 <body>
 <main>
-    <div class="editorContainer">
-        <textarea id="mainTextArea"></textarea>
-    </div>
-
-    <div class="border-bottom">
-        <div class="logo">
-            <picture>
-                <source
-                        media="(min-width: 465px)"
-                        srcset="/dist/images/dark-logo-small.png">
-                <img
-                        src="/dist/images/dark-logo-letter-small.png"
-                        alt="CB">
-            </picture>
-        </div>
-        <ul class="menu-items">
-            <li id="languageButton">
-                <i class="fa fa-code"></i> <span id="languageLabel">Javascript</span>
-            </li>
-            <li id="saveButton">
-                <i class="fa fa-floppy-o"></i> Save
-            </li>
-        </ul>
-        <div class="help-control">
-            <span class="keyboard">cmd</span> + <span class="keyboard">?</span>
-        </div>
-    </div>
-
-
-    <!-- Help Modal Trigger -->
-    <a class="waves-effect waves-light btn modal-trigger" href="#help-modal">Modal</a>
-
-    <!-- Help Modal Structure -->
-    <div id="help-modal" class="modal">
-        <div class="modal-content">
-            <h4>Keyboard Shortcuts</h4>
-            <p>Select language: <span class="keyboard">cmd</span> + <span class="keyboard">L</span></p>
-            <p>Save snippet and share: <span class="keyboard">cmd</span> + <span class="keyboard">S</span></p>
-        </div>
-    </div>
-
-    <!-- Share Link Modal -->
-    <div id="shareLinkModal" class="modal bottom-sheet">
-        <div class="modal-content">
-            <h5>Snippet Saved</h5>
-            <h6>Share Link:</h6>
-            <input class="shareLinkIpt" id="shareLinkIpt" readonly/>
-
-            <!-- Todo: when we create seperate links for embedding add this code: -->
-            <!--<h6>Embed Link:</h6>-->
-            <!--<input class="shareLinkIpt" id="shareLinkIpt" readonly value="http://codebin.it/embed/testlskdjflks"/>-->
-        </div>
-    </div>
-
-
-
-    <!-- Select Language Side NavBar -->
-    <nav>
-        <ul class="right hide-on-med-and-down grey darken-4">
-        </ul>
-        <ul id="languageList" class="left side-nav grey darken-4">
-        </ul>
-        <a data-activates="languageList" class="languageOptions"><i class="mdi-navigation-menu"></i></a>
-    </nav>
-
-
-    <input id="token" type="hidden" value="{{.token}}">
-
+    <div id="mainContainer"></div>
 </main>
 <script type="text/javascript" src="/dist/js/bundle.js"></script>
 </body>
