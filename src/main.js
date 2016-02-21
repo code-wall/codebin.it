@@ -23,14 +23,19 @@ class MainDomHandler  {
         this.langLabel = document.getElementById("languageLabel");
 
         this.shareLinkIpt = document.getElementById("shareLinkIpt");
+        this.languageSelect = document.getElementById("languageSelect");
+        this.languageFilter = document.getElementById("languageFilter");
 
         this.languageList = document.getElementById("languageList");
+        var languageListSrc = $("#languageListTemplate").html();
+        this.languageListTemplate = Handlebars.compile(languageListSrc);
+
         this.textArea = document.getElementById("mainTextArea");
 
         // Event Listener
         this.saveButton.addEventListener("click", this.shareClicked.bind(this), false);
-        this.langButton.addEventListener("click", this.openLanguageSelectDrawer, false);
-
+        this.langButton.addEventListener("click", this.openLanguageSelectDrawer.bind(this), false);
+        this.languageFilter.addEventListener("keyup", this.keypressLanguageFilter.bind(this), false);
         this.shareLinkIpt.addEventListener("click", this.clickShareLinkIpt.bind(this), false);
 
         this.helpModal = new HelpModal();
@@ -47,7 +52,7 @@ class MainDomHandler  {
 
         // Set save short cut
         Shortcuts.save(this.shareClicked.bind(this));
-        Shortcuts.languageSelect(this.openLanguageSelectDrawer);
+        Shortcuts.languageSelect(this.openLanguageSelectDrawer.bind(this));
 
         this.setSupportedLangs();
         this.codeEditor.setLanguage(config.DEFAULT_LANG);
@@ -80,19 +85,36 @@ class MainDomHandler  {
     }
 
     openLanguageSelectDrawer() {
-       $(".languageOptions").sideNav('show');
+        this.languageFilter.value = "";
+        // Reset so they are all there
+        this.setSupportedLangs();
+        $(".languageOptions").sideNav('show');
+        this.languageFilter.focus();
     }
 
-    setSupportedLangs() {
-        for (let lang of this.codeEditor.getLanguages()) {
-            let option = document.createElement("li");
-            option.innerHTML = lang.name;
-            option.onclick = function() {this.setLanguage(lang.name)}.bind(this);
-            this.languageList.appendChild(option);
+    setSupportedLangs(search=null) {
+        let langs = this.codeEditor.getLanguages();
+        if (search) {
+            search = search.toLowerCase();
+            let filtered = [];
+            for (let lang of langs) {
+                if (lang.name.toLowerCase().slice(0, search.length) === search) {
+                    filtered.push(lang);
+                }
+                langs = filtered;
+            }
         }
+        let context = {languages: langs};
+        let html = this.languageListTemplate(context);
+        this.languageList.innerHTML = html;
+    }
+
+    keypressLanguageFilter(event) {
+        this.setSupportedLangs(this.languageFilter.value);
     }
 
     setLanguage(lang) {
+        console.log("Setting Language: ", lang);
         this.codeEditor.setLanguage(lang);
         this.langLabel.innerHTML = lang;
         $(".languageOptions").sideNav('hide');
@@ -143,5 +165,5 @@ class MainDomHandler  {
 
 }
 
-let main = new MainDomHandler();
-main.init();
+window.MAIN = new MainDomHandler();
+window.MAIN.init();

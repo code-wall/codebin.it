@@ -9,11 +9,15 @@ import (
 )
 
 var conf = GetConfig()
-var t = template.New("index")
-var temps = template.Must(t.ParseFiles("./views/index.html"))
+var temps *template.Template
 
 func main() {
 	r := mux.NewRouter()
+
+	// Set template and the delimeters
+	t := template.New("index")
+	t.Delims("<<<", ">>>")
+	temps = template.Must(t.ParseFiles("./views/index.html"))
 
 	CSRF := csrf.Protect(
 		[]byte(conf.CSRFKey),

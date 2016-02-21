@@ -39,6 +39,8 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/addon/mode/loadmode.min.js"></script>
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/mode/meta.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 </head>
 <body>
 <main>
@@ -102,13 +104,21 @@
     <nav>
         <ul class="right hide-on-med-and-down grey darken-4">
         </ul>
-        <ul id="languageList" class="left side-nav grey darken-4">
-        </ul>
-        <a data-activates="languageList" class="languageOptions"><i class="mdi-navigation-menu"></i></a>
+        <div id="sideNavList" class="left side-nav grey darken-4">
+           <div class="paddingR-15 paddingL-15">
+               <input type="text" id="languageFilter">
+           </div>
+            <ul id="languageList"></ul>
+        </div>
+        <a data-activates="sideNavList" class="languageOptions"><i class="mdi-navigation-menu"></i></a>
     </nav>
 
 
-    <input id="token" type="hidden" value="{{.token}}">
+    <input id="token" type="hidden" value="<<<.token>>>">
+
+    <script id="languageListTemplate" type="text/x-handlebars-template">
+        {{#each languages}}<li class="cursorHover-pointer" onclick="MAIN.setLanguage('{{this.name}}')">{{this.name}}</li>{{/each}}
+    </script>
 
 </main>
 <script type="text/javascript" src="/dist/js/bundle.js"></script>
