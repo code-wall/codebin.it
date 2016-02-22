@@ -1,8 +1,8 @@
 import React from "react"
-
 import Codemirror from "react-codemirror";
 
-import CodeStore from "../stores/code.store.js";
+import CodeStore from "../stores/CodeStore";
+import CodeActions from "../actions/CodeActions";
 
 export default class CodeEditor extends React.Component{
 
@@ -14,32 +14,18 @@ export default class CodeEditor extends React.Component{
             readOnly: false,
             mode    : CodeStore.getLanguage()
         };
-        console.log("Logging language: ", CodeStore.getLanguage());
+    }
+
+    componentDidMount () {
+        CodeStore.listen(this._onChange.bind(this));
+    }
+
+    componentWillUnmount () {
+        CodeStore.unlisten(this._onChange.bind(this));
     }
 
     updateCode (newCode) {
-        this.setState({
-            code: newCode
-        });
-        console.log("Logging New state: ", this.state);
-    }
-
-    changeMode (e) {
-        var mode = e.target.value;
-        this.setState({
-            mode: mode,
-            code: defaults[mode]
-        });
-    }
-
-    toggleReadOnly () {
-        this.setState({
-            readOnly: !this.state.readOnly
-        }, () => this.refs.editor.focus());
-    }
-
-    interact(cm){
-        console.log(cm.getValue());
+        CodeActions.updateCode(newCode);
     }
 
     render() {
@@ -61,8 +47,7 @@ export default class CodeEditor extends React.Component{
      */
     _onChange() {
         this.setState({
-            code: CodeStore.getCode(),
-            mode: CodeStore.getMode()
+            code: CodeStore.getCode()
         });
     }
 }

@@ -53,7 +53,7 @@ gulp.task("copy-images", function(){
 } );
 
 gulp.task("watch-src", ["build-sources"], function (done) {
-    gulp.watch("./src/**/*.jsx", ["build-sources"]);
+    gulp.watch(["./src/**/*.jsx", "./src/**/*.js"], ["build-sources"]);
     done();
 });
 

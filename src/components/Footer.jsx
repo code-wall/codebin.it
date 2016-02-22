@@ -1,6 +1,15 @@
 import React from "react";
 
+import CodeActions from "../actions/CodeActions.js";
+
 export default class Footer extends React.Component {
+    /**
+     * Temporary method to set the code via the code action
+     */
+    setCode(event) {
+        CodeActions.updateCode("Temporary code added through flux architecture");
+    }
+
     render() {
         return (
             <div className="border-bottom">
@@ -15,8 +24,8 @@ export default class Footer extends React.Component {
                     </picture>
                 </div>
                 <ul className="menu-items">
-                    <li id="languageButton">
-                        <i className="fa fa-code"></i> <span id="languageLabel">Javascript</span>
+                    <li id="languageButton" onClick={this.setCode}>
+                        <i className="fa fa-code"></i> <span id="lenguageLabel">Javascript</span>
                     </li>
                     <li id="saveButton">
                         <i className="fa fa-floppy-o"></i> Save
