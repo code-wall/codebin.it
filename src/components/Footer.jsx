@@ -1,13 +1,16 @@
 import React from "react";
 
-import CodeActions from "../actions/CodeActions.js";
-
 export default class Footer extends React.Component {
     /**
      * Temporary method to set the code via the code action
      */
-    setCode(event) {
-        CodeActions.updateCode("Temporary code added through flux architecture");
+    handleSetCode() {
+        this.props.setCode("Temporary code added through flux architecture")
+    }
+
+    handleSetLanguage() {
+        let lang = ["Go", "Python", "Ruby", "PHP", "Java"][Math.floor(Math.random() * 5)];
+        this.props.setLanguage(lang);
     }
 
     render() {
@@ -24,10 +27,10 @@ export default class Footer extends React.Component {
                     </picture>
                 </div>
                 <ul className="menu-items">
-                    <li id="languageButton" onClick={this.setCode}>
+                    <li id="languageButton" onClick={this.handleSetLanguage.bind(this)}>
                         <i className="fa fa-code"></i> <span id="lenguageLabel">Javascript</span>
                     </li>
-                    <li id="saveButton">
+                    <li id="saveButton" onClick={this.handleSetCode.bind(this)}>
                         <i className="fa fa-floppy-o"></i> Save
                     </li>
                 </ul>
@@ -38,3 +41,8 @@ export default class Footer extends React.Component {
         );
     }
 }
+
+Footer.propTypes = {
+    setCode    : React.PropTypes.func.isRequired,
+    setLanguage: React.PropTypes.func.isRequired
+};
