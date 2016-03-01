@@ -12,7 +12,7 @@ class App extends Component {
         return (
             <div>
                 <CodeEditor snippet={snippet} />
-                <Footer setLanguage={actions.setLanguage} setCode={actions.setCode}/>
+                <Footer loadLanguage={actions.loadLanguage} setCode={actions.setCode} language={snippet.language}/>
             </div>
         )
     }

@@ -10,10 +10,11 @@ export default class Footer extends React.Component {
 
     handleSetLanguage() {
         let lang = ["Go", "Python", "Ruby", "PHP", "Java"][Math.floor(Math.random() * 5)];
-        this.props.setLanguage(lang);
+        this.props.loadLanguage(lang);
     }
 
     render() {
+        const { language } = this.props;
         return (
             <div className="border-bottom">
                 <div className="logo">
@@ -28,7 +29,7 @@ export default class Footer extends React.Component {
                 </div>
                 <ul className="menu-items">
                     <li id="languageButton" onClick={this.handleSetLanguage.bind(this)}>
-                        <i className="fa fa-code"></i> <span id="lenguageLabel">Javascript</span>
+                        <i className="fa fa-code"></i> <span id="lenguageLabel">{language}</span>
                     </li>
                     <li id="saveButton" onClick={this.handleSetCode.bind(this)}>
                         <i className="fa fa-floppy-o"></i> Save
@@ -43,6 +44,7 @@ export default class Footer extends React.Component {
 }
 
 Footer.propTypes = {
-    setCode    : React.PropTypes.func.isRequired,
-    setLanguage: React.PropTypes.func.isRequired
+    setCode     : React.PropTypes.func.isRequired,
+    loadLanguage: React.PropTypes.func.isRequired,
+    language    : React.PropTypes.string.isRequired
 };

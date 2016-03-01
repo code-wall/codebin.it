@@ -21,6 +21,29 @@ gulp.task("build-sources", function () {
         .pipe(gulp.dest("./dist/js"));
 });
 
+
+
+//==============
+// compile all ES6 modules to ES5 and register modules via SystemJS
+gulp.task('build:system', function () {
+    return gulp.src( "./src/app.jsx" )
+        .pipe(babel( {modules: 'system'}))
+        .pipe(gulp.dest( "./dist/js" ));
+});
+
+// bundle the SystemJS files to one single bundle standalone file
+//gulp.task('build:bundle', function () {
+//    builder.buildSFX(CONFIG.bundleName, CONFIG.bundleBuild, options).then(function() {
+//        console.log('Build complete');
+//    })
+//        .catch(function(err) {
+//            console.log('Build error');
+//            console.log(err);
+//        });
+//
+//});
+//==============
+
 gulp.task("build-html", [], function () {
     var options = {
         collapseWhitespace: true,
