@@ -5,8 +5,12 @@ export function setCode(code) {
     return {type: types.SET_CODE, code: code};
 }
 
-function setLanguage(language) {
+export function setLanguage(language) {
     return {type: types.SET_LANGUAGE, language: language};
+}
+
+export function toggleLanguageSelect(open) {
+    return {type: types.TOGGLE_LANGUAGE_SECLECT, open: open}
 }
 
 export function loadLanguage(language) {

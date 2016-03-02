@@ -15,7 +15,7 @@ let serverPID = null;
 
 gulp.task("build-sources", function () {
     return browserify({entries: "./src/app.jsx", extensions: [".jsx"], debug: true})
-        .transform("babelify", {presets: ["es2015", "react"]})
+        .transform("babelify", {presets: ["es2015", "react", "stage-1"], plugins: ["transform-decorators-legacy"]})
         .bundle()
         .pipe(source("bundle.js"))
         .pipe(gulp.dest("./dist/js"));
@@ -27,7 +27,7 @@ gulp.task("build-sources", function () {
 // compile all ES6 modules to ES5 and register modules via SystemJS
 gulp.task('build:system', function () {
     return gulp.src( "./src/app.jsx" )
-        .pipe(babel( {modules: 'system'}))
+        .pipe(babel())
         .pipe(gulp.dest( "./dist/js" ));
 });
 

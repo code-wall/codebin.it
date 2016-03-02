@@ -8,9 +8,10 @@ export default class Footer extends React.Component {
         this.props.setCode("Temporary code added through flux architecture")
     }
 
-    handleSetLanguage() {
-        let lang = ["Go", "Python", "Ruby", "PHP", "Java"][Math.floor(Math.random() * 5)];
-        this.props.loadLanguage(lang);
+    handleOpenLanguageSelect() {
+        //let lang = ["Go", "Python", "Ruby", "PHP", "Java"][Math.floor(Math.random() * 5)];
+        //this.props.loadLanguage(lang);
+        this.props.toggleLanguageSelect(true);
     }
 
     render() {
@@ -28,7 +29,7 @@ export default class Footer extends React.Component {
                     </picture>
                 </div>
                 <ul className="menu-items">
-                    <li id="languageButton" onClick={this.handleSetLanguage.bind(this)}>
+                    <li id="languageButton" onClick={this.handleOpenLanguageSelect.bind(this)}>
                         <i className="fa fa-code"></i> <span id="lenguageLabel">{language}</span>
                     </li>
                     <li id="saveButton" onClick={this.handleSetCode.bind(this)}>
@@ -44,7 +45,7 @@ export default class Footer extends React.Component {
 }
 
 Footer.propTypes = {
-    setCode     : React.PropTypes.func.isRequired,
-    loadLanguage: React.PropTypes.func.isRequired,
-    language    : React.PropTypes.string.isRequired
+    setCode             : React.PropTypes.func.isRequired,
+    toggleLanguageSelect: React.PropTypes.func.isRequired,
+    language            : React.PropTypes.string.isRequired
 };

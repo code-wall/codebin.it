@@ -4,15 +4,18 @@ import { connect } from 'react-redux'
 
 import Footer from "../components/Footer.jsx";
 import CodeEditor from "../components/CodeEditor.jsx";
-import * as SnippetActions from '../actions';
+import LeftLanguageSelectNav from "../components/LeftLanguageSelectNav.jsx";
+
+import * as Actions from '../actions';
 
 class App extends Component {
     render() {
-        const { snippet, actions } = this.props;
+        const { snippet, actions, ui } = this.props;
         return (
             <div>
                 <CodeEditor snippet={snippet} />
-                <Footer loadLanguage={actions.loadLanguage} setCode={actions.setCode} language={snippet.language}/>
+                <Footer toggleLanguageSelect={actions.toggleLanguageSelect} setCode={actions.setCode} language={snippet.language}/>
+                <LeftLanguageSelectNav languageSelectOpen={ui.languageSelectOpen} setLanguage={actions.setLanguage} toggleLanguageSelect={actions.toggleLanguageSelect}/>
             </div>
         )
     }
@@ -20,18 +23,20 @@ class App extends Component {
 
 App.propTypes = {
     snippet: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    ui     : PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        snippet: state.snippet
+        snippet: state.snippet,
+        ui     : state.ui
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(SnippetActions, dispatch)
+        actions: bindActionCreators(Actions, dispatch)
     }
 }
 

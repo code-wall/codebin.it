@@ -5,6 +5,13 @@ import thunkMiddleware from 'redux-thunk'
 import ReactDOM from "react-dom";
 import {Provider} from "react-redux";
 import React from "react";
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+// Needed for Material-UI onTouchTap to work
+// Can go away when react 1.0 release
+// Check this repo:
+// https://github.com/zilverline/react-tap-event-plugin
+injectTapEventPlugin();
 
 
 import rootReducer from "./reducers";
