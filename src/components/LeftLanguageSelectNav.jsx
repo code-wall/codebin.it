@@ -10,18 +10,29 @@ class LeftLanguageSelectNav extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {languages: LANGUAGES};
+        this.state = {
+            languages: LANGUAGES,
+            languageSearchValue: ""
+        };
     }
 
     handleLanguageClick (index, event) {
-        this.props.setLanguage(LANGUAGES[index].name);
+        this.props.setLanguage(this.state.languages[index].name);
+        this.resetState();
         this.props.toggleLanguageSelect(false);
     }
 
+    resetState() {
+        this.setState({
+            languages: LANGUAGES,
+            languageSearchValue: ""
+        });
+    }
+
     handleTextFieldChange(event) {
-        console.log("Text field change value");
-        console.log("Native Event: ", event.nativeEvent);
-        let value = this.refs.languageSearch.getValue().toLowerCase();
+        let value = event.target.value;
+        this.setState({languageSearchValue: value});
+        value = value.toLowerCase();
         let languages = LANGUAGES.filter((langObj, i) => {
             let langStr = langObj.name.toLowerCase();
             return value === langStr.slice(0, value.length);
@@ -34,6 +45,10 @@ class LeftLanguageSelectNav extends React.Component {
 
     handleMenuChange(open, reason) {
         this.props.toggleLanguageSelect(open);
+        if (!open) {
+            // Reset Data upon closing menu
+            this.resetState();
+        }
     }
 
     render() {
@@ -46,8 +61,8 @@ class LeftLanguageSelectNav extends React.Component {
                 open={languageSelectOpen}
                 onRequestChange={this.handleMenuChange.bind(this)}
                 >
-                <TextField ref="languageSearch" onChange={this.handleTextFieldChange.bind(this)}/>
-                <MenuItem ref="testItem">TEST LANGUAGE 18</MenuItem>
+                <TextField ref="languageSearch" value={this.state.languageSearchValue} onChange={this.handleTextFieldChange.bind(this)}/>
+                <MenuItem ref="testItem">TEST LANGUAGE 24</MenuItem>
                 {this.state.languages.map((language, i) =>
                     <MenuItem onTouchTap={this.handleLanguageClick.bind(this, i)} key={i}>{language.name}</MenuItem>
                 )}
