@@ -45,7 +45,6 @@ class CodeEditor extends React.Component{
             this.loadLanguage(newLang);
         }
         this.codeMirror.setOption("value", newCode);
-
     }
 
     render() {

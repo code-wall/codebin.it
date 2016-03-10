@@ -124,6 +124,12 @@ class LeftLanguageSelectNav extends React.Component {
         }
     }
 
+    componentWillReceiveProps() {
+        console.log("componenet received props");
+        this.refs.languageSearch.focus();
+        console.log(this.refs.languageSearch);
+    }
+
     render() {
         const {languageSelectOpen} = this.props;
         const languages = this.languages;
@@ -137,7 +143,7 @@ class LeftLanguageSelectNav extends React.Component {
                 <TextField ref="languageSearch" value={this.state.languageSearchValue}
                            onKeyDown={this.handleKeyDown.bind(this)}
                            onChange={this.handleTextFieldChange.bind(this)}/>
-                <MenuItem ref="testItem">TEST LANGUAGE 37</MenuItem>
+                <MenuItem ref="testItem">TEST LANGUAGE 40</MenuItem>
                 {this.state.languages.map((language, i) =>
                     <MenuItem onTouchTap={this.handleLanguageClick.bind(this, i)} key={i} ref={langBtnRef + i}>
                         {language.name}
