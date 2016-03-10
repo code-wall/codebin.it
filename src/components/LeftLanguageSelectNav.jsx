@@ -138,12 +138,10 @@ class LeftLanguageSelectNav extends React.Component {
                 docked={false}
                 width={200}
                 open={languageSelectOpen}
-                onRequestChange={this.handleMenuChange.bind(this)}
-                >
+                onRequestChange={this.handleMenuChange.bind(this)} >
                 <TextField ref="languageSearch" value={this.state.languageSearchValue}
                            onKeyDown={this.handleKeyDown.bind(this)}
                            onChange={this.handleTextFieldChange.bind(this)}/>
-                <MenuItem ref="testItem">TEST LANGUAGE 40</MenuItem>
                 {this.state.languages.map((language, i) =>
                     <MenuItem onTouchTap={this.handleLanguageClick.bind(this, i)} key={i} ref={langBtnRef + i}>
                         {language.name}
