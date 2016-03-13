@@ -6,9 +6,25 @@ import Footer from "../components/Footer.jsx";
 import CodeEditor from "../components/CodeEditor.jsx";
 import LeftLanguageSelectNav from "../components/LeftLanguageSelectNav.jsx";
 
+// Theme imports
+import mui from 'material-ui';
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import CodeBinTheme from "../constants/theme.js";
+
 import * as Actions from '../actions';
 
 class App extends Component {
+
+    static childContextTypes = {
+        muiTheme: React.PropTypes.object
+    };
+    
+    getChildContext() {
+        return {
+            muiTheme: ThemeManager.getMuiTheme(CodeBinTheme)
+        };
+    }
+
     render() {
         const { snippet, actions, ui } = this.props;
         return (

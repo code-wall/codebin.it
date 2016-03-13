@@ -125,9 +125,10 @@ class LeftLanguageSelectNav extends React.Component {
     }
 
     componentWillReceiveProps() {
-        console.log("componenet received props");
-        this.refs.languageSearch.focus();
-        console.log(this.refs.languageSearch);
+        setTimeout(() => {
+            console.log("With timeout");
+            this.refs.languageSearch.focus();
+        }, 100);
     }
 
     render() {
@@ -136,16 +137,19 @@ class LeftLanguageSelectNav extends React.Component {
         return (
             <LeftNav
                 docked={false}
-                width={200}
+                width={240}
                 open={languageSelectOpen}
-                onRequestChange={this.handleMenuChange.bind(this)} >
-                <TextField ref="languageSearch" value={this.state.languageSearchValue}
-                           onKeyDown={this.handleKeyDown.bind(this)}
-                           onChange={this.handleTextFieldChange.bind(this)}/>
+                onRequestChange={this.handleMenuChange.bind(this)}>
+                <div style={{leftPadding:"10px", rightPadding:"10px"}}>
+                    <TextField ref="languageSearch" value={this.state.languageSearchValue}
+                               fullWidth={true}
+                               onKeyDown={this.handleKeyDown.bind(this)}
+                               onChange={this.handleTextFieldChange.bind(this)}/>
+                </div>
                 {this.state.languages.map((language, i) =>
-                    <MenuItem onTouchTap={this.handleLanguageClick.bind(this, i)} key={i} ref={langBtnRef + i}>
-                        {language.name}
-                    </MenuItem>
+                        <MenuItem onTouchTap={this.handleLanguageClick.bind(this, i)} key={i} ref={langBtnRef + i}>
+                            {language.name}
+                        </MenuItem>
                 )}
             </LeftNav>
         );
