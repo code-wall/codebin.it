@@ -42,9 +42,6 @@ class LeftLanguageSelectNav extends React.Component {
     }
 
     handleTextFieldChange(event) {
-        console.log("EVENT: ", event);
-        console.log("Native Event: ", event.nativeEvent);
-        console.log("Event Type: ", event.type);
         let value = event.target.value;
         this.setState({languageSearchValue: value});
         value = value.toLowerCase();
@@ -59,7 +56,6 @@ class LeftLanguageSelectNav extends React.Component {
     }
 
     handleKeyDown(event) {
-        console.log("Highlighted Lang: ", this.highlightedLan);
         switch (event.keyCode) {
             case 13:
                 // Enter Pressed
@@ -74,7 +70,6 @@ class LeftLanguageSelectNav extends React.Component {
                 this.highlightLanguage(this.highlightedLan === null ? 0 : this.highlightedLan + 1);
                 break;
         }
-        console.log("Key code", event.keyCode);
     }
 
     
@@ -111,7 +106,6 @@ class LeftLanguageSelectNav extends React.Component {
         
         // Set the new state of what is highlighted
         this.highlightedLan = newHighLighted;
-        console.log("New Highlighed: ", this.highlightedLan);
     }
 
 
@@ -126,7 +120,6 @@ class LeftLanguageSelectNav extends React.Component {
 
     componentWillReceiveProps() {
         setTimeout(() => {
-            console.log("With timeout");
             this.refs.languageSearch.focus();
         }, 100);
     }

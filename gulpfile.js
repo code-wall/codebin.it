@@ -19,7 +19,6 @@ let serverPID = null;
 
 gulp.task("build-sources", function () {
     let isProduction = process.env.isProduction === "true";
-    console.log("IS PRODUCTION: ", isProduction);
     return browserify({entries: "./src/app.jsx", extensions: [".jsx"], debug: true})
         .transform("babelify", {presets: ["es2015", "react", "stage-1"], plugins: ["transform-decorators-legacy"]})
         .bundle()
