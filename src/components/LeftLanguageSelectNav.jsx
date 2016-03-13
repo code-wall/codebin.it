@@ -140,7 +140,7 @@ class LeftLanguageSelectNav extends React.Component {
                 width={240}
                 open={languageSelectOpen}
                 onRequestChange={this.handleMenuChange.bind(this)}>
-                <div style={{leftPadding:"10px", rightPadding:"10px"}}>
+                <div style={{marginLeft:"10px", marginRight:"10px", overflow:"hidden"}}>
                     <TextField ref="languageSearch" value={this.state.languageSearchValue}
                                fullWidth={true}
                                onKeyDown={this.handleKeyDown.bind(this)}
