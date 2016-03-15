@@ -4,6 +4,7 @@ import "time"
 
 // Repository - interface
 type Repository interface {
+	Connect(connectionString string)
 	FindByID(id string) (Snippet, error)
 	Insert(data Snippet) (string, error)
 }
@@ -19,6 +20,6 @@ type Snippet interface {
 // Default - Returns the current default Repository database
 func Default(connectionString string) Repository {
 	m := new(mongoDatabase)
-	m.connectString = connectionString
+	m.Connect(connectionString)
 	return m
 }
