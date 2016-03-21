@@ -117,7 +117,6 @@ gulp.task("run-server", function(done) {
 gulp.task("develop", [], function (done) {
     process.env.isProduction = false;
     return sequence(
-        "build-server",
         [
             "build-html",
             "build-css",
@@ -127,7 +126,6 @@ gulp.task("develop", [], function (done) {
             "watch-less",
             "watch-html"
         ],
-        "run-server",
         done
     );
 });

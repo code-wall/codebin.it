@@ -14,15 +14,20 @@ class CodeEditor extends React.Component{
             lineNumbers: true,
             readOnly   : false,
             mode       : snippet.language.toLowerCase(),
-            theme      : "solarized dark"
+            theme      : "solarized dark",
         };
+        console.log("Codemirror Options: ");
+        console.log(options);
         this.codeMirror = CodeMirror.fromTextArea(textareaNode, options);
         this.loadLanguage(snippet.language.toLowerCase());
-        //this.codeMirror.on('change', this.codemirrorValueChanged);
-        //this.codeMirror.on('focus', this.focusChanged.bind(this, true));
-        //this.codeMirror.on('blur', this.focusChanged.bind(this, false));
-        //this._currentCodemirrorValue = this.props.defaultValue || this.props.value || '';
-        //this.codeMirror.setValue(this._currentCodemirrorValue);
+        this.codeMirror.on('blur', this.focusChanged.bind(this));
+    }
+
+    focusChanged(codemirrorObj) {
+        let codemirrorVal = this.codeMirror.getValue();
+        if (this.props.snippet.code != codemirrorVal) {
+            this.props.setCode(codemirrorVal);
+        }
     }
 
     loadLanguage(language) {
@@ -44,13 +49,21 @@ class CodeEditor extends React.Component{
         if (this.currentLanguage && this.currentLanguage != newLang) {
             this.loadLanguage(newLang);
         }
-        this.codeMirror.setOption("value", newCode);
+        if (this.codeMirror.getValue() !== newCode) {
+            this.codeMirror.setOption("value", newCode);
+        }
+        this.codeMirror.focus();
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.codeMirror.getValue() !== nextProps.snippet.code;
     }
 
     render() {
+        console.log("RE Rendering");
         return (
             <div className="editorContainer">
-                <textarea ref="textarea" name={this.props.path} defaultValue={this.props.snippet.code} autoComplete="off"/>
+                <textarea ref="textarea" defaultValue={this.props.snippet.code}/>
             </div>
         );
     }
@@ -59,7 +72,9 @@ class CodeEditor extends React.Component{
 }
 
 CodeEditor.propTypes = {
-    snippet: React.PropTypes.object.isRequired
+    snippet: React.PropTypes.object.isRequired,
+    setCode: React.PropTypes.func.isRequired
+
 };
 
 export default CodeEditor;

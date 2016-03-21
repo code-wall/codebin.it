@@ -28,7 +28,6 @@ func main() {
 
 	r.HandleFunc("/", indexHandler)
 	r.PathPrefix("/dist/").Handler(createStaticHandler("/dist/", "./dist/"))
-	r.PathPrefix("/node_modules/").Handler(createStaticHandler("/node_modules/", "./node_modules/"))
 	r.HandleFunc("/save", api.SaveSnippet)
 	r.HandleFunc("/snippet/{id}", api.GetSnippet)
 	http.ListenAndServe(":"+conf.Port, CSRF(r))

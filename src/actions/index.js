@@ -1,7 +1,13 @@
+import * as queryString from "query-string";
+import fetch from 'isomorphic-fetch'
+
 import * as types from "../constants/ActionTypes";
+import * as config from "../constants/config.js";
+
 
 
 export function setCode(code) {
+    console.log("Setting Code ACTION: ", code);
     return {type: types.SET_CODE, code: code};
 }
 
@@ -13,29 +19,56 @@ export function toggleLanguageSelect(open) {
     return {type: types.TOGGLE_LANGUAGE_SECLECT, open: open}
 }
 
-export function loadLanguage(language) {
-    return (dispatch, getState) => {
+function setAppFullyLoaded() {
+    return {type: types.SET_APP_FULLY_LOADED};
+}
 
-        console.log("Loading language");
-        let loadDir = "codemirror/mode/";
-        let langInfo = CodeMirror.findModeByName(language);
-        let mode = langInfo.mode;
-        let langMime = langInfo.mime;
-        //if (!CodeMirror.modes.hasOwnProperty(mode)) {
-        //    CodeMirror.requireMode(mode, function() {
-        //        console.log("SUCCESFFUULY LOASED MODE LIB");
-        //        dispatch(setLanguage(langMime));
-        //    });
-        //}
-        //console.log("Language: ", language);
-        //console.log("Mode:", language);
-        //console.log("Mime: ", langMime);
-        //System.import(loadDir + mode + "/" + mode).then(function(m) {
-        //    console.log("SUCCESFFUULY LOASED LIB");
-        //    console.log(m);
-        //    console.log("Codemirror Mode 1: ", CodeMirror.modes);
-        //    dispatch(setLanguage(langMime));
-        //});
-        dispatch(setLanguage(language));
+export function saveSnippet() {
+    return (dispatch, getState) => {
+        console.log("Current STATE:", getState());
+        console.log("Last Saved Snippet: ", getState().snippet.savedSnippet);
+        let codeToSave = getState().snippet.code;
+        let lastSaved = getState().snippet.savedSnippet;
+        if (codeToSave != lastSaved) {
+            console.log("We have some new code to save");
+        } else {
+            console.log("Code is already saved. Lets just open the modal");
+        }
+    }
+}
+
+
+export function loadApplication() {
+    return (dispatch, getState) => {
+        console.log("Checking for code from server!!");
+        let queryParams = queryString.parse(location.search);
+        if (queryParams.hasOwnProperty(config.SNIPPET_QUERY_PARAM)) {
+            let snippetID = queryParams[config.SNIPPET_QUERY_PARAM];
+            // Lets attempt to fetch the snippet from the backend
+            return fetch("/snippet/" + snippetID)
+                .then(response => response.json())
+                .then(json => {
+                    console.log("Response from snippet");
+                    if (json.status === config.RESPONSE_ERROR_STATUS) {
+                        throw json.message;
+                    } else {
+                        return Promise.resolve(json.response);
+                    }
+                })
+                .then(resp => {
+                    dispatch(setCode(resp.snippet));
+                    dispatch(setLanguage(resp.language));
+                    dispatch(setAppFullyLoaded());
+                })
+                .catch(err => {
+                    console.log("Error retrieving snippet!!!");
+                    dispatch(setCode(config.SNIPPET_NOT_FOUND));
+                    dispatch(setAppFullyLoaded());
+                });
+
+        } else {
+            dispatch(setAppFullyLoaded());
+        }
+
     }
 }

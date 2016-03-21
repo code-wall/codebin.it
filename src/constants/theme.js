@@ -17,7 +17,7 @@ export default {
         textColor: Colors.white,
         alternateTextColor: Colors.white,
         canvasColor: "#041B22",
-        borderColor: "#004b56",
+        borderColor: "#004b56"
         //disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3),
         //pickerHeaderColor: Colors.cyan500,
     }

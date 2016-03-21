@@ -5,7 +5,8 @@ export default class Footer extends React.Component {
      * Temporary method to set the code via the code action
      */
     handleSetCode() {
-        this.props.setCode("Temporary code added through flux architecture")
+        //this.props.setCode("Temporary code added through flux architecture")
+        this.props.saveSnippet();
     }
 
     handleOpenLanguageSelect() {
@@ -45,7 +46,7 @@ export default class Footer extends React.Component {
 }
 
 Footer.propTypes = {
-    setCode             : React.PropTypes.func.isRequired,
+    saveSnippet         : React.PropTypes.func.isRequired,
     toggleLanguageSelect: React.PropTypes.func.isRequired,
     language            : React.PropTypes.string.isRequired
 };

@@ -25,28 +25,40 @@ class App extends Component {
         };
     }
 
+    componentDidMount(){
+        this.props.actions.loadApplication();
+    }
+
     render() {
-        const { snippet, actions, ui } = this.props;
-        return (
-            <div>
-                <CodeEditor snippet={snippet} />
-                <Footer toggleLanguageSelect={actions.toggleLanguageSelect} setCode={actions.setCode} language={snippet.language}/>
-                <LeftLanguageSelectNav languageSelectOpen={ui.languageSelectOpen} setLanguage={actions.setLanguage} toggleLanguageSelect={actions.toggleLanguageSelect}/>
-            </div>
-        )
+        const { snippet, actions, ui, loading } = this.props;
+        if (!loading.appFullyLoaded) {
+            return <div><h1>App is loading</h1></div>
+        } else {
+            return (
+                <div>
+                    <CodeEditor snippet={snippet} setCode={actions.setCode}/>
+                    <Footer toggleLanguageSelect={actions.toggleLanguageSelect} saveSnippet={actions.saveSnippet}
+                            language={snippet.language}/>
+                    <LeftLanguageSelectNav languageSelectOpen={ui.languageSelectOpen} setLanguage={actions.setLanguage}
+                                           toggleLanguageSelect={actions.toggleLanguageSelect}/>
+                </div>
+            )
+        }
     }
 }
 
 App.propTypes = {
     snippet: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    ui     : PropTypes.object.isRequired
+    ui     : PropTypes.object.isRequired,
+    loading: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
     return {
         snippet: state.snippet,
-        ui     : state.ui
+        ui     : state.ui,
+        loading: state.loading
     }
 }
 

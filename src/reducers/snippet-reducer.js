@@ -2,8 +2,9 @@ import * as actions from "../constants/ActionTypes";
 import * as config from "../constants/config.js";
 
 const initialState = {
-    code    : config.DEFAULT_CONTENT,
-    language: config.DEFAULT_LANG
+    code        : config.DEFAULT_CONTENT,
+    language    : config.DEFAULT_LANG,
+    savedSnippet: ""
 };
 
 export default function snippet(state = initialState, action) {
