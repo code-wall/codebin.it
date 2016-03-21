@@ -31,8 +31,9 @@ class App extends Component {
 
     render() {
         const { snippet, actions, ui, loading } = this.props;
+
         if (!loading.appFullyLoaded) {
-            return <div><h1>App is loading</h1></div>
+            return <div className="spinnerContainer"><div><i className="fa fa-circle-o-notch fa-spin fa-5x"></i></div></div>
         } else {
             return (
                 <div>
