@@ -118,10 +118,14 @@ class LeftLanguageSelectNav extends React.Component {
         }
     }
 
-    componentWillReceiveProps() {
-        setTimeout(() => {
-            this.refs.languageSearch.focus();
-        }, 100);
+    componentWillReceiveProps(nextProps) {
+        console.log("LangSelect Open: ", nextProps.languageSelectOpen);
+        if (nextProps.languageSelectOpen) {
+            setTimeout(() => {
+                console.log("Focussing language search");
+                this.refs.languageSearch.focus();
+            }, 100);
+        }
     }
 
     render() {
