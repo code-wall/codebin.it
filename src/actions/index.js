@@ -1,4 +1,3 @@
-import * as queryString from "query-string";
 import fetch from 'isomorphic-fetch'
 
 import * as types from "../constants/ActionTypes";
@@ -11,15 +10,20 @@ export function setCode(code) {
     return {type: types.SET_CODE, code: code};
 }
 
+
+//export function setSnippetClearOnEdit(clear) {
+//    return
+//}
+
 export function setLanguage(language) {
     return {type: types.SET_LANGUAGE, language: language};
 }
 
 export function toggleLanguageSelect(open) {
-    return {type: types.TOGGLE_LANGUAGE_SECLECT, open: open}
+    return {type: types.TOGGLE_LANGUAGE_SELECT, open: open}
 }
 
-function setAppFullyLoaded() {
+export function setAppFullyLoaded() {
     return {type: types.SET_APP_FULLY_LOADED};
 }
 
@@ -38,12 +42,11 @@ export function saveSnippet() {
 }
 
 
-export function loadApplication() {
+export function loadApplication(snippetID=null) {
     return (dispatch, getState) => {
         console.log("Checking for code from server!!");
-        let queryParams = queryString.parse(location.search);
-        if (queryParams.hasOwnProperty(config.SNIPPET_QUERY_PARAM)) {
-            let snippetID = queryParams[config.SNIPPET_QUERY_PARAM];
+        if (snippetID) {
+            //let snippetID = queryParams[config.SNIPPET_QUERY_PARAM];
             // Lets attempt to fetch the snippet from the backend
             return fetch("/snippet/" + snippetID)
                 .then(response => response.json())

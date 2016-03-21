@@ -4,7 +4,7 @@ import * as config from "../constants/config.js";
 const initialState = {
     code        : config.DEFAULT_CONTENT,
     language    : config.DEFAULT_LANG,
-    savedSnippet: ""
+    savedSnippet: "",
 };
 
 export default function snippet(state = initialState, action) {

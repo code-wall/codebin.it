@@ -1,17 +1,20 @@
-import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import React, { Component, PropTypes } from "react"
+import { bindActionCreators } from "redux"
+import { connect } from "react-redux"
+import * as queryString from "query-string";
+
 
 import Footer from "../components/Footer.jsx";
 import CodeEditor from "../components/CodeEditor.jsx";
 import LeftLanguageSelectNav from "../components/LeftLanguageSelectNav.jsx";
+import * as config from "../constants/config.js";
+import * as Actions from "../actions";
 
 // Theme imports
-import mui from 'material-ui';
-import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import mui from "material-ui";
+import ThemeManager from "material-ui/lib/styles/theme-manager";
 import CodeBinTheme from "../constants/theme.js";
 
-import * as Actions from '../actions';
 
 class App extends Component {
 
@@ -26,7 +29,12 @@ class App extends Component {
     }
 
     componentDidMount(){
-        this.props.actions.loadApplication();
+        let queryParams = queryString.parse(location.search);
+        let snippetID = null;
+        if (queryParams.hasOwnProperty(config.SNIPPET_QUERY_PARAM)) {
+            snippetID = queryParams[config.SNIPPET_QUERY_PARAM];
+        }
+        this.props.actions.loadApplication(snippetID);
     }
 
     render() {

@@ -7,7 +7,7 @@ const initialState = {
 
 export default function ui(state = initialState, action) {
     switch (action.type) {
-        case actions.TOGGLE_LANGUAGE_SECLECT:
+        case actions.TOGGLE_LANGUAGE_SELECT:
             return {
                 languageSelectOpen: action.open,
             };
