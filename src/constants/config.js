@@ -50,3 +50,7 @@ export const KEYBOARD_KEY = Object.freeze({
     QUESTION_MARK: 191
 
 });
+
+export const ENDPOINTS = {
+
+}

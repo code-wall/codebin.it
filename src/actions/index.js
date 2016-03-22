@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch'
+import 'whatwg-fetch';
 
 import * as types from "../constants/ActionTypes";
 import * as config from "../constants/config.js";
@@ -52,6 +52,7 @@ export function loadApplication(snippetID=null) {
                 .then(response => response.json())
                 .then(json => {
                     console.log("Response from snippet");
+                    console.log(json);
                     if (json.status === config.RESPONSE_ERROR_STATUS) {
                         throw json.message;
                     } else {
@@ -65,6 +66,7 @@ export function loadApplication(snippetID=null) {
                 })
                 .catch(err => {
                     console.log("Error retrieving snippet!!!");
+                    console.log(err);
                     dispatch(setCode(config.SNIPPET_NOT_FOUND));
                     dispatch(setAppFullyLoaded());
                 });

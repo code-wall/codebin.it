@@ -2,17 +2,20 @@ import expect from "expect"
 import nock from "nock";
 import thunk from 'redux-thunk'
 import configureMockStore from 'redux-mock-store'
+import "isomorphic-fetch";
+import fetchMock from "fetch-mock";
+
 
 import * as actions from "../src/actions/index.js"
 import * as types from "../src/constants/ActionTypes"
 
-const middlewares = [ thunk ];
+const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe("actions", () => {
 
     afterEach(() => {
-        nock.cleanAll()
+        fetchMock.restore();
     });
 
     it("Should set the code", () => {
@@ -49,26 +52,37 @@ describe("actions", () => {
         expect(actions.setAppFullyLoaded()).toEqual(expectedAction);
     });
 
-    //it('creates SET_APP_FULLY_LOADED when loading application has been done', (done) => {
-    //    let snippetId = "test-id";
-    //    nock('http://localhost:888/')
-    //        .get('/snippet/' + snippetId)
-    //        .reply(200, {
-    //            body: {
-    //                status: "success", response: {
-    //                    snippet : "function() console.log('hello'",
-    //                    language: "javascript"
-    //                }
-    //            }
-    //        });
-    //
-    //    const expectedActions = [
-    //        { type: types.SET_LANGUAGE, language: "javascript" },
-    //        { type: types.setCode, code:  "function() console.log('hello'"}
-    //    ];
-    //    const store = mockStore({ todos: [] }, expectedActions, done);
-    //    store.dispatch(actions.loadApplication());
-    //})
+    it('creates SET_APP_FULLY_LOADED when loading application has been done', (done) => {
+        let snippetId = "test-id";
+
+        let getSnippetURL = "/snippet/" + snippetId;
+        let snippet = "hello";
+        let language = "javascript";
+        fetchMock
+            .mock(getSnippetURL, {
+                body: {
+                    status  : "success",
+                    response: {
+                        "snippet" : snippet,
+                        "language": language
+                    }
+                }
+            });
+
+        const store = mockStore({});
+        store.dispatch(actions.loadApplication(snippetId))
+            .then(() => {
+                expect(fetchMock.called(getSnippetURL)).toEqual(true, "wrong url called");
+                let expectedActions = [
+                    actions.setCode(snippet),
+                    actions.setLanguage(language),
+                    actions.setAppFullyLoaded()
+                ];
+                expect(store.getActions()).toEqual(expectedActions, "expected actions do not match");
+            })
+            .then(done)
+            .catch(done);
+    });
 
 
 });
