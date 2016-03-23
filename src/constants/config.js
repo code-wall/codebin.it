@@ -53,3 +53,8 @@ export const KEYBOARD_KEY = Object.freeze({
 
 export const CSRF_TOKEN = (typeof document !== 'undefined' && document.getElementById('token').value) || null;
 
+/**
+ * Variable exposed for testing purposes
+ * In production it will always be an empty string
+ */
+export const ROOT_HOST = "";

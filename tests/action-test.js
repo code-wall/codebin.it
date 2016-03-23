@@ -6,8 +6,9 @@ import "isomorphic-fetch";
 import fetchMock from "fetch-mock";
 
 
-import * as actions from "../src/actions/index.js"
-import * as types from "../src/constants/ActionTypes"
+import * as actions from "../src/actions/index.js";
+import * as types from "../src/constants/ActionTypes";
+import * as config from "../src/constants/config.js";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -83,6 +84,49 @@ describe("actions", () => {
             .then(done)
             .catch(done);
     });
+
+
+    // TODO fix this test!!
+    it("Should save a snippet correctly", function(done) {
+        config.ROOT_HOST = "http://0.0.0.0";
+        console.log("inside test root host: ", config.ROOT_HOST);
+        let saveSnippetURL = config.ROOT_HOST + "/save";
+        let code = "test code";
+        let language = "javascript";
+        fetchMock
+            .mock(saveSnippetURL, "POST", {
+                body: {
+                    status  : "ok",
+                    response: {
+                        "snippet" : code,
+                        "language": language,
+                        "id"      : "random-test-id"
+                    }
+                }
+            });
+
+        let store = mockStore({
+            snippet:{
+                code: code,
+                language: language,
+                savedSnippet: ""
+            }});
+
+        store.dispatch(actions.saveSnippet())
+            .then(()=> {
+                expect(fetchMock.called(saveSnippetURL)).toEqual(true, "wrong url called");
+                let expectedActions = [
+                    actions.setSnippetSaving(true),
+                    actions.setSnippetSaving(false)
+                ];
+                expect(store.getActions()).toEqual(expectedActions, "expected actions not called in correct order");
+            })
+            .then(done)
+            .catch(done)
+    });
+
+
+
 
 
 });

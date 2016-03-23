@@ -27,7 +27,8 @@ export function saveSnippet() {
         let language = getState().snippet.language;
         if (codeToSave != lastSaved) {
             dispatch(setSnippetSaving(true));
-            let request = new Request("/save", {
+            console.log("Root Host: ", config.ROOT_HOST);
+            let request = new Request(config.ROOT_HOST + "/save", {
                 method : 'POST',
                 headers: new Headers({
                     'Accept'      : 'application/json',
@@ -39,7 +40,7 @@ export function saveSnippet() {
                 credentials: "include"
             });
 
-            fetch(request)
+            return fetch(request)
                 .then(response => response.json())
                 .then(json => {
                     console.log("Response from snippet");
@@ -64,6 +65,7 @@ export function saveSnippet() {
             // Code Already saved, lets open the modal with the link
             // Or we could show a sign saying that the snippet is already saved
             console.log("Code is already saved. Lets just open the modal");
+            return Promise.resolve();
         }
     }
 }
