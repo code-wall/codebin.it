@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/code-wall/codebin/api"
 	"github.com/gorilla/csrf"
 	"github.com/gorilla/mux"
@@ -26,6 +27,8 @@ func main() {
 		csrf.Secure(!conf.Debug),
 	)
 
+	fmt.Println("DEBUG: ", conf.Debug)
+
 	r.HandleFunc("/", indexHandler)
 	r.PathPrefix("/dist/").Handler(createStaticHandler("/dist/", "./dist/"))
 	r.HandleFunc("/save", api.SaveSnippet)
@@ -41,7 +44,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("X-Xss-Protection", "1; mode=block")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
 	// Temp disable until serving site over https
-//	w.Header().Set("Content-Security-Policy", "script-src 'self' cdnjs.cloudflare.com")
+	//	w.Header().Set("Content-Security-Policy", "script-src 'self' cdnjs.cloudflare.com")
 
 	temps.ExecuteTemplate(w, "index.html", data)
 }

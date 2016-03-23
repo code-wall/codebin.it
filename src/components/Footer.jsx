@@ -16,7 +16,8 @@ export default class Footer extends React.Component {
     }
 
     render() {
-        const { language } = this.props;
+        const { snippet } = this.props;
+        var saveButton;
         return (
             <div className="border-bottom">
                 <div className="logo">
@@ -31,10 +32,10 @@ export default class Footer extends React.Component {
                 </div>
                 <ul className="menu-items">
                     <li id="languageButton" onClick={this.handleOpenLanguageSelect.bind(this)}>
-                        <i className="fa fa-code"></i> <span id="lenguageLabel">{language}</span>
+                        <i className="fa fa-code"></i> <span id="lenguageLabel">{snippet.language}</span>
                     </li>
                     <li id="saveButton" onClick={this.handleSetCode.bind(this)}>
-                        <i className="fa fa-floppy-o"></i> Save
+                        <i className="fa fa-floppy-o"></i> {snippet.saving ? 'Saving' : 'Save'}
                     </li>
                 </ul>
                 <div className="help-control">
@@ -48,5 +49,5 @@ export default class Footer extends React.Component {
 Footer.propTypes = {
     saveSnippet         : React.PropTypes.func.isRequired,
     toggleLanguageSelect: React.PropTypes.func.isRequired,
-    language            : React.PropTypes.string.isRequired
+    snippet             : React.PropTypes.object.isRequired
 };

@@ -47,7 +47,7 @@ class App extends Component {
                 <div>
                     <CodeEditor snippet={snippet} setCode={actions.setCode}/>
                     <Footer toggleLanguageSelect={actions.toggleLanguageSelect} saveSnippet={actions.saveSnippet}
-                            language={snippet.language}/>
+                            snippet={snippet}/>
                     <LeftLanguageSelectNav languageSelectOpen={ui.languageSelectOpen} setLanguage={actions.setLanguage}
                                            toggleLanguageSelect={actions.toggleLanguageSelect}/>
                 </div>
