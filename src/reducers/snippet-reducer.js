@@ -27,12 +27,19 @@ export default function snippet(state = initialState, action=null) {
             };
 
         case actions.SET_SNIPPET_SAVING:
-            console.log("Setting snippet Saving: ", action.saving);
             return {
                 code        : state.code,
                 language    : state.language,
                 savedSnippet: state.savedSnippet,
                 saving      : action.saving
+            };
+
+        case actions.SET_SAVED_SNIPPET:
+            return {
+                code        : state.code,
+                language    : state.language,
+                savedSnippet: action.savedSnippet,
+                saving      : state.saving
             };
 
         default:

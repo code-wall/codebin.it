@@ -15,9 +15,15 @@ const mockStore = configureMockStore(middlewares);
 
 describe("actions", () => {
 
+    beforeEach(() => {
+        config.ROOT_HOST = "http://0.0.0.0";
+    });
+
     afterEach(() => {
         fetchMock.restore();
     });
+
+
 
     it("Should set the code", () => {
         let code = "func() {\n\tfmt.Println(\"hello world\"}";
@@ -35,6 +41,15 @@ describe("actions", () => {
             language: language
         };
         expect(actions.setLanguage(language)).toEqual(expectedAction);
+    });
+
+    it("Should set the saved snippet", ()=> {
+        let savedSnippet = "a saved snippet";
+        let expectedAction = {
+            type        : types.SET_SAVED_SNIPPET,
+            savedSnippet: savedSnippet
+        };
+        expect(actions.setSavedSnippet(savedSnippet)).toEqual(expectedAction);
     });
 
     it("Should toggle language select", () => {
@@ -56,7 +71,7 @@ describe("actions", () => {
     it('creates SET_APP_FULLY_LOADED when loading application has been done', (done) => {
         let snippetId = "test-id";
 
-        let getSnippetURL = "/snippet/" + snippetId;
+        let getSnippetURL = config.ROOT_HOST + "/snippet/" + snippetId;
         let snippet = "hello";
         let language = "javascript";
         fetchMock
@@ -86,9 +101,7 @@ describe("actions", () => {
     });
 
 
-    // TODO fix this test!!
     it("Should save a snippet correctly", function(done) {
-        config.ROOT_HOST = "http://0.0.0.0";
         console.log("inside test root host: ", config.ROOT_HOST);
         let saveSnippetURL = config.ROOT_HOST + "/save";
         let code = "test code";
@@ -117,14 +130,34 @@ describe("actions", () => {
                 expect(fetchMock.called(saveSnippetURL)).toEqual(true, "wrong url called");
                 let expectedActions = [
                     actions.setSnippetSaving(true),
+                    actions.setSavedSnippet(code),
                     actions.setSnippetSaving(false)
                 ];
                 expect(store.getActions()).toEqual(expectedActions, "expected actions not called in correct order");
             })
             .then(done)
-            .catch(done)
+            .catch(done);
     });
 
+    it("Should not try to save", function(done) {
+        let saveSnippetUrl = config.ROOT_HOST + "/save";
+        let code = "test";
+        let language = "test";
+        let store = mockStore({
+            snippet: {
+                code        : code,
+                language    : language,
+                savedSnippet: code
+            }
+        });
+        store.dispatch(actions.saveSnippet())
+            .then(() => {
+                expect(fetchMock.called(saveSnippetUrl)).toEqual(false, "URL should not have been called");
+                expect(store.getActions()).toEqual([], 'should be no actions taking place');
+            })
+            .then(done)
+            .catch(done)
+    });
 
 
 

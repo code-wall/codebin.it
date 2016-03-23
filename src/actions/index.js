@@ -2,6 +2,7 @@ import "whatwg-fetch";
 
 import * as types from "../constants/ActionTypes";
 import * as config from "../constants/config.js";
+import * as api from "../api-endpoints/api.js";
 
 
 
@@ -20,6 +21,10 @@ export function setSnippetSaving(saving=true) {
     return {type: types.SET_SNIPPET_SAVING, saving: saving};
 }
 
+export function setSavedSnippet(snippet) {
+    return {type: types.SET_SAVED_SNIPPET, savedSnippet: snippet};
+}
+
 export function saveSnippet() {
     return (dispatch, getState) => {
         let codeToSave = getState().snippet.code;
@@ -27,40 +32,15 @@ export function saveSnippet() {
         let language = getState().snippet.language;
         if (codeToSave != lastSaved) {
             dispatch(setSnippetSaving(true));
-            console.log("Root Host: ", config.ROOT_HOST);
-            let request = new Request(config.ROOT_HOST + "/save", {
-                method : 'POST',
-                headers: new Headers({
-                    'Accept'      : 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                }),
-                body: "language="+ encodeURIComponent(language) +
-                "&snippet=" + encodeURIComponent(codeToSave) +
-                "&request_token=" + encodeURIComponent(config.CSRF_TOKEN),
-                credentials: "include"
-            });
-
-            return fetch(request)
-                .then(response => response.json())
-                .then(json => {
-                    console.log("Response from snippet");
-                    console.log(json);
-                    if (json.status === config.RESPONSE_ERROR_STATUS) {
-                        throw json.message;
-                    } else {
-                        return Promise.resolve(json.response);
-                    }
-                })
+            return api.saveSnippet(codeToSave, language)
                 .then(resp => {
                     console.log("Successfully saved snippet. ID: ", resp.id);
+                    dispatch(setSavedSnippet(resp.snippet));
                     dispatch(setSnippetSaving(false));
                 })
                 .catch(err => {
-                    console.log("Error in request: ", err)
+                    console.log("Error saving snippet ", err)
                 });
-
-
-
         } else {
             // Code Already saved, lets open the modal with the link
             // Or we could show a sign saying that the snippet is already saved
@@ -89,17 +69,7 @@ export function loadApplication(snippetID=null) {
         console.log("Checking for code from server!!");
         if (snippetID) {
             // Lets attempt to fetch the snippet from the backend
-            return fetch("/snippet/" + snippetID)
-                .then(response => response.json())
-                .then(json => {
-                    console.log("Response from saving snippet");
-                    console.log(json);
-                    if (json.status === config.RESPONSE_ERROR_STATUS) {
-                        throw json.message;
-                    } else {
-                        return Promise.resolve(json.response);
-                    }
-                })
+            return api.getSnippet(snippetID)
                 .then(resp => {
                     dispatch(setCode(resp.snippet));
                     dispatch(setLanguage(resp.language));

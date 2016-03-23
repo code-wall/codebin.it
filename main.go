@@ -27,8 +27,6 @@ func main() {
 		csrf.Secure(!conf.Debug),
 	)
 
-	fmt.Println("DEBUG: ", conf.Debug)
-
 	r.HandleFunc("/", indexHandler)
 	r.PathPrefix("/dist/").Handler(createStaticHandler("/dist/", "./dist/"))
 	r.HandleFunc("/save", api.SaveSnippet)
