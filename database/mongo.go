@@ -7,23 +7,21 @@ import (
 
 type mongoDatabase struct {
 	session       *mgo.Session
-	connectString string
 }
 
-func (md *mongoDatabase) connect() *mgo.Session {
+func (md *mongoDatabase) Connect(connectionString string) {
 	if md.session == nil {
 		var err error
-		md.session, err = mgo.Dial(md.connectString)
+		md.session, err = mgo.Dial(connectionString)
 		if err != nil {
 			panic(err)
 		}
 		md.session.SetMode(mgo.Monotonic, true)
 	}
-	return md.session
 }
 
 func (md *mongoDatabase) FindByID(id string) (sc Snippet, err error) {
-	s := md.connect().Copy()
+	s := md.session.Copy()
 	defer s.Close()
 	c := s.DB("").C("snippets")
 	result := mongoResult{}
@@ -33,7 +31,7 @@ func (md *mongoDatabase) FindByID(id string) (sc Snippet, err error) {
 }
 
 func (md *mongoDatabase) Insert(data Snippet) (id string, err error) {
-	s := md.connect().Copy()
+	s := md.session.Copy()
 	defer s.Close()
 	c := s.DB("").C("snippets")
 	result := newResult(data)
