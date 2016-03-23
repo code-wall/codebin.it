@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/code-wall/codebin/api"
 	"github.com/gorilla/csrf"
 	"github.com/gorilla/mux"
