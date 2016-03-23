@@ -51,5 +51,5 @@ export const KEYBOARD_KEY = Object.freeze({
 
 });
 
-export const CSRF_TOKEN = document.getElementById('token').value;
+export const CSRF_TOKEN = (typeof document !== 'undefined' && document.getElementById('token').value) || null;
 
