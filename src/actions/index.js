@@ -25,6 +25,10 @@ export function setSavedSnippet(snippet) {
     return {type: types.SET_SAVED_SNIPPET, savedSnippet: snippet};
 }
 
+export function setClearOnFocus(clearOnFocus) {
+    return {type: types.SET_CLEAR_ON_FOCUS, clearOnFocus: clearOnFocus};
+}
+
 export function saveSnippet() {
     return (dispatch, getState) => {
         let codeToSave = getState().snippet.code;
@@ -75,6 +79,7 @@ export function loadApplication(snippetID=null) {
                 .then(resp => {
                     dispatch(setCode(resp.snippet));
                     dispatch(setLanguage(resp.language));
+                    dispatch(setClearOnFocus(false));
                     dispatch(setAppFullyLoaded());
                 })
                 .catch(err => {

@@ -5,7 +5,8 @@ const initialState = {
     code        : config.DEFAULT_CONTENT,
     language    : config.DEFAULT_LANG,
     savedSnippet: "",
-    saving      : false
+    saving      : false,
+    clearOnFocus: true,
 };
 
 export default function snippet(state = initialState, action=null) {
@@ -15,7 +16,8 @@ export default function snippet(state = initialState, action=null) {
                 code        : action.code,
                 language    : state.language,
                 savedSnippet: state.savedSnippet,
-                saving      : state.saving
+                saving      : state.saving,
+                clearOnFocus: state.clearOnFocus
             };
 
         case actions.SET_LANGUAGE:
@@ -23,7 +25,8 @@ export default function snippet(state = initialState, action=null) {
                 code        : state.code,
                 language    : action.language,
                 savedSnippet: state.savedSnippet,
-                saving      : state.saving
+                saving      : state.saving,
+                clearOnFocus: state.clearOnFocus
             };
 
         case actions.SET_SNIPPET_SAVING:
@@ -31,7 +34,8 @@ export default function snippet(state = initialState, action=null) {
                 code        : state.code,
                 language    : state.language,
                 savedSnippet: state.savedSnippet,
-                saving      : action.saving
+                saving      : action.saving,
+                clearOnFocus: state.clearOnFocus
             };
 
         case actions.SET_SAVED_SNIPPET:
@@ -39,7 +43,17 @@ export default function snippet(state = initialState, action=null) {
                 code        : state.code,
                 language    : state.language,
                 savedSnippet: action.savedSnippet,
-                saving      : state.saving
+                saving      : state.saving,
+                clearOnFocus: state.clearOnFocus
+            };
+        case actions.SET_CLEAR_ON_FOCUS:
+            console.log("Setting clear on Focus", action.clearOnFocus);
+            return {
+                code        : state.code,
+                language    : state.language,
+                savedSnippet: state.savedSnippet,
+                saving      : state.saving,
+                clearOnFocus: action.clearOnFocus
             };
 
         default:

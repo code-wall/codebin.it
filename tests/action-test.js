@@ -52,6 +52,16 @@ describe("actions", () => {
         expect(actions.setSavedSnippet(savedSnippet)).toEqual(expectedAction);
     });
 
+
+    it("Should set clear on focus to false", () => {
+        let clearOnFocus = false;
+        let expectedAction = {
+            type: types.SET_CLEAR_ON_FOCUS,
+            clearOnFocus: clearOnFocus
+        };
+        expect(actions.setClearOnFocus(clearOnFocus)).toEqual(expectedAction);
+    });
+
     it("Should toggle language select", () => {
         let open = false;
         let expectedAction = {
@@ -60,6 +70,7 @@ describe("actions", () => {
         };
         expect(actions.toggleLanguageSelect(open)).toEqual(expectedAction);
     });
+
 
     it("Should set the app state to fully loaded", () => {
         let expectedAction = {
@@ -92,6 +103,7 @@ describe("actions", () => {
                 let expectedActions = [
                     actions.setCode(snippet),
                     actions.setLanguage(language),
+                    actions.setClearOnFocus(false),
                     actions.setAppFullyLoaded()
                 ];
                 expect(store.getActions()).toEqual(expectedActions, "expected actions do not match");

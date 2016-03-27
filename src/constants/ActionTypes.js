@@ -9,7 +9,7 @@ export const SET_SNIPPET_SAVING = "SET_SNIPPET_SAVING";
 
 export const SET_SAVED_SNIPPET = "SET_SAVED_SNIPPET";
 
-export const SET_SNIPPET_CLEAR_ON_EDIT = "SET_SNIPPET_CLEAR_ON_EDIT";
+export const SET_CLEAR_ON_FOCUS = "SET_CLEAR_ON_FOCUS";
 
 
 // ===== UI Action types ===========
