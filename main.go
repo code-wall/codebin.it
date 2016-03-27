@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/code-wall/codebin/api"
+	"github.com/code-wall/codebin.it/api"
 	"github.com/gorilla/csrf"
 	"github.com/gorilla/mux"
 	"net/http"

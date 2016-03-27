@@ -5,7 +5,7 @@
 # Build
 dist/
 views/
-codebin
+codebin.it
 
 # Node
 *.log
