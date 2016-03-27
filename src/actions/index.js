@@ -37,6 +37,8 @@ export function saveSnippet() {
                     console.log("Successfully saved snippet. ID: ", resp.id);
                     dispatch(setSavedSnippet(resp.snippet));
                     dispatch(setSnippetSaving(false));
+                    // Set the URL path
+                    window.history.pushState("", "", "?" + config.SNIPPET_QUERY_PARAM + "=" + resp.id);
                 })
                 .catch(err => {
                     console.log("Error saving snippet ", err)
