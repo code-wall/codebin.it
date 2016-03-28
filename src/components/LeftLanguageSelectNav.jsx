@@ -27,7 +27,7 @@ class LeftLanguageSelectNav extends React.Component {
         let parser = new DOMParser();
         for (let language of LANGUAGES) {
             if (language.hasOwnProperty("iconKey") && language.hasOwnProperty("iconVersion")) {
-                fetch("https://raw.githubusercontent.com/konpa/devicon/master/icons/"+language.iconKey+"/"+language.iconKey+"-"+language.iconVersion+".svg")
+                fetch("https://raw.githubusercontent.com/konpa/devicon/master/icons/" + language.iconKey + "/" + language.iconKey + "-" + language.iconVersion + ".svg")
                     .then(response => response.text())
                     .then(text => {
                         let svgDoc = parser.parseFromString(text, "image/svg+xml");
@@ -149,21 +149,9 @@ class LeftLanguageSelectNav extends React.Component {
     }
 
     setInnerHtml(str) {
-        return { __html: str}
+        return {__html: str}
     }
-    renderMenuItem(language, i) {
-        console.log("SVG: svgIcon: ", language.svgIcon);
-        if (language.hasOwnProperty('svgIcon')) {
-            return (
-                <MenuItem onTouchTap={this.handleLanguageClick.bind(this, i)}
-                          key={i}
-                          ref={langBtnRef + i}
-                          rightIcon={<svg viewBox="0 0 128 128" dangerouslySetInnerHTML={this.setInnerHtml(language.svgIcon)}/>}>
-                    {language.name}
-                </MenuItem>
-            );
-        }
-    }
+
 
     render() {
         const {languageSelectOpen} = this.props;
@@ -182,12 +170,14 @@ class LeftLanguageSelectNav extends React.Component {
                                onChange={this.handleTextFieldChange.bind(this)}/>
                 </div>
                 {this.state.languages.map((language, i) => {
-                    <MenuItem onTouchTap={this.handleLanguageClick.bind(this, i)}
-                              key={i}
-                              ref={langBtnRef + i}
-                              rightIcon={<svg viewBox="0 0 128 128" dangerouslySetInnerHTML={this.setInnerHtml(language.svgIcon)}/>}>
-                        {language.name}
-                    </MenuItem>
+                    return (
+                        <MenuItem onTouchTap={this.handleLanguageClick.bind(this, i)}
+                                  key={i}
+                                  ref={langBtnRef + i}
+                                  rightIcon={<svg viewBox="0 0 128 128" dangerouslySetInnerHTML={this.setInnerHtml(language.svgIcon)}/>}>
+                            {language.name}
+                        </MenuItem>
+                    )
                 })}
             </LeftNav>
         );
