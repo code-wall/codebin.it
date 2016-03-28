@@ -5,15 +5,19 @@ export default class Footer extends React.Component {
      * Temporary method to set the code via the code action
      */
     handleSetCode() {
-        this.props.setCode("Temporary code added through flux architecture")
+        //this.props.setCode("Temporary code added through flux architecture")
+        this.props.saveSnippet();
     }
 
-    handleSetLanguage() {
-        let lang = ["Go", "Python", "Ruby", "PHP", "Java"][Math.floor(Math.random() * 5)];
-        this.props.setLanguage(lang);
+    handleOpenLanguageSelect() {
+        //let lang = ["Go", "Python", "Ruby", "PHP", "Java"][Math.floor(Math.random() * 5)];
+        //this.props.loadLanguage(lang);
+        this.props.toggleLanguageSelect(true);
     }
 
     render() {
+        const { snippet } = this.props;
+        var saveButton;
         return (
             <div className="border-bottom">
                 <div className="logo">
@@ -27,11 +31,11 @@ export default class Footer extends React.Component {
                     </picture>
                 </div>
                 <ul className="menu-items">
-                    <li id="languageButton" onClick={this.handleSetLanguage.bind(this)}>
-                        <i className="fa fa-code"></i> <span id="lenguageLabel">Javascript</span>
+                    <li id="languageButton" onClick={this.handleOpenLanguageSelect.bind(this)}>
+                        <i className="fa fa-code"></i> <span id="lenguageLabel">{snippet.language}</span>
                     </li>
                     <li id="saveButton" onClick={this.handleSetCode.bind(this)}>
-                        <i className="fa fa-floppy-o"></i> Save
+                        <i className="fa fa-floppy-o"></i> {snippet.saving ? 'Saving' : 'Save'}
                     </li>
                 </ul>
                 <div className="help-control">
@@ -43,6 +47,7 @@ export default class Footer extends React.Component {
 }
 
 Footer.propTypes = {
-    setCode    : React.PropTypes.func.isRequired,
-    setLanguage: React.PropTypes.func.isRequired
+    saveSnippet         : React.PropTypes.func.isRequired,
+    toggleLanguageSelect: React.PropTypes.func.isRequired,
+    snippet             : React.PropTypes.object.isRequired
 };

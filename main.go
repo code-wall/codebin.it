@@ -9,11 +9,15 @@ import (
 )
 
 var conf = GetConfig()
-var t = template.New("index")
-var temps = template.Must(t.ParseFiles("./views/index.html"))
+var temps *template.Template
 
 func main() {
 	r := mux.NewRouter()
+
+	// Set template and the delimeters
+	t := template.New("index")
+	t.Delims("<<<", ">>>")
+	temps = template.Must(t.ParseFiles("./views/index.html"))
 
 	CSRF := csrf.Protect(
 		[]byte(conf.CSRFKey),
@@ -36,7 +40,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("X-Frame-Options", "SAMEORIGIN")
 	w.Header().Set("X-Xss-Protection", "1; mode=block")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
-	w.Header().Set("Content-Security-Policy", "script-src 'self' cdnjs.cloudflare.com")
+	// Temp disable until serving site over https
+	//	w.Header().Set("Content-Security-Policy", "script-src 'self' cdnjs.cloudflare.com")
 
 	temps.ExecuteTemplate(w, "index.html", data)
 }

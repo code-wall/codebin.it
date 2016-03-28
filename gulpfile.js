@@ -4,22 +4,31 @@ const gulp = require("gulp");
 const browserify = require("browserify");
 const babelify = require("babelify");
 const source = require("vinyl-source-stream");
+const buffer = require('vinyl-buffer');
 const sequence = require("run-sequence");
 const exec = require("child_process").exec;
 
 // Gulp plugins
-var minifyCss = require("gulp-minify-css");
-var less = require("gulp-less");
+const minifyCss = require("gulp-minify-css");
+const less = require("gulp-less");
+const gulpif = require("gulp-if");
+const uglify = require('gulp-uglify');
+
 
 let serverPID = null;
 
 gulp.task("build-sources", function () {
+    let isProduction = process.env.isProduction === "true";
     return browserify({entries: "./src/app.jsx", extensions: [".jsx"], debug: true})
-        .transform("babelify", {presets: ["es2015", "react"]})
+        .transform("babelify", {presets: ["es2015", "react", "stage-1"], plugins: ["transform-decorators-legacy"]})
         .bundle()
         .pipe(source("bundle.js"))
+        .pipe(buffer())
+        .pipe(gulpif(isProduction, uglify()))
         .pipe(gulp.dest("./dist/js"));
 });
+
+
 
 gulp.task("build-html", [], function () {
     var options = {
@@ -108,7 +117,6 @@ gulp.task("run-server", function(done) {
 gulp.task("develop", [], function (done) {
     process.env.isProduction = false;
     return sequence(
-        "build-server",
         [
             "build-html",
             "build-css",
@@ -118,7 +126,6 @@ gulp.task("develop", [], function (done) {
             "watch-less",
             "watch-html"
         ],
-        "run-server",
         done
     );
 });
