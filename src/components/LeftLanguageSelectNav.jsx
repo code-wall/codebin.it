@@ -27,7 +27,7 @@ class LeftLanguageSelectNav extends React.Component {
         let parser = new DOMParser();
         for (let language of LANGUAGES) {
             if (language.hasOwnProperty("iconKey") && language.hasOwnProperty("iconVersion")) {
-                fetch("https://raw.githubusercontent.com/konpa/devicon/master/icons/" + language.iconKey + "/" + language.iconKey + "-" + language.iconVersion + ".svg")
+                fetch("/lang-icons/" + language.iconKey + "/" + language.iconKey + "-" + language.iconVersion + ".svg")
                     .then(response => response.text())
                     .then(text => {
                         let svgDoc = parser.parseFromString(text, "image/svg+xml");
