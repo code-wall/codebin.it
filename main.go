@@ -34,9 +34,13 @@ func main() {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
+	snippetId := r.URL.Query().Get("s")
+	host := r.URL.Host
 	data := map[string]interface{}{
-		"token": csrf.Token(r),
+		"token":           csrf.Token(r),
+		"twitterImageURL": getTwitterImage(host, snippetId),
 	}
+
 	w.Header().Set("X-Frame-Options", "SAMEORIGIN")
 	w.Header().Set("X-Xss-Protection", "1; mode=block")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
@@ -49,4 +53,20 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 func createStaticHandler(path string, location string) http.Handler {
 	serve := http.FileServer(http.Dir(location))
 	return http.StripPrefix(path, serve)
+}
+
+func getTwitterImage(host string, snippetId string) string {
+	var twitterImageURL string
+	if snippetId != "" {
+		if host == "codebin.it" {
+			twitterImageURL = "http://api.codebin.it/image?id=" + snippetId
+		} else if host == "test.codebin.it" {
+			twitterImageURL = "http://test.api.codebin.it/image?id=" + snippetId
+		} else {
+			twitterImageURL = "http://localhost:8080/image?id=" + snippetId
+		}
+	} else {
+		twitterImageURL = "http://codebin.it/dist/images/light-logo.png"
+	}
+	return twitterImageURL
 }
