@@ -60,11 +60,11 @@ func getTwitterImage(host string, snippetId string) string {
 	var twitterImageURL string
 	if snippetId != "" {
 		if host == "codebin.it" {
-			twitterImageURL = "http://api.codebin.it/image?id=" + snippetId
+			twitterImageURL = "http://api.codebin.it/image?id=" + snippetId + "&twitterFriendly=true"
 		} else if host == "test.codebin.it" {
-			twitterImageURL = "http://test.api.codebin.it/image?id=" + snippetId
+			twitterImageURL = "http://test.api.codebin.it/image?id=" + snippetId + "&twitterFriendly=true"
 		} else {
-			twitterImageURL = "http://localhost:8080/image?id=" + snippetId
+			twitterImageURL = "http://localhost:8080/image?id=" + snippetId + "&twitterFriendly=true"
 		}
 	} else {
 		twitterImageURL = "http://codebin.it/dist/images/light-logo.png"
