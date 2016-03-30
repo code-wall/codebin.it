@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/code-wall/codebin/api"
 	"github.com/gorilla/csrf"
 	"github.com/gorilla/mux"
@@ -35,10 +36,10 @@ func main() {
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	snippetId := r.URL.Query().Get("s")
-	host := r.URL.Host
+	fmt.Println("Host 1: ", r.Host)
 	data := map[string]interface{}{
 		"token":           csrf.Token(r),
-		"twitterImageURL": getTwitterImage(host, snippetId),
+		"twitterImageURL": getTwitterImage(r.Host, snippetId),
 	}
 
 	w.Header().Set("X-Frame-Options", "SAMEORIGIN")
