@@ -12,6 +12,9 @@ import (
 var conf = GetConfig()
 var temps *template.Template
 
+const productionAnalytics = "UA-75805487-1"
+const stagingAnalytics = "UA-75805487-2"
+
 func main() {
 	r := mux.NewRouter()
 
@@ -41,6 +44,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		"token":            csrf.Token(r),
 		"twitterImageURL":  getPreviewImageURL(r.Host, snippetId, "twitter"),
 		"facebookImageURL": getPreviewImageURL(r.Host, snippetId, "facebook"),
+		"gaTag":            getAnalyticsTag(r.Host),
 	}
 
 	w.Header().Set("X-Frame-Options", "SAMEORIGIN")
@@ -77,4 +81,14 @@ func getPreviewImageURL(host string, snippetId string, vendor string) string {
 		previewImageURL = "http://codebin.it/dist/images/light-logo.png"
 	}
 	return previewImageURL
+}
+
+func getAnalyticsTag(host string) string {
+	if host == "codebin.it" {
+		return productionAnalytics
+	} else if host == "test.codebin.it" {
+		return stagingAnalytics
+	} else {
+		return ""
+	}
 }
