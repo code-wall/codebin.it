@@ -38,8 +38,9 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	snippetId := r.URL.Query().Get("s")
 	fmt.Println("Host 1: ", r.Host)
 	data := map[string]interface{}{
-		"token":           csrf.Token(r),
-		"twitterImageURL": getTwitterImage(r.Host, snippetId),
+		"token":            csrf.Token(r),
+		"twitterImageURL":  getPreviewImageURL(r.Host, snippetId, "twitter"),
+		"facebookImageURL": getPreviewImageURL(r.Host, snippetId, "facebook"),
 	}
 
 	w.Header().Set("X-Frame-Options", "SAMEORIGIN")
@@ -56,18 +57,24 @@ func createStaticHandler(path string, location string) http.Handler {
 	return http.StripPrefix(path, serve)
 }
 
-func getTwitterImage(host string, snippetId string) string {
-	var twitterImageURL string
+func getPreviewImageURL(host string, snippetId string, vendor string) string {
+	var previewImageURL string
+	var extension string
+	if vendor == "twitter" {
+		extension = "twitterFriendly=true"
+	} else if vendor == "facebook" {
+		extension = "facebookFriendly=true"
+	}
 	if snippetId != "" {
 		if host == "codebin.it" {
-			twitterImageURL = "http://api.codebin.it/image?id=" + snippetId + "&twitterFriendly=true"
+			previewImageURL = "http://api.codebin.it/image?id=" + snippetId + "&" + extension
 		} else if host == "test.codebin.it" {
-			twitterImageURL = "http://test.api.codebin.it/image?id=" + snippetId + "&twitterFriendly=true"
+			previewImageURL = "http://test.api.codebin.it/image?id=" + snippetId + "&" + extension
 		} else {
-			twitterImageURL = "http://localhost:8080/image?id=" + snippetId + "&twitterFriendly=true"
+			previewImageURL = "http://localhost:8080/image?id=" + snippetId + "&" + extension
 		}
 	} else {
-		twitterImageURL = "http://codebin.it/dist/images/light-logo.png"
+		previewImageURL = "http://codebin.it/dist/images/light-logo.png"
 	}
-	return twitterImageURL
+	return previewImageURL
 }
