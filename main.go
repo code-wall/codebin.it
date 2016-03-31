@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/code-wall/codebin/api"
 	"github.com/gorilla/csrf"
+	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
 	"net/http"
 	"text/template"
@@ -26,11 +27,20 @@ func main() {
 		csrf.Secure(!conf.Debug),
 	)
 
+	// SetUp Middleware
+	n := negroni.New()
+	n.Use(negroni.HandlerFunc(api.Logger))
+
+	// SetUp Routes
 	r.HandleFunc("/", indexHandler)
 	r.PathPrefix("/dist/").Handler(createStaticHandler("/dist/", "./dist/"))
 	r.HandleFunc("/save", api.SaveSnippet)
 	r.HandleFunc("/snippet/{id}", api.GetSnippet)
-	http.ListenAndServe(":"+conf.Port, CSRF(r))
+
+	// Attach Handlers and Start
+	n.UseHandler(CSRF(r))
+	n.Run(":"+conf.Port)
+
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
