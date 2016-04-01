@@ -3,9 +3,7 @@ import LeftNav from 'material-ui/lib/left-nav';
 import Menu from 'material-ui/lib/menus/menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import TextField from 'material-ui/lib/text-field';
-import Download from 'material-ui/lib/svg-icons/file/file-download';
 
-//const LANGUAGES = CodeMirror.modeInfo;
 import {LANGUAGES} from "../constants/languages.js";
 
 const langBtnRef = "langBtn_";
@@ -35,7 +33,7 @@ class LeftLanguageSelectNav extends React.Component {
                         language.svgIcon = svg.innerHTML;
                     });
             } else {
-                language.svgIcon = "";
+                language.svgIcon = false;
             }
         }
     }
@@ -152,15 +150,35 @@ class LeftLanguageSelectNav extends React.Component {
         return {__html: str}
     }
 
+    renderLangIcon(language) {
+        let style = {
+            margin: '9px',
+            backgroundColor:'rgba(255,255,255,0.95)',
+            padding:'3px',
+            borderRadius:'5px'
+        };
+        if (language.svgIcon) {
+            return (
+                <svg viewBox="0 0 128 128"
+                     style={style}
+                     dangerouslySetInnerHTML={this.setInnerHtml(language.svgIcon)}/>
+            );
+        } else {
+            style.textAlign = 'center';
+            style.lineHeight = '24px';
+            return (
+                <b style={style}>{language.name[0].toUpperCase()}</b>
+            )
+        }
+    }
+
 
     render() {
         const {languageSelectOpen} = this.props;
-        const languages = this.languages;
-        const leftIcon = <i className='devicon-amazonwebservices-original'></i>
         return (
             <LeftNav
                 docked={false}
-                width={240}
+                width={275}
                 open={languageSelectOpen}
                 onRequestChange={this.handleMenuChange.bind(this)}>
                 <div style={{marginLeft:"10px", marginRight:"10px", overflow:"hidden"}}>
@@ -174,7 +192,7 @@ class LeftLanguageSelectNav extends React.Component {
                         <MenuItem onTouchTap={this.handleLanguageClick.bind(this, i)}
                                   key={i}
                                   ref={langBtnRef + i}
-                                  rightIcon={<svg viewBox="0 0 128 128" dangerouslySetInnerHTML={this.setInnerHtml(language.svgIcon)}/>}>
+                                  leftIcon={this.renderLangIcon(language)}>
                             {language.name}
                         </MenuItem>
                     )
