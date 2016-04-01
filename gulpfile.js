@@ -11,6 +11,7 @@ var collapse = require('bundle-collapser/plugin');
 
 // Gulp plugins
 const minifyCss = require("gulp-minify-css");
+const htmlMin = require('gulp-htmlmin');
 const less = require("gulp-less");
 const gulpif = require("gulp-if");
 const uglify = require('gulp-uglify');
@@ -34,6 +35,7 @@ gulp.task("build-sources", function () {
 
 
 gulp.task("build-html", [], function () {
+    let isProduction = process.env.isProduction === "true";
     var options = {
         collapseWhitespace: true,
         removeComments    : true,
@@ -43,6 +45,7 @@ gulp.task("build-html", [], function () {
 
     };
     gulp.src("./resources/html/*.html")
+        .pipe(gulpif(isProduction, htmlMin(options)))
         .pipe(gulp.dest("./views"));
 });
 
