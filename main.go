@@ -28,6 +28,7 @@ func main() {
 
 	r.HandleFunc("/", indexHandler)
 	r.PathPrefix("/dist/").Handler(createStaticHandler("/dist/", "./dist/"))
+	r.PathPrefix("/lang-icons/").Handler(createStaticHandler("/lang-icons/", "./node_modules/devicon/icons/"))
 	r.HandleFunc("/save", api.SaveSnippet)
 	r.HandleFunc("/snippet/{id}", api.GetSnippet)
 	http.ListenAndServe(":"+conf.Port, CSRF(r))
@@ -41,7 +42,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("X-Xss-Protection", "1; mode=block")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
 	// Temp disable until serving site over https
-//	w.Header().Set("Content-Security-Policy", "script-src 'self' cdnjs.cloudflare.com")
+	//	w.Header().Set("Content-Security-Policy", "script-src 'self' cdnjs.cloudflare.com")
 
 	temps.ExecuteTemplate(w, "index.html", data)
 }
