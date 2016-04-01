@@ -15,6 +15,7 @@
     "babel-register": "^6.7.2",
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
+    "bundle-collapser": "^1.2.1",
     "devicon": "konpa/devicon#b80c6d9",
     "expect": "^1.15.2",
     "fetch-mock": "^4.3.0",

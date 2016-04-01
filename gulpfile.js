@@ -7,6 +7,7 @@ const source = require("vinyl-source-stream");
 const buffer = require('vinyl-buffer');
 const sequence = require("run-sequence");
 const exec = require("child_process").exec;
+var collapse = require('bundle-collapser/plugin');
 
 // Gulp plugins
 const minifyCss = require("gulp-minify-css");
@@ -16,15 +17,17 @@ const uglify = require('gulp-uglify');
 
 
 let serverPID = null;
+let noop = function() {};
 
 gulp.task("build-sources", function () {
     let isProduction = process.env.isProduction === "true";
     return browserify({entries: "./src/app.jsx", extensions: [".jsx"], debug: true})
-        .transform("babelify", {presets: ["es2015", "react", "stage-1"], plugins: ["transform-decorators-legacy"]})
+        .transform("babelify", {presets: ["es2015", "react", "stage-1"]})
+        .plugin(isProduction ? collapse : noop)
         .bundle()
         .pipe(source("bundle.js"))
         .pipe(buffer())
-        .pipe(gulpif(isProduction, uglify()))
+        .pipe(gulpif(isProduction,uglify()))
         .pipe(gulp.dest("./dist/js"));
 });
 
