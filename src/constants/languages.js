@@ -18,7 +18,7 @@ export const LANGUAGES = [
         mime : "text/x-c++src",
         mode : "clike",
         ext  : ["cpp", "c++", "cc", "cxx", "hpp", "h++", "hh", "hxx"],
-        alias: ["cpp"],
+        alias: ["cpp", "cplusplus"],
         iconKey: "cplusplus", iconVersion: "original"
 
     },
@@ -94,7 +94,7 @@ export const LANGUAGES = [
     {name: "Haskell (Literate)", mime: "text/x-literate-haskell", mode: "haskell-literate", ext: ["lhs"]},
     {name: "Haxe", mime: "text/x-haxe", mode: "haxe", ext: ["hx"]},
     {name: "HXML", mime: "text/x-hxml", mode: "haxe", ext: ["hxml"]},
-    {name: "ASP.NET", mime: "application/x-aspx", mode: "htmlembedded", ext: ["aspx"], alias: ["asp", "aspx"]},
+    {name: "ASP.NET", mime: "application/x-aspx", mode: "htmlembedded", ext: ["aspx"], alias: ["asp", "aspx", ".net"]},
     {name: "HTML", mime: "text/html", mode: "htmlmixed", ext: ["html", "htm"], alias: ["xhtml"],
         iconKey: "html5", iconVersion: "original"
     },
@@ -217,7 +217,7 @@ export const LANGUAGES = [
     {name: "Turtle", mime: "text/turtle", mode: "turtle", ext: ["ttl"]},
     {name: "TypeScript", mime: "application/typescript", mode: "javascript", ext: ["ts"], alias: ["ts"]},
     {name: "Twig", mime: "text/x-twig", mode: "twig"},
-    {name: "VB.NET", mime: "text/x-vb", mode: "vb", ext: ["vb"]},
+    {name: "VB.NET", mime: "text/x-vb", mode: "vb", ext: ["vb"], alias:[".net"]},
     {name: "VBScript", mime: "text/vbscript", mode: "vbscript", ext: ["vbs"]},
     {name: "Velocity", mime: "text/velocity", mode: "velocity", ext: ["vtl"]},
     {name: "Verilog", mime: "text/x-verilog", mode: "verilog", ext: ["v"]},

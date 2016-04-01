@@ -65,6 +65,14 @@ class LeftLanguageSelectNav extends React.Component {
         this.setState({languageSearchValue: value});
         value = value.toLowerCase();
         let languages = LANGUAGES.filter((langObj, i) => {
+            // Check if any of the aliases match
+            if (langObj.hasOwnProperty("alias")) {
+                for (let alias of langObj.alias){
+                    if (value === alias.toLowerCase().slice(0, value.length)) {
+                        return true;
+                    }
+                }
+            }
             let langStr = langObj.name.toLowerCase();
             return value === langStr.slice(0, value.length);
         });
