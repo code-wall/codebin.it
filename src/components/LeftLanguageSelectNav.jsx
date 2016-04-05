@@ -4,6 +4,8 @@ import Menu from 'material-ui/lib/menus/menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import TextField from 'material-ui/lib/text-field';
 
+import * as log from "../log.js";
+
 import {LANGUAGES} from "../constants/languages.js";
 
 const langBtnRef = "langBtn_";
@@ -145,10 +147,10 @@ class LeftLanguageSelectNav extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log("LangSelect Open: ", nextProps.languageSelectOpen);
+        log.debug("LangSelect Open: ", nextProps.languageSelectOpen);
         if (nextProps.languageSelectOpen) {
             setTimeout(() => {
-                console.log("Focussing language search");
+                log.debug("Focussing language search");
                 this.refs.languageSearch.focus();
             }, 100);
         }

@@ -4,12 +4,14 @@ import * as types from "../constants/ActionTypes";
 import * as config from "../constants/config.js";
 import * as api from "../api-endpoints/api.js";
 
+import * as log from "../log.js";
+
 
 
 // ================= Snippet Actions ================
 
 export function setCode(code) {
-    console.log("Setting Code ACTION: ", code);
+    log.debug("Setting Code ACTION: ", code);
     return {type: types.SET_CODE, code: code};
 }
 
@@ -38,19 +40,19 @@ export function saveSnippet() {
             dispatch(setSnippetSaving(true));
             return api.saveSnippet(codeToSave, language)
                 .then(resp => {
-                    console.log("Successfully saved snippet. ID: ", resp.id);
+                    log.debug("Successfully saved snippet. ID: ", resp.id);
                     dispatch(setSavedSnippet(resp.snippet));
                     dispatch(setSnippetSaving(false));
                     // Set the URL path
                     window.history.pushState("", "", "?" + config.SNIPPET_QUERY_PARAM + "=" + resp.id);
                 })
                 .catch(err => {
-                    console.log("Error saving snippet ", err)
+                    log.error("Error saving snippet ", err)
                 });
         } else {
             // Code Already saved, lets open the modal with the link
             // Or we could show a sign saying that the snippet is already saved
-            console.log("Code is already saved. Lets just open the modal");
+            log.debug("Code is already saved. Lets just open the modal");
             return Promise.resolve();
         }
     }
@@ -72,7 +74,7 @@ export function setAppFullyLoaded() {
 
 export function loadApplication(snippetID=null) {
     return (dispatch, getState) => {
-        console.log("Checking for code from server!!");
+        log.debug("Checking for code from server!!");
         if (snippetID) {
             // Lets attempt to fetch the snippet from the backend
             return api.getSnippet(snippetID)
@@ -83,8 +85,8 @@ export function loadApplication(snippetID=null) {
                     dispatch(setAppFullyLoaded());
                 })
                 .catch(err => {
-                    console.log("Error retrieving snippet!!!");
-                    console.log(err);
+                    log.warn("Error retrieving snippet");
+                    log.warn(err);
                     dispatch(setCode(config.SNIPPET_NOT_FOUND));
                     dispatch(setAppFullyLoaded());
                 });
