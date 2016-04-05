@@ -72,6 +72,10 @@ export let console_trace = noop;
  * Save native console methods, if it exists!
  */
 let NativeConsole;
+if (typeof window === "undefined") {
+    // This is just for the tests
+    var window = {};
+}
 if (!window.console) {
     NativeConsole = {
         trace: noop,
