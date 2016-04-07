@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * Color constants. todo: is this used?
  */
@@ -15,7 +13,6 @@ export const LOG_COLOR = {
 
 const LOG_STYLE = {
     default: "background-color: transparent; color:black;",
-    unity  : "background-color: #FFD6D6; color:black;",
     browser: "background-color:#D0FFDE; color:black;",
     console: "background-color:#FFFCC; color:black;",
 
@@ -72,11 +69,18 @@ export let console_trace = noop;
  * Save native console methods, if it exists!
  */
 let NativeConsole;
-if (typeof window === "undefined") {
-    // This is just for the tests
-    var window = {};
-}
-if (!window.console) {
+//console.log("window:", window);
+//console.log("process.env.NODE_ENV", process.env.NODE_ENV );
+//if (typeof window === "undefined") {
+//    //alert("Setting window to blank object");
+//    //alert(typeof window);
+//    // This is just for the tests
+//    var window = {};
+//}
+//if (window) {
+//    console.log("We have the window")
+//}
+if (!console) {
     NativeConsole = {
         trace: noop,
         debug: noop,
@@ -182,29 +186,19 @@ let updateBindings = function () {
     console_trace = bindConsole(NativeConsole.log, LOG_LEVEL_TRACE);
 
 
-    if (!window.console) {
-        window.console = {};
+    if (!console) {
+        console = {};
     }
     // Remap native console to our methods.
-    window.console.trace = console_trace;
-    window.console.debug = console_debug;
-    window.console.log = console_info;
-    window.console.info = console_info;
-    window.console.warn = console_warn;
-    window.console.error = console_error;
-
-    // For unity 5.1 WebGL exporter bug.
-    window.console.logError = console_error;
+    console.trace = console_trace;
+    console.debug = console_debug;
+    console.log = console_info;
+    console.info = console_info;
+    console.warn = console_warn;
+    console.error = console_error;
 
     debug("Log settings updated.",
         "Level:", getLevel()
     )
 };
 
-/**
- * Add global logger object to window - Allows for easy debugging in the console.
- */
-window.Logger = {
-    getLevel         : getLevel,
-    setLevel         : setLevel
-};
