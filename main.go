@@ -6,7 +6,6 @@ import (
 	"github.com/gorilla/mux"
 	"net/http"
 	"text/template"
-	"fmt"
 	"encoding/json"
 )
 
@@ -58,22 +57,19 @@ func embedHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, "Unable to find snippet", http.StatusBadRequest)
 	} else {
-		// Query Variables
-		theme := r.URL.Query().Get("theme")
-		var themeName string
-		var bgColor string
-		if theme == "light" {
+		// Available Query Variables:
+		//     theme - { light | dark }
+		//     readonly - { true | false }
+		themeName := "solarized dark"
+		bgColor := "#002B36"
+		if r.URL.Query().Get("theme") == "light" {
 			themeName = "default"
 			bgColor = "#ffffff"
-		} else {
-			themeName = "solarized dark"
-			bgColor = "#002B36"
 		}
 		readonly := "true"
 		if r.URL.Query().Get("readonly") == "false" {
 			readonly = "false"
 		}
-		fmt.Println("Theme: ", theme)
 		code, _ := json.Marshal(snippet.Snippet)
 		data := map[string]interface{}{
 			"code": string(code),
@@ -81,6 +77,7 @@ func embedHandler(w http.ResponseWriter, r *http.Request) {
 			"themeName": themeName,
 			"bgColor": bgColor,
 			"readonly": readonly,
+			"snippetId": id,
 		}
 		embedTemplate.ExecuteTemplate(w, "embed.html", data)	
 	}
