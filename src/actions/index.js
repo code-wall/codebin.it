@@ -1,5 +1,3 @@
-import "whatwg-fetch";
-
 import * as types from "../constants/ActionTypes";
 import * as config from "../constants/config.js";
 import * as api from "../api-endpoints/api.js";
