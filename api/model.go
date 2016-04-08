@@ -1,6 +1,14 @@
 package api
 
-import "time"
+import (
+    "strings"
+    "time"
+    "errors"
+    "fmt"
+)
+
+// The maximum number of lines a snippet can have
+const maxNumLines = 50
 
 // SnippetModel - Model to describe a snippet
 // conforming to the database.Snippet interface
@@ -12,8 +20,12 @@ type SnippetModel struct {
 }
 
 // NewSnippet - helper to create a new SnippetModel
-func NewSnippet(snippet string, language string) *SnippetModel {
-	return &SnippetModel{Snippet: snippet, Language: language, Created: time.Now()}
+func NewSnippet(snippet string, language string) (*SnippetModel, error) {
+    if (validSnippetLength(snippet)) {
+        return &SnippetModel{Snippet: snippet, Language: language, Created: time.Now()}, nil
+    } else {
+        return nil, errors.New("Snippet has too many lines")
+    }
 }
 
 // GetID - returns the string id
@@ -38,4 +50,10 @@ func (sm *SnippetModel) GetLanguage() string {
 // conforms to database package Snippet interface
 func (sm *SnippetModel) GetDateCreated() time.Time {
 	return sm.Created
+}
+
+func validSnippetLength(snippet string) bool{
+    numLines := len(strings.Split(snippet,"\n"))
+    fmt.Println("Number lines: ", numLines)
+    return numLines < maxNumLines
 }

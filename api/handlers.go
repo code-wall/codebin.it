@@ -27,7 +27,12 @@ func GetSnippet(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 	m, err := getService().GetSnippetByID(id)
-	response := buildResponse(m, "Request Successful", err)
+	var response Response
+	if err != nil {
+		response = buildErrorResponse(err)
+	} else {
+		response = buildSuccessResponse(m, "Request Successful")
+	}
 	w.Header().Set("Cache-Control", "max-age=31536000")
 	writeJSONResponse(w, response)
 }
@@ -41,9 +46,21 @@ func SaveSnippet(w http.ResponseWriter, r *http.Request) {
 		if language == "" || snippet == "" {
 			http.Error(w, "Missing data, language and snippet fields are required", http.StatusBadRequest)
 		} else {
-			newSnippet := NewSnippet(snippet, language)
-			m, err := getService().CreateSnippet(newSnippet)
-			response := buildResponse(m, "Snippet successfully added", err)
+			var response Response
+			var err error
+			var newSnippet *SnippetModel
+			newSnippet, err = NewSnippet(snippet, language)
+			if err != nil {
+				response = buildErrorResponse(err)
+			} else {
+				var m *SnippetModel
+				m, err = getService().CreateSnippet(newSnippet)
+				if err != nil {
+					response = buildErrorResponse(err)	
+				} else {
+					response = buildSuccessResponse(m, "Snippet successfully added")
+				}
+			}
 			writeJSONResponse(w, response)
 		}
 
@@ -52,19 +69,35 @@ func SaveSnippet(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func buildResponse(m *SnippetModel, successMessage string, err error) (response Response) {
-	if err != nil {
-		response.Status = statusError
-		response.Message = "Request failed with error: " + err.Error()
-		response.code = http.StatusNotFound
-	} else {
-		response.Status = statusOK
-		response.Message = successMessage
-		response.Data = m
-		response.code = http.StatusOK
-	}
-	return
+func buildErrorResponse(err error) (response Response) {
+	response.Status = statusError
+	response.Message = "Request failed with error: " + err.Error()
+	response.code = http.StatusNotFound
+	return 
 }
+
+func buildSuccessResponse(m *SnippetModel, successMessage string) (response Response) {
+	response.Status = statusOK
+	response.Message = successMessage
+	response.Data = m
+	response.code = http.StatusOK	
+
+	return 
+}
+
+// func buildResponse(m *SnippetModel, successMessage string, err error) (response Response) {
+// 	if err != nil {
+// 		response.Status = statusError
+// 		response.Message = "Request failed with error: " + err.Error()
+// 		response.code = http.StatusNotFound
+// 	} else {
+// 		response.Status = statusOK
+// 		response.Message = successMessage
+// 		response.Data = m
+// 		response.code = http.StatusOK
+// 	}
+// 	return
+// }
 
 func writeJSONResponse(w http.ResponseWriter, response Response) {
 	jsonResponse, err := json.Marshal(response)
