@@ -85,20 +85,6 @@ func buildSuccessResponse(m *SnippetModel, successMessage string) (response Resp
 	return 
 }
 
-// func buildResponse(m *SnippetModel, successMessage string, err error) (response Response) {
-// 	if err != nil {
-// 		response.Status = statusError
-// 		response.Message = "Request failed with error: " + err.Error()
-// 		response.code = http.StatusNotFound
-// 	} else {
-// 		response.Status = statusOK
-// 		response.Message = successMessage
-// 		response.Data = m
-// 		response.code = http.StatusOK
-// 	}
-// 	return
-// }
-
 func writeJSONResponse(w http.ResponseWriter, response Response) {
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
