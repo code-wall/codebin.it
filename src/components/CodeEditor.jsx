@@ -1,5 +1,6 @@
 import React from "react"
 
+import {MAX_NUMBER_LINES} from "../constants/config.js";
 import * as log from "../log.js"
 
 class CodeEditor extends React.Component{
@@ -23,6 +24,7 @@ class CodeEditor extends React.Component{
         this.loadLanguage(snippet.language.toLowerCase());
         this.codeMirror.on("blur", this.editorBlurred.bind(this));
         this.codeMirror.on("focus", this.editorFocused.bind(this));
+        this.codeMirror.on("beforeChange", this.editorBeforeChange.bind(this));
     }
 
     editorBlurred(codemirrorObj) {
@@ -40,6 +42,19 @@ class CodeEditor extends React.Component{
             log.debug("Setting code");
             this.props.setCode("");
             this.props.setClearOnFocus(false);
+        }
+    }
+
+    /**
+     * Event Handler fired just before change, allows us to cancel the change
+     * @param cmObj
+     * @param change
+     */
+    editorBeforeChange(cmObj, change) {
+        if (cmObj.lineCount() === MAX_NUMBER_LINES && change.text.length > 1) {
+            // @todo: We should show a notification telling the user they have entered too many lines
+            change.cancel();
+            log.debug("Entering too many lines - ")
         }
     }
 
