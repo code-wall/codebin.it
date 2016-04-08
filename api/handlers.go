@@ -26,7 +26,7 @@ const (
 func GetSnippet(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
-	m, err := getService().GetSnippetByID(id)
+	m, err := GetService().GetSnippetByID(id)
 	response := buildResponse(m, "Request Successful", err)
 	w.Header().Set("Cache-Control", "max-age=31536000")
 	writeJSONResponse(w, response)
@@ -42,7 +42,7 @@ func SaveSnippet(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Missing data, language and snippet fields are required", http.StatusBadRequest)
 		} else {
 			newSnippet := NewSnippet(snippet, language)
-			m, err := getService().CreateSnippet(newSnippet)
+			m, err := GetService().CreateSnippet(newSnippet)
 			response := buildResponse(m, "Snippet successfully added", err)
 			writeJSONResponse(w, response)
 		}
