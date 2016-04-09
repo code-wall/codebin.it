@@ -2,7 +2,7 @@ import React from 'react';
 import Dialog from 'material-ui/lib/dialog';
 import FlatButton from 'material-ui/lib/flat-button';
 import RaisedButton from 'material-ui/lib/raised-button';
-import Shortcuts from '../util/Shortcuts';
+import Shortcuts from '../util/shortcuts';
 
 export default class DialogExampleSimple extends React.Component {
   constructor(props) {
@@ -10,10 +10,10 @@ export default class DialogExampleSimple extends React.Component {
     this.state = {
       open: false,
     };
-    Shortcuts.displayShortcuts(this.handleShow);
+    Shortcuts.displayShortcuts(this._handleShow.bind(this));
   }
 
-  handleShow() {
+  _handleShow() {
     if (this.state.open) {
       this.setState({open: false});
     } else {

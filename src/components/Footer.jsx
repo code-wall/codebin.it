@@ -5,7 +5,6 @@ export default class Footer extends React.Component {
      * Temporary method to set the code via the code action
      */
     handleSetCode() {
-        //this.props.setCode("Temporary code added through flux architecture")
         this.props.saveSnippet();
     }
 

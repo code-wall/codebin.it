@@ -3,7 +3,7 @@ import LeftNav from 'material-ui/lib/left-nav';
 import Menu from 'material-ui/lib/menus/menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import TextField from 'material-ui/lib/text-field';
-import Shortcuts from '../util/Shortcuts';
+import Shortcuts from '../util/shortcuts';
 
 const LANGUAGES = CodeMirror.modeInfo;
 
