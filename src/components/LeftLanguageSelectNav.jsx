@@ -3,6 +3,7 @@ import LeftNav from 'material-ui/lib/left-nav';
 import Menu from 'material-ui/lib/menus/menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import TextField from 'material-ui/lib/text-field';
+import Shortcuts from '../util/Shortcuts';
 
 const LANGUAGES = CodeMirror.modeInfo;
 
@@ -17,10 +18,20 @@ class LeftLanguageSelectNav extends React.Component {
             languageSearchValue: ""
         };
         this.highlightedLan = null;
+
+        Shortcuts.languageSelect(this._handleShortCutEvent.bind(this));
     }
 
     handleLanguageClick (index, event) {
         this.selectLanguage(index)
+    }
+
+    _handleShortCutEvent() {
+      if (this.props.languageSelectOpen) {
+        this.props.toggleLanguageSelect(false);
+      } else {
+        this.props.toggleLanguageSelect(true);
+      }
     }
 
     selectLanguage(index) {
@@ -72,7 +83,6 @@ class LeftLanguageSelectNav extends React.Component {
         }
     }
 
-    
     highlightLanguage(num) {
         let newHighLighted;
         // Highlight New
@@ -93,9 +103,9 @@ class LeftLanguageSelectNav extends React.Component {
             newHighLighted = 0;
             this.refs[langBtnRef + "0"].refs.listItem.refs.enhancedButton.setKeyboardFocus();
         }
-        
+
         // Unhighlight Previous
-        if (this.highlightedLan !== null && 
+        if (this.highlightedLan !== null &&
             this.refs.hasOwnProperty(langBtnRef + this.highlightedLan)) {
             let oldBtn = this.refs[langBtnRef + this.highlightedLan];
             // Ensure they are not the same button that we have just highlighted
@@ -103,7 +113,7 @@ class LeftLanguageSelectNav extends React.Component {
                 oldBtn.refs.listItem.refs.enhancedButton.removeKeyboardFocus();
             }
         }
-        
+
         // Set the new state of what is highlighted
         this.highlightedLan = newHighLighted;
     }
@@ -119,7 +129,6 @@ class LeftLanguageSelectNav extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log("LangSelect Open: ", nextProps.languageSelectOpen);
         if (nextProps.languageSelectOpen) {
             setTimeout(() => {
                 console.log("Focussing language search");

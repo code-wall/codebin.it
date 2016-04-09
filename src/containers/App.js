@@ -6,6 +6,7 @@ import * as queryString from "query-string";
 
 import Footer from "../components/Footer.jsx";
 import CodeEditor from "../components/CodeEditor.jsx";
+import HelpDialog from "../components/HelpDialog.jsx";
 import LeftLanguageSelectNav from "../components/LeftLanguageSelectNav.jsx";
 import * as config from "../constants/config.js";
 import * as Actions from "../actions";
@@ -21,7 +22,7 @@ class App extends Component {
     static childContextTypes = {
         muiTheme: React.PropTypes.object
     };
-    
+
     getChildContext() {
         return {
             muiTheme: ThemeManager.getMuiTheme(CodeBinTheme)
@@ -50,6 +51,7 @@ class App extends Component {
                             snippet={snippet}/>
                     <LeftLanguageSelectNav languageSelectOpen={ui.languageSelectOpen} setLanguage={actions.setLanguage}
                                            toggleLanguageSelect={actions.toggleLanguageSelect}/>
+                    <HelpDialog/>
                 </div>
             )
         }

@@ -100,4 +100,3 @@ func getAnalyticsTag(host string) string {
 		return ""
 	}
 }
->>>>>>> redux-base

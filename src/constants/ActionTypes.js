@@ -13,8 +13,7 @@ export const SET_CLEAR_ON_FOCUS = "SET_CLEAR_ON_FOCUS";
 
 
 // ===== UI Action types ===========
-export const TOGGLE_LANGUAGE_SELECT = "TOGGLE_LANGUAGE_SECLECT";
-
+export const TOGGLE_LANGUAGE_SELECT = "TOGGLE_LANGUAGE_SELECT";
 
 // ==== Loading action types =======
 export const SET_APP_FULLY_LOADED = "SET_APP_FULLY_LOADED";

@@ -10,8 +10,6 @@ export default class Footer extends React.Component {
     }
 
     handleOpenLanguageSelect() {
-        //let lang = ["Go", "Python", "Ruby", "PHP", "Java"][Math.floor(Math.random() * 5)];
-        //this.props.loadLanguage(lang);
         this.props.toggleLanguageSelect(true);
     }
 
