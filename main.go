@@ -12,6 +12,9 @@ import (
 var conf = GetConfig()
 var temps *template.Template
 
+const productionAnalytics = "UA-75805487-1"
+const stagingAnalytics = "UA-75805487-2"
+
 func main() {
 	r := mux.NewRouter()
 
@@ -44,9 +47,14 @@ func main() {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
+	snippetId := r.URL.Query().Get("s")
 	data := map[string]interface{}{
-		"token": csrf.Token(r),
+		"token":            csrf.Token(r),
+		"twitterImageURL":  getPreviewImageURL(r.Host, snippetId, "twitter"),
+		"facebookImageURL": getPreviewImageURL(r.Host, snippetId, "facebook"),
+		"gaTag":            getAnalyticsTag(r.Host),
 	}
+
 	w.Header().Set("X-Frame-Options", "SAMEORIGIN")
 	w.Header().Set("X-Xss-Protection", "1; mode=block")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
@@ -60,3 +68,36 @@ func createStaticHandler(path string, location string) http.Handler {
 	serve := http.FileServer(http.Dir(location))
 	return http.StripPrefix(path, serve)
 }
+
+func getPreviewImageURL(host string, snippetId string, vendor string) string {
+	var previewImageURL string
+	var extension string
+	if vendor == "twitter" {
+		extension = "twitterFriendly=true"
+	} else if vendor == "facebook" {
+		extension = "facebookFriendly=true"
+	}
+	if snippetId != "" {
+		if host == "codebin.it" {
+			previewImageURL = "http://api.codebin.it/image?id=" + snippetId + "&" + extension
+		} else if host == "test.codebin.it" {
+			previewImageURL = "http://test.api.codebin.it/image?id=" + snippetId + "&" + extension
+		} else {
+			previewImageURL = "http://localhost:8080/image?id=" + snippetId + "&" + extension
+		}
+	} else {
+		previewImageURL = "http://codebin.it/dist/images/light-logo.png"
+	}
+	return previewImageURL
+}
+
+func getAnalyticsTag(host string) string {
+	if host == "codebin.it" {
+		return productionAnalytics
+	} else if host == "test.codebin.it" {
+		return stagingAnalytics
+	} else {
+		return ""
+	}
+}
+>>>>>>> redux-base
