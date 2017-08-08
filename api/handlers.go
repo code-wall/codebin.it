@@ -26,7 +26,7 @@ const (
 func GetSnippet(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
-	m, err := getService().GetSnippetByID(id)
+	m, err := GetService().GetSnippetByID(id)
 	var response Response
 	if err != nil {
 		response = buildErrorResponse(err)
@@ -54,7 +54,7 @@ func SaveSnippet(w http.ResponseWriter, r *http.Request) {
 				response = buildErrorResponse(err)
 			} else {
 				var m *SnippetModel
-				m, err = getService().CreateSnippet(newSnippet)
+				m, err = GetService().CreateSnippet(newSnippet)
 				if err != nil {
 					response = buildErrorResponse(err)	
 				} else {
