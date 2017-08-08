@@ -35,6 +35,7 @@ func main() {
 	r.HandleFunc("/embed/{id}", embedHandler)
 	r.HandleFunc("/", indexHandler)
 	r.PathPrefix("/dist/").Handler(createStaticHandler("/dist/", "./dist/"))
+	r.PathPrefix("/lang-icons/").Handler(createStaticHandler("/lang-icons/", "./node_modules/devicon/icons/"))
 	r.HandleFunc("/save", api.SaveSnippet)
 	r.HandleFunc("/snippet/{id}", api.GetSnippet)
 	http.ListenAndServe(":"+conf.Port, CSRF(r))

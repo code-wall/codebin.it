@@ -5,14 +5,15 @@ export default class Footer extends React.Component {
      * Temporary method to set the code via the code action
      */
     handleSetCode() {
-        //this.props.setCode("Temporary code added through flux architecture")
         this.props.saveSnippet();
     }
 
     handleOpenLanguageSelect() {
-        //let lang = ["Go", "Python", "Ruby", "PHP", "Java"][Math.floor(Math.random() * 5)];
-        //this.props.loadLanguage(lang);
         this.props.toggleLanguageSelect(true);
+    }
+
+    isMac() {
+        return navigator.platform.toUpperCase().indexOf('MAC')>=0;
     }
 
     render() {
@@ -39,7 +40,7 @@ export default class Footer extends React.Component {
                     </li>
                 </ul>
                 <div className="help-control">
-                    <span className="keyboard">cmd</span> + <span className="keyboard">?</span>
+                    <span className="keyboard">{this.isMac() ? 'cmd' : 'ctrl'}</span> + <span className="keyboard">?</span>
                 </div>
             </div>
         );
