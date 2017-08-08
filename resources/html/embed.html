@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--!
+
+   ====================================================================================
+
+    ======   ======   =====    =====   =====    =====   ==   =           =====   =====
+    =        =    =   =    =   =       =    =     =     = =  =             =       =
+    =        =    =   =    =   =====   =====      =     =  = =             =       =
+    =        =    =   =    =   =       =    =     =     =   ==             =       =
+    ======   ======   =====    =====   ======   =====   =    =     =     =====     =
+
+   ====================================================================================
+
+-->
+<html>
+<head>
+    <title>codebin.it embeded snippet</title>
+    <meta charset="utf-8"/>
+
+     <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/codemirror.min.css">
+
+    
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/codemirror.min.js"></script>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.13.4/theme/solarized.min.css">
+
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.12.0/addon/mode/loadmode.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.9.0/mode/meta.min.js"></script>
+
+    <style type="text/css">
+        html {
+            overflow : hidden;
+            height: 100%;
+            background-color: <<<.bgColor>>>;
+        }
+
+        body {
+            overflow : hidden;
+            height: 100%;
+        }
+
+        .CodeMirror {
+            height      : 100%;
+            font-size   : 20px;
+            line-height : 24px;
+            /*overflow    : hidden;*/
+        }
+
+        .CodeMirror-lines {
+            padding : 0;
+        }
+        .CodeMirror pre {
+            padding: 0;
+        }
+
+        #logo {
+            position: fixed;
+            bottom : 0;
+            right: 0;
+        }
+        #container{
+            height: 100%;
+        }
+        .cm-s-solarized.CodeMirror{
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+        }
+        .hoverOpacity:hover{
+            opacity:0.7;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+    </div>
+    <a id="logo" class="hoverOpacity" target="_blank" href="/?s=<<<.snippetId>>>">
+        <img src="/dist/images/dark-logo-letter-small-transparent.png"/>
+    </a>
+<script>
+    CodeMirror.modeURL = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.12.0/mode/%N/%N.min.js";
+    var editor = CodeMirror(document.getElementById("container"), {
+        value: <<<.code>>>,
+        tabSize: 2,
+        readOnly: <<<.readonly>>>,
+        theme: "<<<.themeName>>>"
+    });
+
+    var langInfo = CodeMirror.findModeByName("<<<.language>>>");
+    var mode = langInfo.mode;
+    editor.setOption("mode", langInfo.mime);
+    CodeMirror.autoLoadMode(editor, langInfo.mode);
+
+</script>
+
+</body>
+</html>
