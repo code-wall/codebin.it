@@ -9,7 +9,7 @@ const localConnection = "mongodb://localhost/code-wall"
 
 var service *RepositoryService
 
-func getService() *RepositoryService {
+func GetService() *RepositoryService {
 	if service == nil {
 		service = NewService(database.Default(getConnectionString()))
 	}

@@ -58,3 +58,5 @@ export const CSRF_TOKEN = (typeof document !== 'undefined' && document.getElemen
  * In production it will always be an empty string
  */
 export const ROOT_HOST = "";
+
+export const MAX_NUMBER_LINES = 50;

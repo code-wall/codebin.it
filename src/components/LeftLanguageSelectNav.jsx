@@ -5,16 +5,20 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 import TextField from 'material-ui/lib/text-field';
 import Shortcuts from '../util/shortcuts';
 
-const LANGUAGES = CodeMirror.modeInfo;
+import * as log from "../log.js";
+
+import {LANGUAGES} from "../constants/languages.js";
 
 const langBtnRef = "langBtn_";
+const defaultIcon = "";
 
 class LeftLanguageSelectNav extends React.Component {
 
     constructor(props) {
         super(props);
+        this.getSvgIcons();
         this.state = {
-            languages: LANGUAGES,
+            languages          : LANGUAGES,
             languageSearchValue: ""
         };
         this.highlightedLan = null;
@@ -22,7 +26,24 @@ class LeftLanguageSelectNav extends React.Component {
         Shortcuts.languageSelect(this._handleShortCutEvent.bind(this));
     }
 
-    handleLanguageClick (index, event) {
+    getSvgIcons() {
+        let parser = new DOMParser();
+        for (let language of LANGUAGES) {
+            if (language.hasOwnProperty("iconKey") && language.hasOwnProperty("iconVersion")) {
+                fetch("/lang-icons/" + language.iconKey + "/" + language.iconKey + "-" + language.iconVersion + ".svg")
+                    .then(response => response.text())
+                    .then(text => {
+                        let svgDoc = parser.parseFromString(text, "image/svg+xml");
+                        let svg = svgDoc.getElementsByTagName("svg")[0];
+                        language.svgIcon = svg.innerHTML;
+                    });
+            } else {
+                language.svgIcon = false;
+            }
+        }
+    }
+
+    handleLanguageClick(index, event) {
         this.selectLanguage(index)
     }
 
@@ -42,7 +63,7 @@ class LeftLanguageSelectNav extends React.Component {
 
     resetState() {
         this.setState({
-            languages: LANGUAGES,
+            languages          : LANGUAGES,
             languageSearchValue: ""
         });
         // Determine if we need to unhighlight a button
@@ -57,6 +78,14 @@ class LeftLanguageSelectNav extends React.Component {
         this.setState({languageSearchValue: value});
         value = value.toLowerCase();
         let languages = LANGUAGES.filter((langObj, i) => {
+            // Check if any of the aliases match
+            if (langObj.hasOwnProperty("alias")) {
+                for (let alias of langObj.alias){
+                    if (value === alias.toLowerCase().slice(0, value.length)) {
+                        return true;
+                    }
+                }
+            }
             let langStr = langObj.name.toLowerCase();
             return value === langStr.slice(0, value.length);
         });
@@ -119,7 +148,6 @@ class LeftLanguageSelectNav extends React.Component {
     }
 
 
-
     handleMenuChange(open, reason) {
         this.props.toggleLanguageSelect(open);
         if (!open) {
@@ -131,19 +159,45 @@ class LeftLanguageSelectNav extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.languageSelectOpen) {
             setTimeout(() => {
-                console.log("Focussing language search");
+                log.debug("Focussing language search");
                 this.refs.languageSearch.focus();
             }, 100);
         }
     }
 
+    setInnerHtml(str) {
+        return {__html: str}
+    }
+
+    renderLangIcon(language) {
+        let style = {
+            margin: '9px',
+            backgroundColor:'rgba(255,255,255,0.95)',
+            padding:'3px',
+            borderRadius:'5px'
+        };
+        if (language.svgIcon) {
+            return (
+                <svg viewBox="0 0 128 128"
+                     style={style}
+                     dangerouslySetInnerHTML={this.setInnerHtml(language.svgIcon)}/>
+            );
+        } else {
+            style.textAlign = 'center';
+            style.lineHeight = '24px';
+            return (
+                <b style={style}>{language.name[0].toUpperCase()}</b>
+            )
+        }
+    }
+
+
     render() {
         const {languageSelectOpen} = this.props;
-        const languages = this.languages;
         return (
             <LeftNav
                 docked={false}
-                width={240}
+                width={275}
                 open={languageSelectOpen}
                 onRequestChange={this.handleMenuChange.bind(this)}>
                 <div style={{marginLeft:"10px", marginRight:"10px", overflow:"hidden"}}>
@@ -152,11 +206,16 @@ class LeftLanguageSelectNav extends React.Component {
                                onKeyDown={this.handleKeyDown.bind(this)}
                                onChange={this.handleTextFieldChange.bind(this)}/>
                 </div>
-                {this.state.languages.map((language, i) =>
-                        <MenuItem onTouchTap={this.handleLanguageClick.bind(this, i)} key={i} ref={langBtnRef + i}>
+                {this.state.languages.map((language, i) => {
+                    return (
+                        <MenuItem onTouchTap={this.handleLanguageClick.bind(this, i)}
+                                  key={i}
+                                  ref={langBtnRef + i}
+                                  leftIcon={this.renderLangIcon(language)}>
                             {language.name}
                         </MenuItem>
-                )}
+                    )
+                })}
             </LeftNav>
         );
     }

@@ -1,5 +1,8 @@
 import React from "react"
 
+import {MAX_NUMBER_LINES} from "../constants/config.js";
+import * as log from "../log.js"
+
 class CodeEditor extends React.Component{
 
     componentDidMount() {
@@ -7,8 +10,7 @@ class CodeEditor extends React.Component{
 
         const {snippet} = this.props;
         this.currentLanguage = snippet.language.toLowerCase();
-        console.log("Snippet: ", snippet);
-        console.log("Mounting: ");
+        log.debug("Snippet: ", snippet);
         const textareaNode = this.refs.textarea;
         let options = {
             lineNumbers: true,
@@ -16,16 +18,17 @@ class CodeEditor extends React.Component{
             mode       : snippet.language.toLowerCase(),
             theme      : "solarized dark"
         };
-        console.log("Codemirror Options: ");
-        console.log(options);
+        log.debug("Codemirror Options: ");
+        log.debug(options);
         this.codeMirror = CodeMirror.fromTextArea(textareaNode, options);
         this.loadLanguage(snippet.language.toLowerCase());
         this.codeMirror.on("blur", this.editorBlurred.bind(this));
         this.codeMirror.on("focus", this.editorFocused.bind(this));
+        this.codeMirror.on("beforeChange", this.editorBeforeChange.bind(this));
     }
 
     editorBlurred(codemirrorObj) {
-        console.log("Editor Blurred");
+        log.debug("Editor Blurred");
         let codemirrorVal = this.codeMirror.getValue();
         if (this.props.snippet.code != codemirrorVal) {
             this.props.setCode(codemirrorVal);
@@ -33,12 +36,25 @@ class CodeEditor extends React.Component{
     }
 
     editorFocused(codemirrorObj) {
-        console.log("Editor focussed");
-        console.log(this.props.snippet.clearOnFocus);
+        log.debug("Editor focussed");
+        log.debug(this.props.snippet.clearOnFocus);
         if (this.props.snippet.clearOnFocus) {
-            console.log("Setting code");
+            log.debug("Setting code");
             this.props.setCode("");
             this.props.setClearOnFocus(false);
+        }
+    }
+
+    /**
+     * Event Handler fired just before change, allows us to cancel the change
+     * @param cmObj
+     * @param change
+     */
+    editorBeforeChange(cmObj, change) {
+        if (cmObj.lineCount() === MAX_NUMBER_LINES && change.text.length > 1) {
+            // @todo: We should show a notification telling the user they have entered too many lines
+            change.cancel();
+            log.debug("Entering too many lines - ")
         }
     }
 
@@ -56,7 +72,7 @@ class CodeEditor extends React.Component{
     }
 
     componentWillReceiveProps(property) {
-        console.log("Components receiving props");
+        log.debug("Components receiving props");
         let newLang = property.snippet.language.toLowerCase();
         let newCode = property.snippet.code;
         if (this.currentLanguage && this.currentLanguage != newLang) {
@@ -72,7 +88,6 @@ class CodeEditor extends React.Component{
     }
 
     render() {
-        console.log("RE Rendering");
         return (
             <div className="editorContainer">
                 <textarea ref="textarea" defaultValue={this.props.snippet.code}/>

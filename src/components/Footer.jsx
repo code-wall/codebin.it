@@ -12,6 +12,10 @@ export default class Footer extends React.Component {
         this.props.toggleLanguageSelect(true);
     }
 
+    isMac() {
+        return navigator.platform.toUpperCase().indexOf('MAC')>=0;
+    }
+
     render() {
         const { snippet } = this.props;
         var saveButton;
@@ -36,7 +40,7 @@ export default class Footer extends React.Component {
                     </li>
                 </ul>
                 <div className="help-control">
-                    <span className="keyboard">cmd</span> + <span className="keyboard">?</span>
+                    <span className="keyboard">{this.isMac() ? 'cmd' : 'ctrl'}</span> + <span className="keyboard">?</span>
                 </div>
             </div>
         );
