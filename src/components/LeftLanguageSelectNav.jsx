@@ -3,6 +3,7 @@ import LeftNav from 'material-ui/lib/left-nav';
 import Menu from 'material-ui/lib/menus/menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import TextField from 'material-ui/lib/text-field';
+import Shortcuts from '../util/shortcuts';
 
 import * as log from "../log.js";
 
@@ -21,6 +22,8 @@ class LeftLanguageSelectNav extends React.Component {
             languageSearchValue: ""
         };
         this.highlightedLan = null;
+
+        Shortcuts.languageSelect(this._handleShortCutEvent.bind(this));
     }
 
     getSvgIcons() {
@@ -42,6 +45,14 @@ class LeftLanguageSelectNav extends React.Component {
 
     handleLanguageClick(index, event) {
         this.selectLanguage(index)
+    }
+
+    _handleShortCutEvent() {
+      if (this.props.languageSelectOpen) {
+        this.props.toggleLanguageSelect(false);
+      } else {
+        this.props.toggleLanguageSelect(true);
+      }
     }
 
     selectLanguage(index) {
@@ -101,7 +112,6 @@ class LeftLanguageSelectNav extends React.Component {
         }
     }
 
-
     highlightLanguage(num) {
         let newHighLighted;
         // Highlight New
@@ -147,7 +157,6 @@ class LeftLanguageSelectNav extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        log.debug("LangSelect Open: ", nextProps.languageSelectOpen);
         if (nextProps.languageSelectOpen) {
             setTimeout(() => {
                 log.debug("Focussing language search");
