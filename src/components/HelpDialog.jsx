@@ -27,20 +27,20 @@ export default class DialogExampleSimple extends React.Component {
         label="Got It"
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.handleShow}
+        onTouchTap={() => this._handleShow()}
       />,
     ];
 
     return (
       <div>
-        <RaisedButton label="Dialog" onTouchTap={this.handleShow} />
+        <RaisedButton label="Dialog" onTouchTap={() => this._handleShow()} />
         <Dialog
           title="Keyboard Shortcuts"
           contentClassName="codebin-dialog"
           actions={actions}
           modal={false}
           open={this.state.open}
-          onRequestClose={this.handleShow}
+          onRequestClose={() => this._handleShow()}
         >
           <p>Select language: <span className="keyboard">cmd</span> + <span className="keyboard">L</span></p>
           <p>Save snippet and share: <span className="keyboard">cmd</span> + <span className="keyboard">S</span></p>
