@@ -55,7 +55,7 @@ class App extends Component {
                     <HelpDialog/>
                     <SaveDialog saveDialogState={ui.saveDialogState} 
                                 setSavedDialogStateShowing={actions.setSavedDialogStateShowing}
-                                snippetLink={snippet.currentLink}/>
+                                snippet={snippet}/>
                 </div>
             )
         }
