@@ -29,6 +29,10 @@ export function setClearOnFocus(clearOnFocus) {
     return {type: types.SET_CLEAR_ON_FOCUS, clearOnFocus: clearOnFocus};
 }
 
+export function setCurrentLink(link) {
+    return {type: types.SET_CURRENT_LINK, currentLink: link}; 
+}
+
 export function saveSnippet() {
     return (dispatch, getState) => {
         let codeToSave = getState().snippet.code;
@@ -43,7 +47,11 @@ export function saveSnippet() {
                     dispatch(setSavedSnippet(resp.snippet));
                     dispatch(setSnippetSaving(false));
                     // Set the URL path
-                    window.history.pushState("", "", "?" + config.SNIPPET_QUERY_PARAM + "=" + resp.id);
+                    const query_param = "?" + config.SNIPPET_QUERY_PARAM + "=" + resp.id;
+                    window.history.pushState("", "", query_param);
+                    const new_link = "https://" + window.location.host + query_param;
+                    dispatch(setCurrentLink(new_link))
+                    
                 })
                 .catch(err => {
                     log.error("Error saving snippet ", err)

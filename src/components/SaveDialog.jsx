@@ -28,7 +28,7 @@ class SaveDialog extends React.Component {
                     modal={true}
                     open={this.props.saveDialogState}
                 >
-                    <p>Link: <span>S</span></p>
+                    <p>Link: <span>{this.props.snippetLink}</span></p>
                 </Dialog>
             </div>
         );
@@ -37,7 +37,8 @@ class SaveDialog extends React.Component {
 
 SaveDialog.propTypes = {
     saveDialogState: React.PropTypes.bool.isRequired,
-    setSavedDialogStateShowing: React.PropTypes.func.isRequired
+    setSavedDialogStateShowing: React.PropTypes.func.isRequired,
+    snippetLink: React.PropTypes.string.isRequired
 };
 
 export default SaveDialog

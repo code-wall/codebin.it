@@ -53,7 +53,9 @@ class App extends Component {
                     <LeftLanguageSelectNav languageSelectOpen={ui.languageSelectOpen} setLanguage={actions.setLanguage}
                                            toggleLanguageSelect={actions.toggleLanguageSelect}/>
                     <HelpDialog/>
-                    <SaveDialog saveDialogState={ui.saveDialogState} setSavedDialogStateShowing={actions.setSavedDialogStateShowing}/>
+                    <SaveDialog saveDialogState={ui.saveDialogState} 
+                                setSavedDialogStateShowing={actions.setSavedDialogStateShowing}
+                                snippetLink={snippet.currentLink}/>
                 </div>
             )
         }

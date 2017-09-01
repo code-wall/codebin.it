@@ -13,6 +13,8 @@ export const SET_SAVE_DIALOG_STATE = "SET_SAVE_DIALOG_STATE";
 
 export const SET_CLEAR_ON_FOCUS = "SET_CLEAR_ON_FOCUS";
 
+export const SET_CURRENT_LINK = "SET_CURRENT_LINK";
+
 
 // ===== UI Action types ===========
 export const TOGGLE_LANGUAGE_SELECT = "TOGGLE_LANGUAGE_SELECT";
