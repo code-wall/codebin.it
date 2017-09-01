@@ -1,6 +1,13 @@
 import React from "react";
+import Shortcuts from '../util/shortcuts';
 
 export default class Footer extends React.Component {
+
+    constructor(props) {
+        super(props);
+        Shortcuts.save(this.handleSetCode.bind(this));
+    }
+
     /**
      * Temporary method to set the code via the code action
      */
@@ -13,7 +20,7 @@ export default class Footer extends React.Component {
     }
 
     isMac() {
-        return navigator.platform.toUpperCase().indexOf('MAC')>=0;
+        return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
     }
 
     render() {
@@ -26,9 +33,9 @@ export default class Footer extends React.Component {
                         <source
                             media="(min-width: 465px)"
                             srcSet="/dist/images/dark-logo-small.png" />
-                            <img
-                                src="/dist/images/dark-logo-letter-small.png"
-                                alt="codebin.it"/>
+                        <img
+                            src="/dist/images/dark-logo-letter-small.png"
+                            alt="codebin.it" />
                     </picture>
                 </div>
                 <ul className="menu-items">
@@ -48,7 +55,7 @@ export default class Footer extends React.Component {
 }
 
 Footer.propTypes = {
-    saveSnippet         : React.PropTypes.func.isRequired,
+    saveSnippet: React.PropTypes.func.isRequired,
     toggleLanguageSelect: React.PropTypes.func.isRequired,
-    snippet             : React.PropTypes.object.isRequired
+    snippet: React.PropTypes.object.isRequired
 };
