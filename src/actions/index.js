@@ -36,6 +36,7 @@ export function saveSnippet() {
         let language = getState().snippet.language;
         if (codeToSave != lastSaved) {
             dispatch(setSnippetSaving(true));
+            dispatch(setSavedDialogStateShowing(true))            
             return api.saveSnippet(codeToSave, language)
                 .then(resp => {
                     log.debug("Successfully saved snippet. ID: ", resp.id);
@@ -63,6 +64,9 @@ export function toggleLanguageSelect(open) {
     return {type: types.TOGGLE_LANGUAGE_SELECT, open: open}
 }
 
+export function setSavedDialogStateShowing(showing=false) {
+    return {type: types.SET_SAVE_DIALOG_STATE, showing: showing};
+}
 
 // =============== Loading Actions =================
 

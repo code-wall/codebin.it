@@ -7,6 +7,7 @@ import * as queryString from "query-string";
 import Footer from "../components/Footer.jsx";
 import CodeEditor from "../components/CodeEditor.jsx";
 import HelpDialog from "../components/HelpDialog.jsx";
+import SaveDialog from "../components/SaveDialog.jsx";
 import LeftLanguageSelectNav from "../components/LeftLanguageSelectNav.jsx";
 import * as config from "../constants/config.js";
 import * as Actions from "../actions";
@@ -52,6 +53,7 @@ class App extends Component {
                     <LeftLanguageSelectNav languageSelectOpen={ui.languageSelectOpen} setLanguage={actions.setLanguage}
                                            toggleLanguageSelect={actions.toggleLanguageSelect}/>
                     <HelpDialog/>
+                    <SaveDialog saveDialogState={ui.saveDialogState} setSavedDialogStateShowing={actions.setSavedDialogStateShowing}/>
                 </div>
             )
         }
