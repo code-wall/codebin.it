@@ -1,19 +1,6 @@
 import React from "react";
-import Shortcuts from '../util/shortcuts';
 
 export default class Footer extends React.Component {
-
-    constructor(props) {
-        super(props);
-        Shortcuts.save(this.handleSetCode.bind(this));
-    }
-
-    /**
-     * Temporary method to set the code via the code action
-     */
-    handleSetCode() {
-        this.props.saveSnippet();
-    }
 
     handleOpenLanguageSelect() {
         this.props.toggleLanguageSelect(true);
@@ -42,7 +29,7 @@ export default class Footer extends React.Component {
                     <li id="languageButton" onClick={this.handleOpenLanguageSelect.bind(this)}>
                         <i className="fa fa-code"></i> <span id="lenguageLabel">{snippet.language}</span>
                     </li>
-                    <li id="saveButton" onClick={this.handleSetCode.bind(this)}>
+                    <li id="saveButton" onClick={() => {this.props.saveSnippet()}}>
                         <i className="fa fa-floppy-o"></i> {snippet.saving ? 'Saving' : 'Save'}
                     </li>
                 </ul>

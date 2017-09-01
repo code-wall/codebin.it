@@ -2,6 +2,7 @@ import React from "react"
 
 import {MAX_NUMBER_LINES} from "../constants/config.js";
 import * as log from "../log.js"
+import Shortcuts from '../util/shortcuts';
 
 class CodeEditor extends React.Component{
 
@@ -25,6 +26,7 @@ class CodeEditor extends React.Component{
         this.codeMirror.on("blur", this.editorBlurred.bind(this));
         this.codeMirror.on("focus", this.editorFocused.bind(this));
         this.codeMirror.on("beforeChange", this.editorBeforeChange.bind(this));
+        Shortcuts.save(() => { this.editorSave() });        
     }
 
     editorBlurred(codemirrorObj) {
@@ -43,6 +45,14 @@ class CodeEditor extends React.Component{
             this.props.setCode("");
             this.props.setClearOnFocus(false);
         }
+    }
+
+    editorSave() {
+        let codemirrorVal = this.codeMirror.getValue();
+        if (this.props.snippet.code != codemirrorVal) {
+            this.props.setCode(codemirrorVal);
+        }
+        this.props.saveSnippet();
     }
 
     /**
@@ -101,7 +111,8 @@ class CodeEditor extends React.Component{
 CodeEditor.propTypes = {
     snippet        : React.PropTypes.object.isRequired,
     setCode        : React.PropTypes.func.isRequired,
-    setClearOnFocus: React.PropTypes.func.isRequired
+    setClearOnFocus: React.PropTypes.func.isRequired,
+    saveSnippet    : React.PropTypes.func.isRequired,    
 };
 
 export default CodeEditor;

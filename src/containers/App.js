@@ -46,7 +46,7 @@ class App extends Component {
         } else {
             return (
                 <div>
-                    <CodeEditor snippet={snippet} setCode={actions.setCode} setClearOnFocus={actions.setClearOnFocus}/>
+                    <CodeEditor snippet={snippet} setCode={actions.setCode} setClearOnFocus={actions.setClearOnFocus} saveSnippet={actions.saveSnippet}/>
                     <Footer toggleLanguageSelect={actions.toggleLanguageSelect} saveSnippet={actions.saveSnippet}
                             snippet={snippet}/>
                     <LeftLanguageSelectNav languageSelectOpen={ui.languageSelectOpen} setLanguage={actions.setLanguage}
