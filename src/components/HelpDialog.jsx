@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/lib/flat-button';
 import RaisedButton from 'material-ui/lib/raised-button';
 import Shortcuts from '../util/shortcuts';
 
-export default class DialogExampleSimple extends React.Component {
+export default class HelpDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,9 +24,8 @@ export default class DialogExampleSimple extends React.Component {
   render() {
     const actions = [
       <FlatButton
-        label="Got It"
+        label="Nice"
         primary={true}
-        keyboardFocused={true}
         onTouchTap={() => this._handleShow()}
       />,
     ];
