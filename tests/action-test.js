@@ -142,6 +142,7 @@ describe("actions", () => {
                 expect(fetchMock.called(saveSnippetURL)).toEqual(true, "wrong url called");
                 let expectedActions = [
                     actions.setSnippetSaving(true),
+                    actions.setSavedDialogStateShowing(true),
                     actions.setSavedSnippet(code),
                     actions.setSnippetSaving(false)
                 ];
