@@ -49,7 +49,7 @@ export function saveSnippet() {
                     // Set the URL path
                     const query_param = "?" + config.SNIPPET_QUERY_PARAM + "=" + resp.id;
                     window.history.pushState("", "", query_param);
-                    const new_link = "https://" + window.location.host + query_param;
+                    const new_link = "http://" + window.location.host + query_param;
                     dispatch(setCurrentLink(new_link))
                     
                 })
