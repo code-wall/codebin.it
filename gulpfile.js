@@ -1,101 +1,45 @@
-/// Required packages.
-const path = require("path");
-const babelify = require("babelify");
-const browserify = require("browserify");
-const browserifyShader = require("browserify-shader");
-const watchify = require("watchify");
-const buffer = require("vinyl-buffer");
-const source = require("vinyl-source-stream");
-const exec = require("child_process").exec;
-const spawn = require("child_process").spawn;
-const sequence = require("run-sequence");
-const uglify = require("gulp-uglify");
-const eslint = require("gulp-eslint");
+"use strict";
 
-
-/// Gulp & Plugins.
 const gulp = require("gulp");
-const gutil = require("gulp-util");
+const browserify = require("browserify");
+const babelify = require("babelify");
+const source = require("vinyl-source-stream");
+const buffer = require('vinyl-buffer');
+const sequence = require("run-sequence");
+const exec = require("child_process").exec;
+const collapse = require('bundle-collapser/plugin');
+const envify = require('loose-envify/custom');
+
+// Gulp plugins
+const minifyCss = require("gulp-minify-css");
+const htmlMin = require('gulp-htmlmin');
+const less = require("gulp-less");
 const gulpif = require("gulp-if");
-const babel = require("gulp-babel");
-const sourcemaps = require("gulp-sourcemaps");
-var htmlMin = require('gulp-htmlmin');
-var minifyCss = require('gulp-minify-css');
-var less = require('gulp-less');
+const uglify = require('gulp-uglify');
 
 
-gulp.task("lint", function () {
-    var files = "src/**/*.js";
-    gutil.log("Linting files:", files);
-    return gulp.src(files)
-        .pipe(buffer())
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failOnError())
-});
+let serverPID = null;
+let noop = function() {};
 
-/**
- * Bundles a set of files with a path, filename and production flag.
- * The flag controls whether to uglify the code and generate source maps.
- */
-var bundle = function (bundler, path) {
-    gutil.log("Bundling on:", gutil.colors.yellow(path));
-
-    return bundler.bundle()
-        .on("error", function (err) {
-            gutil.log("Error bundling:", gutil.colors.red(err.message));
-            this.emit("end");
-        })
+gulp.task("build-sources", function () {
+    let isProduction = process.env.isProduction === "true";
+    return browserify({entries: "./src/app.jsx", extensions: [".jsx"], debug: true})
+        .transform("babelify", {presets: ["es2015", "react", "stage-1"]})
+        .transform(envify({
+            NODE_ENV: isProduction ? "production" : "development"
+        }))
+        .plugin(isProduction ? collapse : noop)
+        .bundle()
         .pipe(source("bundle.js"))
         .pipe(buffer())
-        .pipe(gulpif(process.env.isProduction === "true", uglify({mangle: false})))
-        .pipe(sourcemaps.init({loadMaps: false}))
-        .pipe(sourcemaps.write("./"))
-        .pipe(gulp.dest(path))
-        .on("end", function () {
-            gutil.log("Created bundle:", gutil.colors.green(path + "/bundle.js"));
-        });
-};
-
-
-/**
- * Creates an app build task.
- */
-gulp.task("build-sources", [], function () {
-    var watch = !(process.env.isProduction === "true");
-    var browserifyOptions = {
-        entries     : "./src/main.js",
-        debug       : true,
-        cache       : {},
-        packageCache: {}
-    };
-
-    var bundler = null;
-    if (watch) {
-        bundler = watchify(browserify(browserifyOptions))
-    } else {
-        bundler = browserify(browserifyOptions);
-    }
-
-
-    bundler
-        .transform(babelify.configure({
-            sourceMapRelative: __dirname + "/src",
-            optional         : ["runtime"],
-            compact          : false
-        }))
-        .transform(browserifyShader);
-
-    if (watch) {
-        bundler.on("update", function () {
-            return bundle(bundler, "./dist/js");
-        });
-    }
-
-    return bundle(bundler, "./dist/js");
+        .pipe(gulpif(isProduction,uglify()))
+        .pipe(gulp.dest("./dist/js"));
 });
 
+
+
 gulp.task("build-html", [], function () {
+    let isProduction = process.env.isProduction === "true";
     var options = {
         collapseWhitespace: true,
         removeComments    : true,
@@ -105,33 +49,38 @@ gulp.task("build-html", [], function () {
 
     };
     gulp.src("./resources/html/*.html")
-        .pipe(gulp.dest('./views'));
+        .pipe(gulpif(isProduction, htmlMin(options)))
+        .pipe(gulp.dest("./views"));
 });
 
 gulp.task("build-css", [], function() {
-    //gulp.src("./resources/css/*.css")
-    //    .pipe(minifyCss({compatibility: 'ie8'}))
-    //    .pipe(gulp.dest('./dist/css'));
-    gulp.src('./resources/styles/main.less')
+    gulp.src("./resources/styles/main.less")
         .pipe(less())
         .pipe(minifyCss())
-        .pipe(gulp.dest('./dist/css'));
+        .pipe(gulp.dest("./dist/css"));
 });
 
 
 gulp.task("copy-libs", function(){
     gulp.src("./resources/lib/**")
-        .pipe(gulp.dest('./dist/lib'));
+        .pipe(gulp.dest("./dist/lib"));
 } );
 
 gulp.task("copy-images", function(){
     gulp.src("./resources/images/**")
-        .pipe(gulp.dest('./dist/images'));
+        .pipe(gulp.dest("./dist/images"));
 } );
+
+gulp.task("watch-src", ["build-sources"], function (done) {
+    gulp.watch(["./src/**/*.jsx", "./src/**/*.js"], ["build-sources"]);
+    done();
+});
 
 gulp.task("watch-html", function(done){
     // We watch the html page for changes
-    gulp.watch(["./resources/html/*"], ["build-html"]);
+    gulp.watch("./resources/html/*").on("change", function(){
+        sequence("build-html", "run-server");
+    });
     done();
 });
 
@@ -140,15 +89,50 @@ gulp.task("watch-less", function(done) {
     done();
 });
 
+gulp.task("build-server", function(done) {
+    exec("go build .", function(err, stdout, stderr) {
+        if (err) {
+            console.error("Err running server: ", err)
+        }
+        if (stderr) {
+            console.error("stderr: ", stderr);
+        }
+        console.log("Server started: ", stdout);
+        done();
+    });
+});
+
+gulp.task("run-server", function(done) {
+    console.log("Running server");
+    if (serverPID != null) {
+        console.log("Killing server");
+        exec("kill " + serverPID);
+    }
+    let childProcess = exec("./codebin", function(err, stdout, stderr) {
+        if (err) {
+            console.error("Err running server: ", err)
+        }
+        if (stderr) {
+            console.error("stderr: ", stderr);
+        }
+        console.log("Server started: ", stdout);
+    });
+    serverPID = childProcess.pid;
+    console.log("PID: ", serverPID);
+    done();
+});
+
+
+
 gulp.task("develop", [], function (done) {
     process.env.isProduction = false;
     return sequence(
         [
-            "build-sources",
             "build-html",
             "build-css",
             "copy-libs",
             "copy-images",
+            "watch-src",
             "watch-less",
             "watch-html"
         ],
@@ -162,3 +146,5 @@ gulp.task("build-production", [], function () {
 });
 
 gulp.task("default", ["develop"]);
+
+
